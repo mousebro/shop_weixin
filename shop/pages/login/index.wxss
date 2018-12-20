@@ -1,0 +1,34 @@
+  /**index.wxss**/
+  .clearfix:after {content: ".";display: block;height: 0;clear: both;visibility: hidden;}
+  .body{}
+
+  .mask{width: 100%;height: 100%;position: fixed;top: 0;left: 0;background: #000000;z-index: 20;opacity: 0.7;}
+  .modal1{position: fixed;z-index: 21;width: 80%;background-color: #ffffff;border-radius: 10rpx;top: 300rpx;left: 10%;text-align: center;}
+  .modal1 text{display: block;text-align: center;font-size: 30rpx;}
+  .modal1 image{width: 160rpx;height:80rpx;margin: 50rpx 0 20rpx;}
+  .modal1 text:nth-child(2){font-size: 34rpx;font-weight: bold;line-height: 100rpx;margin-top: 80rpx;}
+  .modal1 button{font-size: 34rpx;font-weight: bold;margin: 40rpx 0 60rpx;width: 60%;height: 80rpx;color: #ffffff;background: linear-gradient(to right,#ea4149, #ff6849);margin-left: 20%;text-align: center;line-height: 80rpx;border-radius: 4rpx;}
+  .yuan{position: absolute;right: 0;width: 90rpx;height: 90rpx;border-radius: 0 10rpx 0 90rpx;background-color: #cecece}
+  .yuan image{width: 30rpx;height: 30rpx;margin: 20rpx 0 0 20rpx;}
+
+  .userInfo{width: 100%;text-align: center;padding: 60rpx 0 60rpx 0;}
+  .userInfo image{width: 150rpx;height: 150rpx;border-radius: 50%;border: 2px solid #dededc}
+  .userInfo text{display: block;width: 100%;color: #222222;}
+
+  .inputBlock{width: 100%;}
+  .number{width: 86%;border-bottom: 1px solid #e8e8e8;margin-left: 7%;vertical-align: middle;height: 100rpx;}
+  .number image{width:40rpx;height: 40rpx;float: left;margin-top: 30rpx;}
+  .number input{display: block;width: 55%;float: left;height: 100rpx;line-height: 100rpx;margin-left: 20rpx;font-size: 28rpx;}
+  .number button{width: 200rpx;float: right;line-height: 70rpx;margin-top: 15rpx;background-color: #ffffff;color: #ea4149;font-size: 28rpx;}
+  .number button::after{border: 1px solid #ea4149}
+  .disButton::after{border: 1px solid #e2e2e2 !important;}
+
+  .verify{width: 86%;border-bottom: 1px solid #e8e8e8;margin-left: 7%;vertical-align: middle;height: 100rpx;}
+  .verify image{width:40rpx;height: 40rpx;float: left;margin-top: 30rpx;}
+  .verify input{display: block;width: 55%;float: left;height: 100rpx;line-height: 100rpx;margin-left: 20rpx;font-size: 28rpx;}
+
+  .loginButton{width: 100%;text-align: center;margin-top: 120rpx;}
+  .loginButton button{font-size: 28rpx;width: 86%;color: #ffffff;background: linear-gradient(to right,#ea4149, #ff6849);border-radius: 4rpx;height: 80rpx;line-height: 80rpx;}
+  .loginButton button::after{border: 1px solid #eb924c;}
+
+  .index{position: fixed;bottom: 0;width: 100%;text-align: center;color: #ea4149;padding-bottom: 40rpx;font-size: 28rpx;}

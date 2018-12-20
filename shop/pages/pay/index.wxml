@@ -1,0 +1,53 @@
+  <!-- 订单地址昵称等信息 -->
+  <view class="address">
+    <text>{{userName}}</text>
+    <text>{{mobile}}</text>
+    <text>{{address}}</text>
+  </view>
+  <!-- 商品信息 -->
+  <view class="shop">
+    <block wx:for="{{shopList}}">
+      <view class="shop-block clearfix">
+        <image src="/pic/banner1.png"/>
+        <text>{{item.name}}</text>
+        <text>￥{{item.price/100}}</text>
+        <text>x{{item.count}}</text>
+      </view>
+    </block>
+  </view>
+  <!-- 价格结算 -->
+  <view class="countprice">
+    <view class="countprice-plus clearfix">
+      <text>商品金额</text>
+      <text>￥{{totalPrice/100}}</text>
+    </view>
+    <view class="countprice-plus clearfix">
+      <text>运费</text>
+      <text>￥{{fare/100}}</text>
+    </view>
+    <!-- 优惠券模块后面做 -->
+    <!-- <view wx:if="{{!choseCoupon & couponList.length != 0}}" class="countprice-less clearfix">
+      <text>优惠券</text>
+      <text>-￥{{couponPrice}}</text>
+    </view>
+    <view wx:if="{{couponList.length == 0}}" class="countprice-less clearfix">
+      <text>优惠券</text>
+      <text>-￥0</text>
+    </view>
+    <view wx:if="{{choseCoupon}}" class="countprice-less clearfix">
+      <text>优惠券</text>
+      <text>-￥{{couponPrice}}</text>
+    </view> -->
+    <view wx:if="{{isVip}}" class="countprice-less clearfix">
+      <image src="/images/super.png" class="swiper-img" mode="widthFix"/>
+      <text class="vip-price">-￥{{vipPrice/100}}</text>
+    </view>
+    <view class="countprice-total">
+      <text>实付金额</text>
+      <text>￥{{payPrice/100}}</text>
+    </view>
+  </view>
+  <!-- 支付订单 -->
+  <view class="submit" bindtap="submit">
+    <text>立即支付</text>
+  </view>

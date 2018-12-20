@@ -1,0 +1,20 @@
+
+  <view class="body">
+
+    <view class="image">
+      <image src="/images/paySuccess/paySuccess.png" class="map"/>
+    </view>
+
+    <view class="Info">
+      <text>付款成功</text>
+    </view>
+
+    <view class="href clearfix">
+      <text>订单详情</text>
+      <button open-type="contact" type="button" name="button">联系客服</button>
+    </view>
+
+    <view class="index">
+      <text bindtap="hrefToIndex">返回首页</text>
+    </view>
+  </view>

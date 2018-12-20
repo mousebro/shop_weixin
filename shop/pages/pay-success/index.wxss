@@ -1,0 +1,14 @@
+.clearfix:after {content: ".";display: block;height: 0;clear: both;visibility: hidden;}
+.body{background-color:#ffffff;}
+.image{width: 100%;text-align: center;margin-top: 180rpx;}
+.image image{width: 25%;height: 220rpx;}
+.Info{width: 100%;}
+.Info text{width: 100%;display: block;text-align: center;}
+.Info text:nth-child(1){margin-top: 20rpx;font-weight: bold;color: #222222;}
+.Info text:nth-child(2){margin-top: 10rpx;font-size: 28rpx;color: #767676;}
+.href{width: 100%;margin-top: 80rpx;}
+.href text{display: block;float: left;width:35%;color: #ffffff;text-align: center;line-height: 80rpx;border-radius: 6rpx;}
+.href text:nth-child(1){background-color: #333333;margin-left: 12.5%;margin-right: 2.5%;font-size: 32rpx;}
+.href button{background: linear-gradient(to right,#ea4149, #ff6849);font-size: 32rpx;margin-left:  2.5%;display: block;float: left;width:35%;color: #ffffff;text-align: center;line-height: 80rpx;border-radius: 6rpx;}
+.href button::after{border: 1px solid #eb924c;}
+.index{position: fixed;bottom: 0;width: 100%;text-align: center;color: #ea4149;padding-bottom: 40rpx;font-size: 28rpx;}

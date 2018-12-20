@@ -1,0 +1,24 @@
+<!-- 搜索框 -->
+  <view>
+    <view class="search" bindtap="hrefToSearch">
+      <image src="/images/search.png"/>
+      <text>52°景芝鸿福酒</text>
+    </view>
+  </view>
+
+  <view class="scroll">
+    <scroll-view class="scroll-left" scroll-y="true">
+      <block  wx:for="{{typeList}}">
+        <text class="{{showActive == item.id?'scroll-left-active':''}}" data-id="{{item.id}}" bindtap="addActive">{{item.name}}</text>
+      </block>
+    </scroll-view>
+
+    <scroll-view class="scroll-right" scroll-y="true" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}" scroll-with-animation="true">
+      <block wx:for="{{typeList}}">
+        <text bindtap="hrefToShopList" id="{{item.id}}">{{item.name}}</text>
+      </block>
+    </scroll-view>
+  </view>
+
+  <view class="tab">
+  </view>

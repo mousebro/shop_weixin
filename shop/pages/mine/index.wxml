@@ -1,0 +1,86 @@
+<!--index.wxml-->
+<view>
+  <view class='header-container'>
+    <!--用户信息（用户头像、用户昵称、是否会员）-->
+    <view class='userinfo'> 
+      <image src="../../images/product01.png" class='userinfo-avatar'></image>
+      <view class="userinfo-container">
+        <text class='userinfo-nickname'>还没有设置昵称</text>
+        <text class='usermotto'>普通会员</text>
+      </view>
+    </view>
+    <!--SUPER会员开通-->
+    <view class='container super-merber-container' wx:if="{{isSupper}}">
+      <view class='super-member'>
+        <view class='super-member-scrib'>
+          <view>
+            <image src="../../images/member.png" style='' style="height:38rpx;width:42rpx;vertical-align:middle"></image>
+            <text class="super-text">SUPER会员</text>
+            <text class="super-right">开通既享6大特权</text>
+          </view>
+          <text class="super-right">试用会员限时免费开通，众多权益畅想30天</text>
+        </view>
+        <view class="super-merber-btn">点击获取</view>
+      </view>
+    </view>
+  </view>
+  <!--我的订单-->
+  <scroll-view style='height:850rpx;width:100%;' scroll-y>
+    <view class='my-order-container '>
+      <!--我的订单+查看全部-->
+      <view class='my-order-text' bindtap='readMore'>
+        <text class='order-text'>我的订单</text>
+        <view class="order-more" >查看全部<text class='order-for-more'></text></view>
+      </view>
+      <view class='my-order-menu'>
+        <view class="order-menu-icon">
+          <image src="../../images/personal/forPay.png" class='order-icon-image'></image>
+          <text class='order-icon-text'>待付款</text>
+        </view>
+        <view class="order-menu-icon">
+          <image src="../../images/personal/forSend.png" class='order-icon-image'></image>
+          <text class='order-icon-text'>待发货</text>
+        </view>
+        <view class="order-menu-icon">
+          <image src="../../images/personal/forRecive.png" class='order-icon-image'></image>
+          <text class='order-icon-text'>待收货</text>
+        </view>
+        <view class="order-menu-icon">
+          <image src="../../images/personal/forAssess.png" class='order-icon-image'></image>
+          <text class='order-icon-text'>待评价</text>
+        </view>
+      </view>
+    </view>
+    <!--我的优惠劵、签到中心、地址管理、平台建议-->
+    <view class="oprator-container">
+      <view class='oprator-card'>
+        <view>
+          <image src='../../images/personal/coupon.png' style="height:40rpx;width:35rpx;" class='oprator-card-image'></image>
+          <text  class='oprator-card-text'>我的优惠券</text>
+        </view>
+        <text class='order-for-more'></text>
+      </view>
+      <view class='oprator-card'>
+        <view>
+          <image src='../../images/personal/signIn.png' style="height:40rpx;width:35rpx;" class='oprator-card-image'></image>
+          <text  class='oprator-card-text'>签到中心</text>
+        </view>
+        <text class='order-for-more'></text>
+      </view>
+      <view class='oprator-card'>
+        <view>
+          <image src='../../images/personal/address.png' style="height:40rpx;width:35rpx;" class='oprator-card-image'></image>
+          <text  class='oprator-card-text'>地址管理</text>
+        </view>
+        <text class='order-for-more'></text>
+      </view>
+      <view class='oprator-card'>
+        <view>
+          <image src='../../images/personal/suggest.png' style="height:40rpx;width:35rpx;" class='oprator-card-image'></image>
+          <text  class='oprator-card-text'>平台建议</text>
+        </view>
+        <text class='order-for-more'></text>
+      </view>
+    </view>
+  </scroll-view>
+</view>

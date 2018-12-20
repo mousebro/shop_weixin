@@ -1,0 +1,39 @@
+<!--index.wxml-->
+  <view class="body">
+    <!-- 蒙版 -->
+    <view class="mask"  wx:if="{{showModal == true}}"/>
+    <!-- 未授权用户进入该页面弹窗 -->
+    <!-- 关注公众号弹窗 -->
+    <view class="modal1" wx:if="{{modal1 == true}}">
+      <view class="yuan" bindtap="hideModal1">
+        <image src="/images/login/close.png"></image>
+      </view>
+      <text>请先授权登录</text>
+      <button hover="false" open-type="getUserInfo" bindgetuserinfo='bindGetUserInfo'>授权登录</button>
+    </view>
+    <!-- 用户昵称头像 -->
+    <view class="userInfo">
+      <image src="{{avatar}}" class="blockImg"></image>
+      <text>{{nickname}}</text>
+    </view>
+    <!-- 输入框 -->
+    <view class="inputBlock">
+      <view class="number clearfix">
+        <image src="/images/login/phone.png" class="blockImg"></image>
+        <input class="input" type="number" placeholder="请输入手机号码" bindinput="mobileInput" />
+        <button class='{{buttonClass}}' disabled='{{disabled}}' bindtap="getVerificationCode">{{time}}</button>
+      </view>
+      <view class="verify clearfix">
+        <image src="/images/login/password.png" class="blockImg"></image>
+        <input class="input" type="number"  placeholder="请输入验证码" bindinput="verifyInput"/>
+      </view>
+    </view>
+    <!-- 登录按钮 -->
+    <view class="loginButton">
+      <button type="button" name="button" bindtap="login">登录</button>
+    </view>
+    <!-- 返回首页 -->
+    <view class="index">
+      <text bindtap="hrefToIndex">返回首页</text>
+    </view>
+  </view>

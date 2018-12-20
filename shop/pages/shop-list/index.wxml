@@ -1,0 +1,42 @@
+<!-- 搜索框 -->
+<view>
+    <view class="search">
+    <image src="/images/search.png"/>
+    <text>52°景芝鸿福酒</text>
+  </view>
+  <!--商品列表页 头部选项栏-->
+  <view class="headerTabs">
+    <view class="{{isChose==1?'isActive':''}}" bindtap='handleTap' data-idx="1">综合</view>
+    <view class="{{isChose==2?'isActive':''}}" bindtap='handleTap' data-idx="2">销量</view>
+    <view class="{{isChose==3?'isActive':''}}" bindtap='handleTap' data-idx="3">
+          <text data-idx="3">价格</text>
+         <image wx:if="{{isPriceUp}}" data-idx="3" class="" src="../../images/price_lowerToUp.png"  lazy-load="false" binderror="" bindload=""> </image>
+         <image wx:else class="" data-idx="3" src="../../images/price_upTolower.png"  lazy-load="false" binderror="" bindload=""> </image>
+    </view>
+  </view>
+  <!--商品列表页 商品列表-->
+  <view class="header" hidden="{{hideHeader}}">
+    <view>下拉刷新中……</view>
+  </view>
+  <scroll-view scroll-y style="height:1000rpx;"  bindscrolltoupper="refresh" bindscrolltolower="loadMore">
+    <view class='productList'>
+      <view wx:for="{{productList}}" wx:key="{{item.id}}" bindtap="hrefToDetail">
+        <!--左侧商品图片-->
+        <view>
+          <image src="{{item.imgUrl}}"></image>
+        </view>
+        <!--右侧商品信息、商品价格 -->
+        <view class='productSubscrib'>
+          <text >{{item.title}}</text>
+          <view>
+            <text>￥{{item.discount}}</text>
+            <text>￥{{item.oldPrice}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+  <view class="bottom" hidden="{{hideBottom}}">
+    <view>{{loadMoreData}}</view>
+  </view>
+</view>

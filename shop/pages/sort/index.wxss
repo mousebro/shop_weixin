@@ -1,0 +1,10 @@
+/* 搜索框 */
+.search{width: 90%;background-color: #f2f2f2;border-radius: 40rpx;height: 60rpx;line-height: 50rpx;margin: 20rpx 5%;}
+.search image{width: 40rpx;height: 40rpx;margin-left: 20rpx;display: inline-block;margin-bottom: -10rpx;}
+.search text{font-size: 24rpx;margin-left: 10rpx;color: #777777;display: inline-block;}
+/* 下部分类 */
+.scroll-left{height:calc(100vh - 51px);width: 30%;background-color: #f2f2f2;border-top: 1px solid #e8e8e8;float: left;}
+.scroll-left text{display: block;text-align: center;font-size: 30rpx;height: 120rpx;line-height: 120rpx;width: 100%;}
+.scroll-left-active{color:#ea4149;background-color: #fff;}
+.scroll-right{height:calc(100vh - 51px);width: 70%;border-top: 1px solid #e8e8e8;float: left;}
+.scroll-right text{display: block;width: 100%;height: 900rpx;}

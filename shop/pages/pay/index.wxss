@@ -1,0 +1,34 @@
+page{background-color: #f2f2f2;}
+.clearfix:after {content: ".";display: block;height: 0;clear: both;visibility: hidden;}
+/* 头部地址栏 */
+.address{width: 90%;margin-top: 20rpx;background-color: #ffffff;padding: 30rpx 5%;}
+.address text:nth-child(1){font-size: 30rpx;color: #222222;display: inline-block;font-weight: bold;}
+.address text:nth-child(2){font-size: 30rpx;color: #222222;display: inline-block;font-weight: bold;margin-left: 20rpx;}
+.address text:nth-child(3){font-size: 24rpx;color: #555555;display: block;margin: 20rpx 0 0;width: 100%;}
+/* 商品部分 */
+.shop{width: 100%;background-color: #ffffff;}
+.shop-block{width: 90%;margin-top: 20rpx;background-color: #ffffff;margin-left: 5%;padding: 30rpx 0;position: relative;border-bottom: 1px solid #e8e8e8;}
+.shop-block:nth-last-child(1){border: none;}
+.shop-block image{width: 150rpx;height: 150rpx;display: block;float: left;}
+.shop-block text:nth-child(2){display: block;float: left;width: 50%;margin-left: 20rpx;margin-top: 20rpx;font-size: 32rpx;}
+.shop-block text:nth-child(3){display: block;float: left;width: 50%;margin-left: 20rpx;margin-top: 30rpx;font-size: 26rpx;color: #ea4149;font-weight: bold;}
+.shop-block text:nth-child(4){position: absolute;bottom: 50rpx;right: 30rpx;color: #555555;font-size: 26rpx;}
+/* 计算价格部分 */
+.countprice{width: 90%;margin-top: 20rpx;background-color: #ffffff;padding: 30rpx 5% 0;}
+.countprice-plus{width: 100%;}
+.countprice-plus text{display: block;width: 50%;float: left;font-size: 28rpx;line-height: 70rpx;color: #222222;}
+.countprice-plus text:nth-child(1){text-align: left;}
+.countprice-plus text:nth-child(2){text-align: right;}
+.countprice-less{width: 100%;}
+.countprice-less text{display: block;width: 50%;float: left;font-size: 28rpx;line-height: 70rpx;}
+.countprice-less text:nth-child(1){text-align: left;color: #222222;}
+.countprice-less text:nth-child(2){text-align: right;color: #ea4149;}
+.countprice-less image{width: 120rpx;float: left;margin-top: 20rpx}
+.vip-price{width: calc(100% - 60px) !important;}
+.countprice-total{width: 100%;text-align: right;border-top: 1px solid #e8e8e8;margin-top: 20rpx;padding: 20rpx 0;}
+.countprice-total text{display: inline-block;}
+.countprice-total text:nth-child(1){font-size:28rpx;color: #222222;margin-right: 20rpx;}
+.countprice-total text:nth-child(2){font-size:34rpx;color: #ea4149;font-weight: bold;}
+/* 支付按钮 */
+.submit{margin:20rpx 30rpx;position: fixed;bottom: 0;background: linear-gradient(to right,#ea4149, #ff6849);text-align: center;width: calc(100% - 30px);height: 100rpx;line-height: 100rpx;}
+.submit text{font-size: 32rpx;color: #ffffff;}
