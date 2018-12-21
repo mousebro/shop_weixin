@@ -1,21 +1,15 @@
 /**index.wxss**/
-.userinfo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+.clearfix:after {content: " ";display: block;height: 0;clear: both;visibility: hidden;}
+.index-title{width: 100%;background: linear-gradient(#f85b49, #ff6849);position: fixed;top: 0;z-index: 20;}
 
-.userinfo-avatar {
-  width: 128rpx;
-  height: 128rpx;
-  margin: 20rpx;
-  border-radius: 50%;
-}
+.index-search{width: 80%;background-color: #ffffff;border-radius: 40rpx;height: 60rpx;line-height: 50rpx;margin: 20rpx 2% 20rpx 5%;float: left;}
+.index-search image{width: 40rpx;height: 40rpx;margin-left: 20rpx;display: inline-block;margin-bottom: -10rpx;}
+.index-search text{font-size: 24rpx;margin-left: 10rpx;color: #777777;display: inline-block;}
 
-.userinfo-nickname {
-  color: #aaa;
-}
+.index-sever{width:10%;float: left;height: auto;text-align: center;}
+.index-sever image{width: 60rpx;height: 60rpx;}
+.index-sever text{display: block;width: 100%;font-size: 24rpx;margin-top: -10rpx;color: #ffffff;}
 
-.usermotto {
-  margin-top: 200px;
-}
+.index-swiper{width: 100%;margin-top: 100rpx;height: 320rpx;}
+.index-swiper-block{width: 100%;height: 100%;}
+.swiper-img{width: 100%;height: 100%;}

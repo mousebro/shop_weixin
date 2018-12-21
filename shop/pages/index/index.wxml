@@ -1,4 +1,28 @@
 <!--index.wxml-->
-<view class="container">
-  <text>首页</text>
+<view class="index-title">
+  <view class="index-search" bindtap="hrefToSearch">
+    <image src="/images/search.png"/>
+    <text>52°景芝鸿福酒</text>
+  </view>
+  <view class="index-sever">
+    <image src="/images/search.png"/>
+    <text>客服</text>
+  </view>
+</view>
+
+<view class="index-swiper">
+  <swiper class="index-swiper-block" indicator-dots="true" circular="true" autoplay="true" interval="5000" duration="1000" indicator-color="#cbcbcb" indicator-active-color="#ea4149">
+    <block>
+      <swiper-item>
+        <image src="/pic/banner1.png" class="swiper-img"/>
+      </swiper-item>
+      <swiper-item>
+        <image src="/pic/banner2.png" class="swiper-img"/>
+      </swiper-item>
+    </block>
+  </swiper>
+</view>
+
+<view class="">
+
 </view>

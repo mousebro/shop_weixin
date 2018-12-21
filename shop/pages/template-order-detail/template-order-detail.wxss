@@ -1,0 +1,22 @@
+/* pages/template-order-detail/template-order-detail.wxss */
+
+/*查看更多icon*/
+.order-for-more{display: inline-block;border-right:2px solid #ccc;border-top:2px solid #ccc;width:16rpx;height: 16rpx;transform: rotate(45deg);}
+
+/*待付款*/
+.wait-for-pay{background: #fff;margin-bottom:30rpx;}
+.wait-for-pay .wait-title{display: flex;justify-content: space-between;padding: 40rpx;align-items: center;border-bottom: 1px solid #f2f2f2;}
+.wait-for-pay .wait-title .wait-sub-title {font-weight:600;font-size:32rpx;margin-right: 28rpx;}
+.wait-for-pay .wait-title .wait-for-time {font-weight:thin;font-size:30rpx;color:#a6a6a6;}
+/*待付款商品列表*/
+.product-list{padding:20rpx 0;}
+.product-item{display: flex;justify-content: space-between;align-items: center;padding:20rpx 40rpx;}
+.product-item .product-item-img{width:94rpx;height:100rpx;vertical-align: middle;margin-right: 35rpx;}
+.product-item .product-item-text,.product-item-count{font-size:30rpx;}
+.product-item-total{display: flex;justify-content: space-between;align-items: center;border-bottom: 1px solid #f2f2f2;}
+.product-item-total-price{justify-content: flex-end}
+.product-item-eslise{margin-left:130rpx;line-height: 30rpx;font-weight:400;}
+.product-item-price{font-size: 36rpx;color:#eb4249;}
+.oprator-btn-container{text-align:right;padding:40rpx 20rpx 20rpx;}
+.oprator-btn-container button{margin-left: 30rpx;}
+.oprator-btn-container>.cancle-btn{border: 1px solid #999999;color:#999999;}

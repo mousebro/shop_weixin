@@ -1,7 +1,6 @@
 //index.js
 //获取应用实例
 const app = getApp()
-
 Page({
   data: {
     showActive:'a',
@@ -10,9 +9,11 @@ Page({
     isPriceUp:true,
     hideHeader: true,
     hideBottom: true,
-    allPages: '',    // 总页数
+    allPages: 0,    // 总页数
     currentPage: 1,  // 当前页数  默认是1
-    loadMoreData: '加载更多……'
+    obField:0,//排序关键字
+    obType:0,//排序类型
+    categoryId:0
   },
   onShow: function(){
 
@@ -20,17 +21,48 @@ Page({
   onLoad: function(){
     //this.getData();//进行页面数据加载
     //在跳转到商品列表的时进行商品列表的请求并加载
+    let categoryId = this.options.Id
     this.setData({
-      productList: [
-        { id: 1, imgUrl: "../../images/product01.png", discount: "888.00", oldPrice: "958.00", title: "53°茅台王子酒53°茅台王" },
-        { id: 2, imgUrl: "../../images/product01.png", discount: "888.00", oldPrice: "958.00", title: "53°茅台王子酒53°茅台王" },
-        { id: 3, imgUrl: "../../images/product01.png", discount: "888.00", oldPrice: "958.00", title: "53°茅台王子酒53°茅台王" },
-        { id: 4, imgUrl: "../../images/product01.png", discount: "888.00", oldPrice: "958.00", title: "53°茅台王子酒53°茅台王" },
-        { id: 5, imgUrl: "../../images/product01.png", discount: "888.00", oldPrice: "958.00", title: "53°茅台王子酒53°茅台王" },
-        { id: 6, imgUrl: "../../images/product01.png", discount: "888.00", oldPrice: "958.00", title: "53°茅台王子酒53°茅台王" },
-        { id: 7, imgUrl: "../../images/product01.png", discount: "888.00", oldPrice: "958.00", title: "53°茅台王子酒53°茅台王" }
-      ]
+      categoryId: categoryId
     })
+    let _this = this
+    wx.request({
+      url: 'https://' + app.globalData.productUrl + '/api?resprotocol=json&reqprotocol=json&class=Goods&method=GetGoodsList',
+      method: 'post',
+      data: JSON.stringify({
+        baseClientInfo: { longitude: 0, latitude: 0, appId: '' + app.globalData.appId + '' },
+        page:_this.data.currentPage,
+        pageLength:5,
+        obField:1,
+        obType:0,
+        categoryId:categoryId
+      }),
+      header: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      success: (res) => {
+        if (res.statusCode == 200) {
+          let code = res.data.baseServerInfo.code
+          let msg = res.data.baseServerInfo.msg
+          if (code == 1) {
+            _this.setData({
+              productList: res.data.goodsList,
+              allPages: res.data.pageCount
+            })
+          }
+          else {
+
+          }
+        }
+        else {
+          console.log(res.statusCode);
+        }
+      },
+      fail: (res) => {
+      }
+    })
+
+
 
   },
   // 获取数据  pageIndex：页码参数
@@ -70,76 +102,182 @@ Page({
       }
     })
   },
-  //加载更多
-  loadMore: function () {
-    var self = this;
-    // 当前页是最后一页
-    if (self.data.currentPage == self.data.allPages) {
-      self.setData({
-        loadMoreData: '已经到顶'
-      })
-      return;
-    }
-    setTimeout(function () {
-      var tempCurrentPage = self.data.currentPage;
-      tempCurrentPage = tempCurrentPage + 1;
-      self.setData({
-        currentPage: tempCurrentPage,
-        hideBottom: false
-      })
-      //self.getData();
-    }, 300);
-  },
-  // 下拉刷新
-  refresh: function (e) {
-    var self = this;
-    setTimeout(function () {
-      console.log('下拉刷新');
-      self.setData({
-        currentPage: 1,
-        hideHeader: false
-      })
-      //self.getData(); //下拉获取数据
-    }, 300);
-  },
+
+  //头部选项卡点击事件
   handleTap(e){
    var index = e.target.dataset.idx//判断头部哪一个被点击，并获取其下标值
    this.setData({
-     isChose:index
+     isChose:index,
+     currentPage:1
    })
+    let obField =0 //排序关键字
+    let obType =0 //排序类型
    //如果价格位被点击更改图标状态，并获取相对应的的数据
-   if(index == 3){
+    if (index == 3) { //按照价格的升序或者减序，获取相对应的数据
      var isPriceUp = this.data.isPriceUp;
+      isPriceUp == true ? obType = 1 : obType = 2
+      obField = 3
      isPriceUp = !isPriceUp
      this.setData({
-       isPriceUp:isPriceUp
+       isPriceUp:isPriceUp,
+       obField: obField,
+       obType: obType
      })
-     //按照价格的升序或者减序，获取相对应的数据
-    //  let _this = this
-    //  wx.request({
-    //    url: 'http://'+_this.$parent.globalData.productUrl+'api?resprotocol=json&reqprotocol=json&',
-    //    method:'post',
-    //    data:JSON.stringify({
-    //      baseClientInfo:{ longitude:0, latitude:0}
-    //    }),
-    //    header:{
-    //      'Content-Type':'application/x-www-form-rulencoded'
-    //    },
-    //    success:(res)=>{
-    //      _this.setData({
-    //        productList:res.list
-    //      })
-    //    },
-    //    fail:(res)=>{
-
-    //    }
-    //  })
+   }else if(index == 1){ //如果点击的是按照综合排序的
+      obField = 1
+      obType = 0
+      this.setData({
+        obField: obField,
+        obType: obType
+      })
+   }else if(index == 2){ //如果点击按销量排序
+      obField = 2
+      obType = 0 
+      this.setData({
+        obField: obField,
+        obType: obType
+      }) 
    }
- },
+   //根据选项卡来请求不同的数据
+    let _this = this
+    wx.request({
+      url: 'https://' + app.globalData.productUrl + '/api?resprotocol=json&reqprotocol=json&class=Goods&method=GetGoodsList',
+      method: 'post',
+      data: JSON.stringify({
+        baseClientInfo: { longitude: 0, latitude: 0, appId: '' + app.globalData.appId + '' },
+        page: _this.data.currentPage,
+        pageLength: 5,
+        obField: obField,
+        obType: obType,
+        categoryId: _this.data.categoryId
+      }),
+      header: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      success: (res) => {
+        if (res.statusCode == 200) {
+          let code = res.data.baseServerInfo.code
+          let msg = res.data.baseServerInfo.msg
+          if (code == 1) {
+            _this.setData({
+              productList: res.data.goodsList
+            })
+          }
+          else {
 
-  hrefToDetail: function(){
-    wx.navigateTo({
-      url: '/pages/shop-detail/index'
+          }
+        }
+        else {
+          console.log(res.statusCode);
+        }
+      },
+      fail: (res) => {
+      }
+    })
+   
+ },
+  //下拉刷新
+  onPullDownRefresh(){
+    let _this = this
+    // 显示顶部刷新图标
+    wx.showNavigationBarLoading();
+    // 隐藏导航栏加载框
+    wx.hideNavigationBarLoading();
+    wx.request({
+      url: 'https://' + app.globalData.productUrl + '/api?resprotocol=json&reqprotocol=json&class=Goods&method=GetGoodsList',
+      method: 'post',
+      data: JSON.stringify({
+        baseClientInfo: { longitude: 0, latitude: 0, appId: '' + app.globalData.appId + '' },
+        page: _this.data.currentPage,
+        pageLength: 5,
+        obField: this.data.obField,
+        obType: this.data.obType,
+        categoryId: _this.data.categoryId
+      }),
+      header: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      success: (res) => {
+        // 停止下拉动作
+        wx.stopPullDownRefresh();
+        if (res.statusCode == 200) {
+          let code = res.data.baseServerInfo.code
+          let msg = res.data.baseServerInfo.msg
+          if (code == 1) {
+            _this.setData({
+              productList: res.data.goodsList
+            })
+          }
+          else {
+
+          }
+        }
+        else {
+          console.log(res.statusCode);
+        }
+      },
+      fail: (res) => {
+      }
+    })
+  
+
+
+  },
+  //下拉触底加载更多
+  onReachBottom(){
+    let _this = this
+    if (_this.data.currentPage == _this.data.allPages){
+      wx.showModal({
+        title: '提示',
+        content: '没有更多了',
+        success(res) {
+        }
+      })
+      return ;
+    }
+    _this.setData({
+      currentPage:_this.data.currentPage++
+    })
+    wx.request({
+      url: 'https://' + app.globalData.productUrl + '/api?resprotocol=json&reqprotocol=json&class=Goods&method=GetGoodsList',
+      method: 'post',
+      data: JSON.stringify({
+        baseClientInfo: { longitude: 0, latitude: 0, appId: '' + app.globalData.appId + '' },
+        page: _this.data.currentPage,
+        pageLength: 5,
+        obField: 1,
+        obType: 0,
+        categoryId: _this.data.categoryId
+      }),
+      header: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      success: (res) => {
+        if (res.statusCode == 200) {
+          let code = res.data.baseServerInfo.code
+          let msg = res.data.baseServerInfo.msg
+          if (code == 1) {
+            _this.setData({
+              productList: res.data.goodsList,
+              allPages: res.data.pageCount
+            })
+          }
+          else {
+
+          }
+        }
+        else {
+          console.log(res.statusCode);
+        }
+      },
+      fail: (res) => {
+      }
     })
   },
+  hrefToDetail(e){
+    let idx = e.currentTarget.dataset.idx
+    wx.navigateTo({
+      url: '/pages/shop-detail/index?Id='+idx + '',
+    })
+  }
 })

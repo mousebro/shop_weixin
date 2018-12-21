@@ -19,7 +19,7 @@ Page({
   askForAuthorize: function(){
     let _this = this
     wx.getSetting({
-      success: function(res){
+      success: res =>{
         let allow = res.authSetting['scope.userInfo']
         if (allow) {
           _this.setData({
@@ -41,11 +41,11 @@ Page({
   getUserInfo: function(){
     let _this = this
     wx.login({
-      success: function(res) {
+      success: res => {
         let code = res.code
         _this.data.code = code
         wx.getUserInfo({
-          success:function(res){
+          success:res =>{
             let nickname = res.userInfo.nickName
             let avatar = res.userInfo.avatarUrl
             _this.setData({
@@ -53,7 +53,7 @@ Page({
               avatar:avatar
             })
           },
-          fail:function(res){
+          fail:res =>{
           }
         })
       }
@@ -231,11 +231,11 @@ Page({
           title: '登录中...'
       })
       wx.login({
-        success: function(res) {
+        success: res => {
           let code = res.code
           _this.data.code = code
           wx.getUserInfo({
-            success:function(res){
+            success:res => {
               let nickname = res.userInfo.nickName
               let avatar = res.userInfo.avatarUrl
               let encryptedData = res.encryptedData
@@ -243,7 +243,7 @@ Page({
               wx.hideLoading()
               console.log(encryptedData);
             },
-            fail:function(res){
+            fail:res => {
             }
           })
         }

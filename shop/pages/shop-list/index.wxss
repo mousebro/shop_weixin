@@ -1,8 +1,8 @@
 /* 搜索框 */
-.search{width: 90%;background-color: #f2f2f2;border-radius: 40rpx;height: 60rpx;line-height: 50rpx;margin: 20rpx 5%;}
+.search{width: 90%;background-color: #f2f2f2;border-radius: 40rpx;height: 60rpx;line-height: 50rpx;margin: 20rpx 5%;box-sizing: border-box;}
 .search image{width: 40rpx;height: 40rpx;margin-left: 20rpx;display: inline-block;margin-bottom: -10rpx;}
 .search text{font-size: 24rpx;margin-left: 10rpx;color: #777777;display: inline-block;}
-.headerTabs{ display: flex;justify-content: space-between;padding:29rpx 117rpx;font-size: 24rpx;border-bottom: 1px solid #f2f2f2;}
+.headerTabs{ display: flex;justify-content: space-between;padding:29rpx 117rpx;font-size: 24rpx;border-bottom: 1px solid #f2f2f2;height:110rpx;box-sizing: border-box;}
 .headerTabs image{width: 18rpx;height: 22rpx;vertical-align: middle;margin-left: 10rpx;}
 .headerTabs view.isActive{color:#ee8488;}
 

@@ -8,11 +8,12 @@
 		"es6": true,
 		"postcss": true,
 		"minified": true,
-		"newFeature": true
+		"newFeature": true,
+		"autoAudits": false
 	},
 	"compileType": "miniprogram",
 	"libVersion": "2.4.2",
-	"appid": "wxbe90c81bf625c0e1",
+	"appid": "wx4ed26fbe402006cf",
 	"projectname": "%E6%AD%A3%E5%BC%8F%E5%95%86%E5%9F%8E",
 	"debugOptions": {
 		"hidedInDevtools": []
@@ -36,7 +37,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 3,
+			"current": 4,
 			"list": [
 				{
 					"id": 0,
@@ -50,18 +51,23 @@
 					"pathName": "pages/shop-list/index",
 					"query": ""
 				},
-        {
-          "id": 2,
-          "name": "mine",
-          "pathName": "pages/mine/index",
-          "query": ""
-        },
-        {
-          "id": 3,
-          "name": "search",
-          "pathName": "pages/search/index",
-          "query": ""
-        }
+				{
+					"id": 2,
+					"name": "mine",
+					"pathName": "pages/mine/index",
+					"query": ""
+				},
+				{
+					"id": 3,
+					"name": "search",
+					"pathName": "pages/search/index",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "login",
+					"pathName": "pages/login/index"
+				}
 			]
 		}
 	}

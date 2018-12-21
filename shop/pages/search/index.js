@@ -1,4 +1,5 @@
 // pages/search/index.js
+const app = getApp()
 Page({
 
   /**
@@ -8,9 +9,7 @@ Page({
     inputVal:"",
     isSuccess:true,
     isNoCatchData:false,
-    productList: [
-
-    ]
+    productList: []
   },
 
   /**
@@ -68,53 +67,63 @@ Page({
   onShareAppMessage: function () {
 
   },
-
   /*用户搜索框输入操作*/
   bindKeyInput:function(e){
-    return ;                  //暂时先将搜索请求关闭
-    wx.showLoading({
-      title: '正在加载中',
-    })
+    // wx.showLoading({
+    //   title: '正在加载中',
+    // })
     let _this = this
     this.setData({
       inputVal:e.detail.value
     })
     /*判断是否请求数据完成，只有在请求完成的时候才能再根据输入的值再次发送请求*/
-    if (!_this.data.isSuccess)return;
     let kWord = this.data.inputVal
+    console.log(kWord)
     _this.setData({
       isSuccess:false //还未请求成功，防止再次输入而向服务器发送请求
     })
     wx.request({
-      url: 'https://'+_this.$parent.globalData.productUrl+'api?resprotocol=json&reqprotocol=json&class=?&method=？',
-      header:{
-        'Content-Type':'application/x-www-form-urlencoded'
-      },
-      method:'POST',
-      data:JSON.stringify({
-        baseClientInfo:{
-          longitude: 0,
-          latitude: 0,
-        },
-        keyword: kWord,
-        mobile: mobile
+      url: 'https://' + app.globalData.productUrl + '/api?resprotocol=json&reqprotocol=json&class=Goods&method=GetGoodsList',
+      method: 'post',
+      data: JSON.stringify({
+        baseClientInfo: { longitude: 0, latitude: 0, appId: '' + app.globalData.appId + '' },
+        page: _this.data.currentPage,
+        pageLength: 10,
+        obField: 0,
+        obType: 0,
+        keyword: kWord
       }),
-      success:(res)=>{
-        wx.hideLoading()
-        if(res.statusCode ==200){
-          _this.setData({
-            productList:res.proList, /*暂定返回的搜索产品为一个数组*/
-            isSuccess:true
-          })
-          /*如果返回的搜索数据为空，则提示提示没有搜索到相关产品，否则展示产品列表*/
-          if(!_this.data.productList){
+      header: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      success: (res) => {
+        console.log(res)
+        if (res.statusCode == 200) {
+          let code = res.data.baseServerInfo.code
+          let msg = res.data.baseServerInfo.msg
+          if (code == 1) {
             _this.setData({
-              isNoCatchData:true
+              productList: res.data.goodsList
             })
           }
+          else {
+
+          }
         }
+        else {
+          console.log(res.statusCode);
+        }
+      },
+      fail: (res) => {
       }
     })
 
+  },
+  /*用户点击商品进行详情页跳转*/
+  hrefToDetail(e){
+    let id = e.currentTarget.dataset.id
+    wx.navigateTo({
+      url: '/pages/shop-detail/index?Id=' + id + ''
+    })
   }
 })

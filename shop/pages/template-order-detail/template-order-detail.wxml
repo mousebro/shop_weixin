@@ -1,0 +1,34 @@
+<!--pages/template-order-detail/template-order-detail.wxml-->
+<template name="waiting-for-pay">
+  <!--待付款-->
+  <view class="wait-for-pay">
+    <view class="wait-title">
+      <view >
+        <text class="wait-sub-title">{{title}}</text>
+        <text class='wait-for-time'>{{times}}</text>
+      </view>
+      <text class='order-for-more'></text>
+    </view>
+    <view class='product-list'>
+      <view class='product-item' wx:for="{{goodsList}}" wx:key="{{item}}">
+        <view>
+          <image src='../../pic/product01.png' class="product-item-img"></image>
+          <text class="product-item-text">{{item.subscrib}}</text>
+        </view>
+        <text class="product-item-count">x{{item.count}}</text>
+      </view>
+      <!--如果返回的商品列表件数超过2件则显示省略号-->
+      <view class="product-item-total product-item {{goodsList.length<2? 'product-item-total-price' :''}}" >
+        <text class='product-item-eslise' wx:if="{{goodsList.length>2}}">...</text>
+        <view>
+          <text class='product-item-text'>共{{totalCount}}件，实付</text>
+          <text class='product-item-price'>￥{{totalPrice}}</text>
+        </view>
+      </view>
+      <view class='oprator-btn-container'>
+        <button  size="mini" plain='true' class='cancle-btn'>取消订单</button>
+        <button size="mini" type="warn" plain='true' >去付款</button>
+      </view>
+    </view>
+  </view>
+</template>

@@ -8,15 +8,32 @@
 
   <view class="scroll">
     <scroll-view class="scroll-left" scroll-y="true">
-      <block  wx:for="{{typeList}}">
-        <text class="{{showActive == item.id?'scroll-left-active':''}}" data-id="{{item.id}}" bindtap="addActive">{{item.name}}</text>
+      <block  wx:for="{{categoryList}}" wx:key="{{item.id}}">
+        <text class="{{showActive == item.showId?'scroll-left-active':''}}" data-id="{{item.showId}}" bindtap="addActive">{{item.name}}</text>
       </block>
     </scroll-view>
 
-    <scroll-view class="scroll-right" scroll-y="true" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}" scroll-with-animation="true">
-      <block wx:for="{{typeList}}">
-        <text bindtap="hrefToShopList" id="{{item.id}}">{{item.name}}</text>
-      </block>
+    <scroll-view bindscroll="onscroll" class="scroll-right" scroll-y="true" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}" scroll-with-animation="true">
+      <view class="content clearfix">
+        <block wx:for="{{categoryList}}" data-index="{{index}}" wx:key="{{item.id}}">
+          <view class="position" id="{{item.showId}}">
+            <block wx:for="{{item.categoryList}}" wx:for-item="secItems" data-index="{{index}}" wx:key="{{secItems.id}}">
+              <image class="scroll-right-titleimage" src="{{secItems.thumb}}"/>
+              <view class="category-title">
+                <text>{{secItems.name}}</text>
+              </view>
+              <view class="category-info clearfix">
+                <block wx:for="{{secItems.categoryList}}" wx:for-item="thirdItem" wx:key="{{thirdItem.id}}">
+                  <view class="category-info-block" data-id="{{thirdItem.id}}" bindtap="hrefToShopList">
+                    <image src="{{thirdItem.thumb}}"/>
+                    <text>{{thirdItem.name}}</text>
+                  </view>
+                </block>
+              </view>
+            </block>
+          </view>
+        </block>
+      </view>
     </scroll-view>
   </view>
 

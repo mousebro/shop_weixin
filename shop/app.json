@@ -1,15 +1,16 @@
 {
   "pages": [
-    "pages/mine/index",
-    "pages/shop-detail/index",
     "pages/index/index",
     "pages/sort/index",
     "pages/shop-cart/index",
+    "pages/mine/index",
+    "pages/shop-detail/index",
     "pages/shop-list/index",
     "pages/pay/index",
     "pages/search/index",
     "pages/pay-success/index",
-    "pages/login/index"
+    "pages/login/index",
+    "pages/my-order/index"
   ],
   "window": {
     "backgroundTextStyle": "light",

@@ -34,7 +34,8 @@ App({
   },
   globalData: {
     userInfo: null,
+    appId: 'wx4ed26fbe402006cf',
     productUrl: 'shopapidev.91uda.com',
-    // imageUrl: 'https://oybus-oyyx-cdn.91uda.com/static/miniappbeacontower/images/'
+    // imageUrl: 'https://allnet-shop-cdn.91uda.com/static/miniappbeacontower/images/'
   }
 })
