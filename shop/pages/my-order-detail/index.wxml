@@ -1,0 +1,96 @@
+<!--pages/my-order-detail/index.wxml-->
+<!--订单详情页-->
+<view>
+  <view class="header-msg-container">
+    <view class='header-container'>
+      <view>
+        <image src="../../images/orderDetail/complate.png" class='img-complate'></image>
+        <text class="text-complate">{{statuTitle}}</text>
+      </view>
+      <!-- <text>剩余：23小时50分钟</text> -->
+    </view>
+    <!--物流信息-->
+    <view class='logistics-container'>
+      <view class="logistics-message">
+        <image src="../../images/orderDetail/logistics.png" class='img-complate'></image>
+        <view class="logistics-text">
+          <text>{{freightMsg}}</text>
+          <text class='logistics-time'>2018-12-14 15:30</text>
+        </view>
+        <image src="../../images/orderDetail/into.png" class='img-into' ></image>
+      </view>
+    </view>
+  </view>
+
+  <!--商品列表部分-->
+  <view class='product-list'>
+    <view wx:for="{{productList}}" wx:key="{{item.id}}">
+      <view class='product-item'>
+        <view class='product-msg'>
+          <image src="{{item.thumb}}" class='product-img'></image>
+          <text class='product-text'>{{item.title}}</text>
+        </view>
+        <text class="product-price">￥{{item.price}}</text>
+      </view>
+      <text class="product-count {{index==4?'clear-border':''}}">x{{item.count}}</text>
+    </view>
+  </view>
+  
+  <!--订单编号、下单时间、支付时间-->
+  <view class='item-container order-msg-container'>
+    <view class='order-msg-item'>
+      <text class='order-msg-title'>订单编号:</text>
+      <text>{{orderMsg.number}}</text>
+    </view>
+    <view class='order-msg-item'>
+      <text class='order-msg-title'>下单时间:</text>
+      <text>{{orderMsg.orderTime}}</text>
+    </view>
+    <view class='order-msg-item'>
+      <text class='order-msg-title'>支付时间:</text>
+      <text>{{orderMsg.payTime}}</text>
+    </view>   
+  </view>
+
+  <!--收货地址-->
+  <view class='item-container address-container'>
+    <image src='../../images/orderDetail/address.png' class='address-img'></image>
+    <view class='address-msg'>
+      <text class="address-name">{{customer.name}} {{customer.phone}}</text>
+      <view >{{customer.address}}</view>
+    </view>
+  </view>
+
+  <!--商品价格-->
+  <view class='price-container'>
+    <view class="price-item-container">
+      <view class='price-item '>
+        <text>商品总额</text>
+        <text >￥{{bills.pTotal}}</text>
+      </view>
+      <view class='price-item' hidden="{{!bills.freight}}">
+        <text>运费</text>
+        <text >￥{{bills.freight}}</text>
+      </view>
+      <view class='price-item' hidden='{{!bills.coupon}}'>
+        <text>优惠券</text>
+        <text >-￥{{bills.coupon}}</text>
+      </view>  
+      <view class='price-item' hidden='{{!isSuper}}'>
+        <image src='../../images/orderDetail/super.png' class='price-item-img'></image>
+        <text >-￥{{bills.supers}}</text>
+      </view>
+    </view>
+    <view class='price-pay-msg'>
+      实付款：
+      <text class="price-pay-count">￥{{bills.pay}}</text>
+    </view>      
+  </view>
+  <view class='custom-service'>
+    <button size="mini" plain='true' class="custom-button" type="warn" bindtap="hrefCommit" >去评价</button>
+    <view class='custom-icon' bindtap='hrefCService'>
+       <image src='../../images/message.png' class="custom-img"></image>
+       <text >联系客服</text>
+    </view>
+  </view>
+</view>

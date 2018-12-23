@@ -78,7 +78,6 @@ Page({
     })
     /*判断是否请求数据完成，只有在请求完成的时候才能再根据输入的值再次发送请求*/
     let kWord = this.data.inputVal
-    console.log(kWord)
     _this.setData({
       isSuccess:false //还未请求成功，防止再次输入而向服务器发送请求
     })

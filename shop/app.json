@@ -10,7 +10,8 @@
     "pages/search/index",
     "pages/pay-success/index",
     "pages/login/index",
-    "pages/my-order/index"
+    "pages/my-order/index",
+    "pages/my-order-detail/index"
   ],
   "window": {
     "backgroundTextStyle": "light",

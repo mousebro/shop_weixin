@@ -1,13 +1,14 @@
 //index.js
 //获取应用实例
 const app = getApp()
-
+let WxParse = require('../../wxParse/wxParse.js');
 Page({
   data: {
     buyNumber:1,
     buyNumMin:1,
-    buyNumMax:10,
+    buyNumMax:100,
     shopCarInfo:{},
+    showActive:'a1'
   },
   onShow: function(){
     let _this = this
@@ -22,25 +23,21 @@ Page({
       }
     })
   },
-  onLoad: function(){
-    let testObj = {id:1,name:'53°茅台王子酒53°',price:88812,bfPrice:112211,picUrl:'/pic/banner1.png',}
-    let id = testObj.id
-    let name = testObj.name
-    let price = testObj.price
-    let countPrice = testObj.price.toString()
-    let intPrice = countPrice.substr(0,countPrice.length-2)
-    let floatPrice = countPrice.substr(-2,2)
-    let delPrice = testObj.bfPrice/100
-    let picture = testObj.picUrl
+  onLoad: function(options){
+    let shopId = options.Id
+    let _this = this
     this.setData({
-      id:id,
-      name:name,
-      price:price,
-      intPrice:intPrice,
-      floatPrice:floatPrice,
-      delPrice:delPrice,
-      countPrice:price,
-      picture:picture
+      shopId:shopId,
+    })
+    _this.getGoodsInfo()
+  },
+  // 点击商品以及点击详情定位
+  scrollPosition: function(e){
+    let _this = this
+    let showId = e.currentTarget.dataset.id
+    _this.setData({
+      showActive:showId,
+      toView:showId
     })
   },
   // 展示加入购物车
@@ -110,7 +107,6 @@ Page({
   },
   // 加入购物车
   addShopCar: function() {
-    console.log(this.data.id);
     let shopCarInfo = this.bulidShopCarInfo();
     this.setData({
       shopCarInfo:shopCarInfo,
@@ -132,10 +128,10 @@ Page({
   bulidShopCarInfo: function () {
     let shopCarMap = {};
     shopCarMap.goodsId = this.data.id;
-    shopCarMap.pic = this.data.picture
-    shopCarMap.name = this.data.name
+    shopCarMap.pic = this.data.goodsPicture
+    shopCarMap.name = this.data.title
     shopCarMap.number = this.data.buyNumber;
-    shopCarMap.price = this.data.countPrice/100;
+    shopCarMap.price = this.data.countPrice;
     let shopCarInfo = this.data.shopCarInfo;
     if (!shopCarInfo.shopNum) {
       shopCarInfo.shopNum = 0;
@@ -161,5 +157,61 @@ Page({
       shopCarInfo.shopList.push(shopCarMap);
     }
     return shopCarInfo;
+  },
+  // 获取商品详情
+  getGoodsInfo: function(){
+    let _this = this
+    wx.request({
+      url: 'https://'+app.globalData.productUrl+'/api?resprotocol=json&reqprotocol=json&class=Goods&method=GetGoodsInfo',
+      method: 'post',
+      data: JSON.stringify({
+        baseClientInfo: { longitude: 0, latitude: 0 ,appId: ''+app.globalData.appId+''},
+        id: _this.data.shopId
+      }),
+      header: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      success: (res) => {
+        if (res.statusCode == 200) {
+          let code = res.data.baseServerInfo.code
+          let msg = res.data.baseServerInfo.msg
+          if (code == 1) {
+            let goodsInfo = res.data.goodsInfo
+            let id = goodsInfo.id
+            let title = goodsInfo.title
+            let productprice = goodsInfo.productprice
+            let marketprice = goodsInfo.marketprice
+            let thumbUrl = goodsInfo.thumbUrl
+            let goodsPicture = goodsInfo.thumbUrl[0]
+            let description = goodsInfo.content
+            let countPrice = parseFloat(marketprice)
+            WxParse.wxParse('content', 'html', description, _this, 5);
+            _this.setData({
+              id:id,
+              title:title,
+              productprice:productprice,
+              marketprice:marketprice,
+              thumbList:thumbUrl,
+              countPrice:countPrice,
+              price:marketprice,
+              goodsPicture:goodsPicture
+            })
+          }
+          else{
+            wx.showModal({
+              title:'提示',
+              content:msg,
+              showCancel:false,
+              success:function(res){}
+            })
+          }
+        }
+        else {
+          console.log(res.statusCode);
+        }
+      },
+      fail: (res) => {
+      }
+    })
   },
 })

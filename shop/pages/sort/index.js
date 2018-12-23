@@ -31,14 +31,12 @@ Page({
     let s = 0
     // 计算右边滑块总高度
     query.select('.content').boundingClientRect((res) => {
-      console.log(res.height);
       this.setData({
         containerH:res.height
       })
     }).exec()
     // 获取每个一级分类的高度，用来建立左边索引
     query.selectAll('.position').boundingClientRect((rects) => {
-      console.log(rects);
       rects.forEach((res) => {
         s += res.height
         heightArr.push(s)
@@ -52,8 +50,6 @@ Page({
   onscroll: function(e){
     let scrollTop = e.detail.scrollTop
     let scrollArr = this.data.heightArr
-    console.log(scrollTop);
-    console.log(scrollArr);
     for (let i = 0; i < scrollArr.length; i++) {
       if (scrollTop >= scrollArr[i-1]+50 & scrollTop < scrollArr[i]) {
         this.setData({
@@ -69,7 +65,6 @@ Page({
   },
   // 跳转到商品列表
   hrefToShopList: function(e){
-    console.log(e);
     let id = e.currentTarget.dataset.id
     wx.navigateTo({
       url: '/pages/shop-list/index?Id='+id+''

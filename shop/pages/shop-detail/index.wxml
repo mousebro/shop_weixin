@@ -3,9 +3,9 @@
   <!-- 购物车弹窗 -->
   <view class="modal"  wx:if="{{modal1 == true}}">
     <view class="modal-shopDetail clearfix">
-      <image src="{{picture}}"/>
-      <text>{{name}}</text>
-      <text>￥{{price/100}}</text>
+      <image src="{{thumbList[0]}}"/>
+      <text>{{title}}</text>
+      <text>￥{{price}}</text>
       <image bindtap="closeModal1" src="/images/close.png"/>
     </view>
 
@@ -27,9 +27,9 @@
   <!-- 立即购买弹窗 -->
   <view class="modal"  wx:if="{{modal2 == true}}">
     <view class="modal-shopDetail clearfix">
-      <image src="{{picture}}"/>
-      <text>{{name}}</text>
-      <text>￥{{price/100}}</text>
+      <image src="{{thumbList[0]}}"/>
+      <text>{{title}}</text>
+      <text>￥{{price}}</text>
       <image bindtap="closeModal2" src="/images/close.png"/>
     </view>
 
@@ -50,20 +50,17 @@
   </view>
   <!-- 顶部栏位 -->
   <view class="shop-title clearfix">
-    <text class="shop-title-active">商品</text>
-    <text>详情</text>
+    <text class="{{showActive == 'a1'?'shop-title-active':''}}" data-id="a1" bindtap="scrollPosition">商品</text>
+    <text class="{{showActive == 'a2'?'shop-title-active':''}}" data-id="a2" bindtap="scrollPosition">详情</text>
     <text>评价</text>
   </view>
   <!-- 滚动区域 -->
   <scroll-view class="scroll-body" scroll-y="true" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}" scroll-with-animation="true">
     <!-- 商品轮播图 -->
-    <swiper class="swiper shop-swiper" indicator-dots="true" circular="true" autoplay="true" interval="5000" duration="1000" indicator-color="#cbcbcb" indicator-active-color="#ea4149">
-      <block>
+    <swiper class="swiper shop-swiper" id="a1" indicator-dots="true" circular="true" autoplay="true" interval="5000" duration="1000" indicator-color="#cbcbcb" indicator-active-color="#ea4149">
+      <block wx:for="{{thumbList}}" wx:key="{{item}}">
         <swiper-item>
-          <image src="/pic/banner1.png" class="swiper-img"/>
-        </swiper-item>
-        <swiper-item>
-          <image src="/pic/banner2.png" class="swiper-img"/>
+          <image lazy-load="true" src="{{item}}" class="swiper-img"/>
         </swiper-item>
       </block>
     </swiper>
@@ -71,7 +68,7 @@
     <view class="shop-detail">
       <!-- 商品名称 -->
       <view class="shop-detail-name">
-        <text>{{name}}</text>
+        <text>{{title}}</text>
         <view class="shop-detail-share clearfix">
           <image src="/images/share.png" class="swiper-img" mode="aspectFill"/>
           <text>分享</text>
@@ -80,9 +77,9 @@
       <!-- 商品价格 -->
       <view class="shop-detail-price">
         <text>￥</text>
-        <text>{{intPrice}}.</text>
-        <text>{{floatPrice}}</text>
-        <text class="delLine">￥{{delPrice}}</text>
+        <text>{{marketprice}}</text>
+        <text></text>
+        <text class="delLine">￥{{productprice}}</text>
       </view>
       <!-- 会员折扣 -->
       <view class="shop-detail-super">
@@ -110,12 +107,12 @@
       </view>
     </view>
     <!-- 商品详情 -->
-    <view class="shop-parse">
+    <view class="shop-parse" id="a2">
       <text>商品详情</text>
-      <import src="/wxParse/wxParse.wxml"/>
+      <import src="../../wxParse/wxParse.wxml"/>
       <view class="container">
         <!-- 这一块是富文本 显示的内容区 -->
-        <template is="wxParse" data="{{wxParseData:article.nodes}}"/>
+        <template is="wxParse" data="{{wxParseData:content.nodes}}"/>
       </view>
     </view>
   </scroll-view>

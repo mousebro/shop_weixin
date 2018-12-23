@@ -1,0 +1,29 @@
+<template name="waiting-for-pay" >
+    <view class="wait-for-pay">
+    <view class="wait-title">
+      <view >
+        <text class="wait-sub-title">{{title}}</text>
+        <text class='wait-for-time'>{{times}}</text>
+      </view>
+      <text class='order-for-more' catchtap='handleClick'></text>
+    </view>
+    <view class='product-list'>
+      <view class='product-item' wx:for="{{goodsList}}" wx:key="{{item}}" wx:if="{{index<2}}"> <!--只渲染两条数据，如果超过两条则用省略号提示-->
+        <view>
+          <image src='{{item.thumb}}' class="product-item-img"></image>
+          <text class="product-item-text">{{item.subscrib}}</text>
+        </view>
+        <text class="product-item-count">x{{item.count}}</text>
+      </view>
+      
+      <view class="product-item-total product-item " style="justify-content:{{goodsList.length<2?'flex-end':'space-between'}}">
+        <text class='product-item-eslise' wx:if="{{goodsList.length>2}}" >...</text>
+        <view >
+          <text class='product-item-text'>共{{totalCount}}件，实付</text>
+          <text class='product-item-price'>￥{{totalPrice}}</text>
+        </view>
+      </view>
+
+    </view>
+  </view>
+</template>

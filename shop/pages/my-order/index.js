@@ -5,19 +5,52 @@ Page({
    * 页面的初始数据
    */
   data: {
-    navbar: ['全部', '待付款', '待发货', '待收货', '项目1', '项目2', '项目3', '项目4'],
+    navbar: ['全部', '待付款', '待发货', '待收货', '完成', '项目2', '项目3', '项目4'],
     currentTab: 0,
     waitPayData:{
       title:'待付款',
       times:'2018-12-13 16:45',
-      totalCount:5,
+      totalCount:7,
       totalPrice:'888.00',
       goodsList:[
-        { id: 1, imgUrl: '../../pic/product01.png', count: 1, subscrib:'53°茅台王子酒53°茅台王'},
-        { id: 2, imgUrl: '../../pic/product01.png', count: 5, subscrib: '53°茅台王子酒53°茅台王'},
-        { id: 3, imgUrl: '../../pic/product01.png', count: 1, subscrib: '53°茅台王子酒53°茅台王'}
+        { id: 1, thumb: '../../pic/product01.png', count: 1, subscrib:'53°茅台王子酒53°茅台王'},
+        { id: 2, thumb: '../../pic/product01.png', count: 5, subscrib: '53°茅台王子酒53°茅台王'},
+        { id: 3, thumb: '../../pic/product01.png', count: 1, subscrib: '53°茅台王子酒53°茅台王'}
       ]
-    }
+    },
+    waitReciveData: {
+      title: '待收货',
+      times: '2018-12-13 16:45',
+      totalCount: 7,
+      totalPrice: '888.00',
+      goodsList: [
+        { id: 1, thumb: '../../pic/product01.png', count: 1, subscrib: '53°茅台王子酒53°茅台王' },
+        { id: 2, thumb: '../../pic/product01.png', count: 5, subscrib: '53°茅台王子酒53°茅台王' },
+        { id: 3, thumb: '../../pic/product01.png', count: 1, subscrib: '53°茅台王子酒53°茅台王' }
+      ]
+    },
+    waitDeliveryData: {
+      title: '待发货',
+      times: '2018-12-13 16:45',
+      totalCount: 7,
+      totalPrice: '888.00',
+      goodsList: [
+        { id: 1, thumb: '../../pic/product01.png', count: 1, subscrib: '53°茅台王子酒53°茅台王' },
+        { id: 2, thumb: '../../pic/product01.png', count: 5, subscrib: '53°茅台王子酒53°茅台王' },
+        { id: 3, thumb: '../../pic/product01.png', count: 1, subscrib: '53°茅台王子酒53°茅台王' }
+      ]
+    },
+    completeData: {
+      title: '完成',
+      times: '2018-12-13 16:45',
+      totalCount: 7,
+      totalPrice: '888.00',
+      goodsList: [
+        { id: 1, thumb: '../../pic/product01.png', count: 1, subscrib: '53°茅台王子酒53°茅台王' },
+        { id: 2, thumb: '../../pic/product01.png', count: 5, subscrib: '53°茅台王子酒53°茅台王' },
+        { id: 3, thumb: '../../pic/product01.png', count: 1, subscrib: '53°茅台王子酒53°茅台王' }
+      ]
+    },
   },
 
   /**
@@ -80,6 +113,10 @@ Page({
     this.setData({
       currentTab: e.currentTarget.dataset.idx
     })
+  },
+  /*点击更多*/
+  handleClick(){
+    console.log("fdsfd")
   }
 })
 
