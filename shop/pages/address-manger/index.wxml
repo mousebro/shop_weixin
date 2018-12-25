@@ -1,0 +1,44 @@
+<!--pages/address-manger/index.wxml-->
+<!--pages/address/index.wxml-->
+<!--地址管理页-->
+<view class='address-container' >
+  <form bindsubmit="formSubmit">
+    <!--收货人-->
+    <view class="address-item">
+      <text class="address-item-text">收货人</text>
+      <input placeholder='请填写收货人姓名'  class="address-item-input" value="{{uname}}" focus='true' bindinput="getInput" data-item="name"></input>
+    </view>  
+    <!--手机号码-->
+    <view class="address-item">
+      <text class="address-item-text">手机号码</text>
+      <input placeholder='请填写收货人手机号'  class="address-item-input" bindinput="getInput" data-item="phone" maxlength='11' value="{{phone}}"></input>
+    </view>
+    <view   class='address-belong'>
+      <text class="address-item-text address-item-belong">所在地区</text>
+      <picker  mode="region"
+    bindchange="bindRegionChange"
+    value="{{region}}"
+      bindchange="bindRegionChange" >
+      <view  class="address-msg">
+       <text wx:if="{{region!=''}}" style="font-size:28rpx;"> {{region[0]}}，{{region[1]}}，{{region[2]}}</text>
+        <image src='../../images/address/more.png'  class='more-pic'></image>
+      </view>
+    </picker>
+    </view>  
+
+    <!--详细地址-->
+    <view class="address-item">
+      <text class="address-item-text" >详细地址</text>
+      <input placeholder='街道、楼牌号等'  class="address-item-input" bindinput="getInput" data-item="address" value="{{address}}"></input>
+    </view>
+
+    <!--是否设为默认地址-->
+    <view class="address-item address-location">
+      <text class="address-item-text">设为默认地址</text>
+      <switch bindchange="switchChange" wx:if="{{isDefault==0}}"></switch>
+      <switch bindchange="switchChange" wx:if="{{isDefault!=0}}" checked></switch>
+    </view>
+    <button class="add-address-btn"  form-type='submit'>保存</button>
+  </form> 
+</view>
+

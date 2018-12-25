@@ -1,0 +1,43 @@
+<!--pages/flash-sale/index.wxml-->
+<!--限时秒杀-->
+<view style='height:100%;'>
+<!--导航条-->
+  <scroll-view scroll-x="true" class="navbar"  style="height:120rpx;width:100%;" >
+    <view wx:for="{{timeList}}" data-idx="{{index}}"  wx:key="index" data-idx="{{index}}" catchtap='handleChose' class="item-time {{index==idx?'item-active':''}}" data-tamp="{{item.tamp}}" data-falsh="{{item.isFlash}}">
+      <view  class="item-time-container">
+        <text class="right-now">{{item.title}}</text>
+        <text  class="times">{{item.time}}</text>
+      </view>      
+    </view>
+  </scroll-view>
+  <!--即将开始、正在进行 倒计时-->
+  <view class='all-contain timing-end-container'>
+    <text wx:if="{{!isFlash}}">即将开始</text>
+    <text wx:if="{{isFlash}}">抢购中</text>
+    <view>
+      <text>距开始 </text><text class='time-style'>{{time.hours}}</text>:<text class='time-style'>{{time.minutes}}</text>:<text class='time-style'>{{time.seconds}}</text>
+    </view>
+  </view>
+
+  <!--抢购的商品列表-->
+  <scroll-view style='height:calc(100% - 240rpx);width:100%;' scroll-y>
+    <view class='productList'>
+      <view wx:for="{{6}}" wx:key="{{index}}" catchtap="hrefToDetail" data-idx="{{index}}">
+        <!--左侧商品图片-->
+        <view>
+          <image src="../../pic/product01.png"></image>
+        </view>
+        <!--右侧商品信息、商品价格 -->
+        <view class='productSubscrib'>
+          <text >53°茅台王子酒</text>
+          <view>
+            <text>￥199.90</text>
+            <text>￥369.00</text>
+            <view>19:00准时开抢</view>
+          </view>
+        </view>
+        <view  class='flash-sale-btn' >去抢购</view>
+      </view>
+    </view>
+  </scroll-view>
+</view>

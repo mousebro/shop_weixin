@@ -11,7 +11,11 @@
     "pages/pay-success/index",
     "pages/login/index",
     "pages/my-order/index",
-    "pages/my-order-detail/index"
+    "pages/my-order-detail/index",
+    "pages/commit/index",
+    "pages/address/index",
+    "pages/address-manger/index",
+    "pages/flash-sale/index"
   ],
   "window": {
     "backgroundTextStyle": "light",

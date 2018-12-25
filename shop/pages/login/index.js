@@ -240,8 +240,48 @@ Page({
               let avatar = res.userInfo.avatarUrl
               let encryptedData = res.encryptedData
               let iv = res.iv
-              wx.hideLoading()
-              console.log(encryptedData);
+              console.log(nickname,avatar,encryptedData,iv);
+              wx.request({
+                url: 'https://'+app.globalData.productUrl+'/api?resprotocol=json&reqprotocol=json&class=MiniAppUser&method=Login',
+                method: 'post',
+                data: JSON.stringify({
+                  baseClientInfo: { longitude: 0, latitude: 0 ,appId: ''+app.globalData.appId+''},
+                  mobile:_this.data.mobile,
+                  verifyCode:'',
+                  code:code,
+                  nickname:nickname,
+                  avatarUrl:avatar,
+                  encryptedData:encryptedData,
+                  iv:iv
+                }),
+                header: {
+                  'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                success: (res) => {
+                  wx.hideLoading()
+                  if (res.statusCode == 200) {
+                    let code = res.data.baseServerInfo.code
+                    let msg = res.data.baseServerInfo.msg
+                    console.log(res.data);
+                    if (code == 1) {
+                      wx.setStorageSync('isLogin', true)
+                      wx.setStorageSync('userInfo', res.data.userInfo)
+                      wx.setStorageSync('sessionId', res.data.sessionId)
+                      wx.navigateBack()
+                    }
+                    else{
+                      console.log(msg);
+                    }
+                  }
+                  else {
+                    console.log(res.statusCode);
+                  }
+                },
+                fail: (res) => {
+                }
+              })
+              // wx.hideLoading()
+              // console.log(encryptedData);
             },
             fail:res => {
             }

@@ -1,5 +1,5 @@
 /* pages/my-order/index.wxss */
-@import "../template-order/template-order.wxss"
+@import "../template-order/template-order.wxss";
 page{
   display: flex;
   flex-direction: column;

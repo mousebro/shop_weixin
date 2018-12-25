@@ -1,0 +1,52 @@
+/* pages/flash-sale/index.wxss */
+/*头部选项卡*/
+page{
+  display: block;
+  height: 100%;
+}
+.navbar{
+  background: #fff;
+  padding-top:30rpx;
+  white-space: nowrap;
+}
+.navbar .item-time{
+  position: relative;
+  flex: auto;
+  text-align: center;
+  line-height: 120rpx;
+  height:120rpx;
+  color:#b7b7b7;
+  font-size: 32rpx;
+  display: inline-block;
+  width: 25%;
+  background: #000;
+}
+.navbar .item-active{
+  background: #eb414a;
+  color:#fff;
+}
+.item-time-container{display:flex;flex-direction:column;height:100%;justify-content:center;align-items:center;}
+.item-time-container .right-now{height:15%;font-size:20rpx;}
+.item-time-container .times{height:50%;line-height:50%;font-size:36rpx;}
+
+/*即将开始、正在进行 倒计时*/
+.all-contain{display: flex;justify-content: space-between;}
+.timing-end-container{color:#8f8f8f;font-size: 30rpx;align-items: center;height:100rpx;padding:0 20rpx;}
+.timing-end-container .time-style{margin: 8rpx;background: #8f8f8f;color:#fff;padding: 1px 8rpx;display: inline-block;border-radius: 8rpx;}
+
+/*隐藏scroll-view的滚动条*/
+::-webkit-scrollbar{
+width: 0;
+height: 0;
+color: transparent;
+}
+/*抢购的商品列表*/
+.productList>view{display:flex;padding:40rpx 20rpx 40rpx 50rpx;background: #fff;margin-bottom: 20rpx;}
+.productList .productSubscrib{padding: 0 0 0 40rpx;}
+.productList .productSubscrib>text{font-size:30rpx;}
+.productSubscrib>text:first-child{margin-bottom: 12rpx;display: inline-block;width: 100%;overflow: hidden;text-overflow:ellipsis;font-weight: 600;word-wrap:nowrap; }
+.productList .productSubscrib>view>text:first-child{font-size:28rpx;color:#ee8488;display: inline-block;margin-right:10rpx;}
+.productList .productSubscrib>view>text:nth-child(2){font-size:24rpx;color:#777777;text-decoration:line-through;}
+.productList .productSubscrib>view>view:nth-child(3){font-size:24rpx;color:#777777;margin-top:12rpx;}
+.productList>view>view>image{width: 150rpx;height: 160rpx;}
+.flash-sale-btn{align-self:flex-end;font-size:24rpx;color:#fff;background:#f2f2f2;background:#8f8f8f;display:inline-block;padding:5rpx 15rpx;border-radius:5rpx;margin-left:160rpx;margin-bottom:10rpx;}

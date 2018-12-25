@@ -47,20 +47,14 @@
 				},
 				{
 					"id": 1,
-					"name": "my-order-detail",
-					"pathName": "pages/my-order-detail/index",
+					"name": "address",
+					"pathName": "pages/address/index",
 					"query": ""
 				},
 				{
 					"id": 2,
-					"name": "mine",
-					"pathName": "pages/mine/index",
-					"query": ""
-				},
-				{
-					"id": 3,
-					"name": "search",
-					"pathName": "pages/search/index",
+					"name": "flash-sale",
+					"pathName": "pages/flash-sale/index",
 					"query": ""
 				},
 				{

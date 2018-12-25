@@ -1,0 +1,23 @@
+<!--pages/address/index.wxml-->
+<!--地址列表页-->
+<view class='address-container' >
+  <view class='address-list'>
+    <view class='address-item' wx:for="{{addressList}}" wx:key="{{index}}" catchtap='hrefHandle' data-idx="{{index}}" >
+      <view class='address-item-left'>
+        <view class='address-name-phone'>
+          <text class='address-name'>{{item.realname}}</text>
+          <text class='address-phone'>{{item.mobile}}</text> 
+          <text class='address-default' wx:if="{{item.isdefault=='1'}}">默认</text>
+        </view>
+        <text class='address-detail'>{{item.totalAddress}}</text>
+      </view>
+      <view class='address-item-right'>
+          <view>
+            <image src='../../images/address/delete.png'  class='address-detele-img' bindtap="deleteAddress" data-idx="{{item.id}}"></image>
+            <image src='../../images/address/editor.png' class='address-detele-img' bindtap="editorAddress" data-idx="{{item.id}}"></image>
+          </view>
+      </view>
+    </view>
+  </view>
+  <button class="add-address-btn" bindtap="addNewAddress" wx:if="{{addressList.length<11}}">+ 新建收货地址</button>
+</view>
