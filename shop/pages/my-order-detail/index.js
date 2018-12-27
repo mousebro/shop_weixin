@@ -1,31 +1,154 @@
 // pages/my-order-detail/index.js
+import formatTime from '../../utils/util.js'
+var app = getApp()
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    orderId:0,
+    orderInfo:{},
     isSuper:true,
-    statuTitle:'已完成',
+    serverTimeStamp:0,
+    timer:null,
     freightMsg:'您的订单已有本人签收，感谢您在名庄商城购物，欢迎再次光临',
-    productList: [{id:1, title: '53°茅台王子酒53°茅台王', thumb: '../../pic/product01.png', price:'888.00',count:1}],
-    orderMsg: { number: '951753852951', orderTime: '2018-12-14 15:30', payTime:'2018-12-14 15:30'},
-    customer: { name: '张三', phone: '15659165566', address:'福建省福州市闽侯镇软件园G区1#13'},
-    bills: { pTotal: '888.00', freight: '10.00', coupon:'100.00',supers:'50.00',pay:'748.00'}
+    time:{},
+    actionSheetHidden:true //是否隐藏客服窗口
+
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+      //获取订单的ID
+      options.Id = 195
+      if(options.Id){
+        this.setData({
+          orderId:options.Id
+        })
+        
+      }
+    this.getOrderList(options.Id)
+    clearInterval(this.data.timer);
+    this.getSystemTime()//获取系统时间 并设置倒计时
+  
+    
   },
   /*点击去评价按钮，进行页面跳转*/
   hrefCommit(){
-
+    wx.navigateTo({
+      url: '/pages/commit/index?Id=' + this.data.orderId
+    })
   },
   /*点击联系客服*/
   hrefCService(){
-    console.log("fdsf")
+    wx.showActionSheet({
+      itemList: ['拨打客服热线', '客服消息入口'],
+      success(res) {
+        console.log(res.tapIndex)
+      },
+      fail(res) {
+        console.log(res.errMsg)
+      }
+    })
+  },
+  /*点击按钮，进行支付*/
+  hrefToPay(e){
+    let orderId = e.currentTarget.dataset.orderid
+    wx.navigateTo({
+      url: '/pages/pay/index?Id='+orderId
+    })
+  },
+  /*点击按钮，取消订单*/
+  hrefCancel(e){
+    let orderId = e.currentTarget.dataset.orderid
+  },
+  /*获取订单详情*/
+  getOrderList(Id) {
+    let _this = this
+    console.log(_this.data.orderId)
+    wx.request({
+      url: 'https://' + app.globalData.productUrl + '/api?resprotocol=json&reqprotocol=json&class=Order&method=GetOrderDetail',
+      method: 'post',
+      data: JSON.stringify({
+        baseClientInfo: { longitude: 0, latitude: 0, appId: '' + app.globalData.appId + '' },
+        id: Id
+      }),
+      header: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'cookie': 'PBCSID=' + wx.getStorageSync('sessionId') + ';PBCSTOKEN=' + wx.getStorageSync('sessionId')
+      },
+      success: (res) => {
+        let code = res.data.baseServerInfo.code
+        let msg = res.data.baseServerInfo.msg
+        console.log(res)
+        if (code == 1) {
+          let obj = res.data.orderInfo
+          let date01 = new Date(obj.createtime*1000)//进行时间
+          obj.newcreatetime = formatTime.formatTime(date01)
+          let date02 = new Date(obj.paytime*1000)
+          obj.newpaytime = formatTime.formatTime(date02) //支付时间
+          let date03 = new Date(obj.finishtime * 1000)
+          obj.newfinishtime = formatTime.formatTime(date03) //完成时间
+          _this.setData({
+            orderInfo:obj
+          })
+        } else {
+          wx.showModal({
+            title: '提示',
+            content: msg,
+            showCancel:false
+          })
+        }
+
+      },
+      fail: (res) => {
+      }
+    })
+  },
+  /*获取系统时间*/
+  getSystemTime(){
+    let _this = this
+    wx.request({
+      url: 'https://' + app.globalData.productUrl + '/api?resprotocol=json&reqprotocol=json&class=System&method=GetBaseInfo',
+      method: 'post',
+      data: JSON.stringify({
+        baseClientInfo: { longitude: 0, latitude: 0, appId: '' + app.globalData.appId + '' },
+        id: _this.data.orderId
+      }),
+      header: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'cookie': 'PBCSID=' + wx.getStorageSync('sessionId') + ';PBCSTOKEN=' + wx.getStorageSync('sessionId')
+      },
+      success: (res) => {
+        let code = res.data.baseServerInfo.code
+        let msg = res.data.baseServerInfo.msg
+        if (code == 1) {
+          _this.countDown(res.data.serverTimeStamp * 1000, _this.data.orderInfo.createtime * 1000+24*3600*1000)
+        } else {
+        }
+
+      },
+      fail: (res) => {
+      }
+    })
+  },
+  /*倒计时*/
+  countDown(start, end) { 
+    let _this = this
+    _this.data.timer = setInterval(() => {
+      start += 1000
+      let count = end - start
+      let hours = formatTime.formatNumber(parseInt(count / 1000 / 3600))
+      let minutes = formatTime.formatNumber(parseInt((count - parseInt(hours) * 1000 * 3600) / 1000 / 60))
+      _this.setData({
+        time: {
+          hours: hours,
+          minutes: minutes
+        }
+      })
+    }, 1000)
   }
 })

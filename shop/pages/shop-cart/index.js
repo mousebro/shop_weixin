@@ -34,17 +34,67 @@ Page({
   },
   onLoad: function () {
       this.initEleWidth();
-      this.onShow();
   },
   onShow: function(){
-      var shopList = [];
-      // 获取购物车数据
-      var shopCarInfoMem = wx.getStorageSync('shopCarInfo');
-      if (shopCarInfoMem && shopCarInfoMem.shopList) {
-        shopList = shopCarInfoMem.shopList
+      // var shopList = [];
+      // // 获取购物车数据
+      // var shopCarInfoMem = wx.getStorageSync('shopCarInfo');
+      // if (shopCarInfoMem && shopCarInfoMem.shopList) {
+      //   shopList = shopCarInfoMem.shopList
+      // }
+      this.getShopCartList();
+      // console.log(shopList);
+      // this.data.goodsList.list = shopList;
+      // this.setGoodsList(this.getSaveHide(),this.totalPrice(),this.allSelect(),this.noSelect(),shopList);
+  },
+  // 获取服务器购物车列表
+  getShopCartList: function(){
+    let _this = this
+    wx.request({
+      url: 'https://'+app.globalData.productUrl+'/api?resprotocol=json&reqprotocol=json&class=ShoppingCart&method=GetShoppingCartList',
+      method: 'post',
+      data: JSON.stringify({
+        baseClientInfo: {longitude: 0, latitude: 0 ,appId: ''+app.globalData.appId+''},
+        page:1,
+        pageLength:100
+      }),
+      header: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'cookie': 'PBCSID=' + wx.getStorageSync('sessionId') + ';PBCSTOKEN=' + wx.getStorageSync('sessionId')
+      },
+      success: (res) => {
+        let code = res.data.baseServerInfo.code
+        let msg = res.data.baseServerInfo.msg
+        if (code == 1) {
+          console.log(res);
+          let shopList = []
+          let toolShopList = res.data.cartList
+          for (var i = 0; i < toolShopList.length; i++) {
+            let shopId = toolShopList[i].id // 购物车ID
+            let goodsId = toolShopList[i].goodsid // 商品ID
+            let total = toolShopList[i].total // 商品数量
+            let goodsTitle = toolShopList[i].goodsTitle // 商品名称
+            let thumb = toolShopList[i].thumb // 商品缩略图
+            let price = toolShopList[i].marketprice // 商品单价
+            shopList.push({id:shopId,goodsId:goodsId,name:goodsTitle,number:total,pic:thumb,price:price})
+          }
+          console.log(shopList);
+          this.data.goodsList.list = shopList;
+          this.setGoodsList(this.getSaveHide(),this.totalPrice(),this.allSelect(),this.noSelect(),shopList);
+        }
+        else if (code == 1019){
+          wx.navigateTo({
+            url: '/pages/login/index'
+          })
+        }
+        else {
+          console.log(msg);
+        }
+      },
+      fail: (res) => {
+        console.log(res);
       }
-      this.data.goodsList.list = shopList;
-      this.setGoodsList(this.getSaveHide(),this.totalPrice(),this.allSelect(),this.noSelect(),shopList);
+    })
   },
   // 跳转回首页
   hrefToIndex:function(){
@@ -61,7 +111,7 @@ Page({
     }
   },
   touchM:function(e){
-  var index = e.currentTarget.dataset.index;
+    var index = e.currentTarget.dataset.index;
 
     if(e.touches.length==1){
       var moveX = e.touches[0].clientX;
@@ -99,12 +149,63 @@ Page({
       }
     }
   },
-  // 删除
+  // 删除本地商品
   delItem:function(e){
     var index = e.currentTarget.dataset.index;
     var list = this.data.goodsList.list;
+    var delGoodsIdList = []
     list.splice(index,1);
+    var delGoodsId = e.currentTarget.dataset.id
+    delGoodsIdList.push(delGoodsId)
+    console.log(delGoodsIdList);
+    this.setData({
+      delGoodsIdList:delGoodsIdList
+    })
+    this.delGoods()
     this.setGoodsList(this.getSaveHide(),this.totalPrice(),this.allSelect(),this.noSelect(),list);
+  },
+  // 服务器删除购物车商品
+  delGoods: function(){
+    let _this = this
+    wx.request({
+      url: 'https://'+app.globalData.productUrl+'/api?resprotocol=json&reqprotocol=json&class=ShoppingCart&method=DelGoods',
+      method: 'post',
+      data: JSON.stringify({
+        baseClientInfo: { longitude: 0, latitude: 0 ,appId: ''+app.globalData.appId+''},
+        cartId: _this.data.delGoodsIdList
+      }),
+      header: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'cookie': 'PBCSID=' + wx.getStorageSync('sessionId') + ';PBCSTOKEN=' + wx.getStorageSync('sessionId')
+      },
+      success: (res) => {
+        let code = res.data.baseServerInfo.code
+        let msg = res.data.baseServerInfo.msg
+        if (code == 1) {
+          console.log('删除商品成功');
+          // wx.showToast({
+          //   title: '删除商品成功',
+          //   icon: 'success',
+          //   duration: 2000
+          // })
+        }
+        else if (code == 1019) {
+          wx.navigateTo({
+            url: '/pages/login/index'
+          })
+        }
+        else{
+          wx.showModal({
+            title:'提示',
+            content:msg,
+            showCancel:false,
+            success:function(res){}
+          })
+        }
+      },
+      fail: (res) => {
+      }
+    })
   },
   // 单选
   selectTap:function(e){
@@ -200,27 +301,132 @@ Page({
 
       this.setGoodsList(this.getSaveHide(),this.totalPrice(),!currentAllSelect,this.noSelect(),list);
    },
-  // 购物车内数量加减
+  // 购物车内数量加
   jiaBtnTap:function(e){
-    var index = e.currentTarget.dataset.index;
-    var list = this.data.goodsList.list;
+    let index = e.currentTarget.dataset.index;
+    let list = this.data.goodsList.list;
+    let plusGoodsId = e.currentTarget.dataset.id
+    this.setData({
+      plusGoodsId:plusGoodsId
+    })
     if(index!=="" && index != null){
-      if(list[parseInt(index)].number<10){
+      if(list[parseInt(index)].number<9999){
         list[parseInt(index)].number++;
+        this.setData({
+          plusGoodsNum:list[parseInt(index)].number
+        })
         this.setGoodsList(this.getSaveHide(),this.totalPrice(),this.allSelect(),this.noSelect(),list);
+        this.plusGoods()
       }
     }
    },
+  // 调用接口加购物车数量
+  plusGoods: function(){
+    let _this = this
+    wx.request({
+      url: 'https://'+app.globalData.productUrl+'/api?resprotocol=json&reqprotocol=json&class=ShoppingCart&method=GoodsIncOne',
+      method: 'post',
+      data: JSON.stringify({
+        baseClientInfo: { longitude: 0, latitude: 0 ,appId: ''+app.globalData.appId+''},
+        id: _this.data.plusGoodsId,
+        total: _this.data.plusGoodsNum-1
+      }),
+      header: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'cookie': 'PBCSID=' + wx.getStorageSync('sessionId') + ';PBCSTOKEN=' + wx.getStorageSync('sessionId')
+      },
+      success: (res) => {
+        let code = res.data.baseServerInfo.code
+        let msg = res.data.baseServerInfo.msg
+        if (code == 1) {
+          console.log('增加商品数量');
+          // wx.showToast({
+          //   title: '删除商品成功',
+          //   icon: 'success',
+          //   duration: 2000
+          // })
+        }
+        else if (code == 1019) {
+          wx.navigateTo({
+            url: '/pages/login/index'
+          })
+        }
+        else{
+          wx.showModal({
+            title:'提示',
+            content:msg,
+            showCancel:false,
+            success:function(res){}
+          })
+        }
+      },
+      fail: (res) => {
+      }
+    })
+  },
+  // 购物车内数量减
   jianBtnTap:function(e){
-    var index = e.currentTarget.dataset.index;
-    var list = this.data.goodsList.list;
+    let index = e.currentTarget.dataset.index;
+    let list = this.data.goodsList.list;
+    let lessGoodsId = e.currentTarget.dataset.id
+    this.setData({
+      lessGoodsId:lessGoodsId
+    })
     if(index!=="" && index != null){
       if(list[parseInt(index)].number>1){
-        list[parseInt(index)].number-- ;
+        list[parseInt(index)].number--;
+        this.setData({
+          lessGoodsNum:list[parseInt(index)].number
+        })
         this.setGoodsList(this.getSaveHide(),this.totalPrice(),this.allSelect(),this.noSelect(),list);
+        this.lessGoods()
       }
     }
    },
+  // 调用减接口购物车数量
+  lessGoods: function(){
+    let _this = this
+    wx.request({
+      url: 'https://'+app.globalData.productUrl+'/api?resprotocol=json&reqprotocol=json&class=ShoppingCart&method=GoodsDecOne',
+      method: 'post',
+      data: JSON.stringify({
+        baseClientInfo: { longitude: 0, latitude: 0 ,appId: ''+app.globalData.appId+''},
+        id: _this.data.lessGoodsId,
+        total: _this.data.lessGoodsNum+1
+      }),
+      header: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'cookie': 'PBCSID=' + wx.getStorageSync('sessionId') + ';PBCSTOKEN=' + wx.getStorageSync('sessionId')
+      },
+      success: (res) => {
+        let code = res.data.baseServerInfo.code
+        let msg = res.data.baseServerInfo.msg
+        if (code == 1) {
+          console.log('减少商品数量');
+          // wx.showToast({
+          //   title: '删除商品成功',
+          //   icon: 'success',
+          //   duration: 2000
+          // })
+        }
+        else if (code == 1019) {
+          wx.navigateTo({
+            url: '/pages/login/index'
+          })
+        }
+        else{
+          wx.showModal({
+            title:'提示',
+            content:msg,
+            showCancel:false,
+            success:function(res){}
+          })
+        }
+      },
+      fail: (res) => {
+      }
+    })
+  },
   // // 编辑按钮
   // editTap:function(){
   //    var list = this.data.goodsList.list;
@@ -271,8 +477,8 @@ Page({
         return;
       }
       // 重新计算价格，判断库存
-      var shopList = [];
-      var shopCarInfoMem = wx.getStorageSync('shopCarInfo');
+      let shopList = [];
+      let shopCarInfoMem = wx.getStorageSync('shopCarInfo');
       if (shopCarInfoMem && shopCarInfoMem.shopList) {
         // shopList = shopCarInfoMem.shopList
         shopList = shopCarInfoMem.shopList.filter(entity => {
@@ -283,10 +489,14 @@ Page({
         wx.hideLoading();
         return;
       }
-      var isFail = false;
-      var doneNumber = 0;
-      var needDoneNUmber = shopList.length;
+      let isFail = false;
+      let doneNumber = 0;
+      let needDoneNUmber = shopList.length;
       console.log(shopList);
+      wx.setStorage({
+        key:"orderShopList",
+        data:shopList
+      })
       _this.hrefToPay()
   },
   // 跳转到订单结算页

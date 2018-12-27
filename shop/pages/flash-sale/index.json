@@ -1,3 +1,6 @@
 {
-  "navigationBarTitleText": "掌上秒拍"
+  "navigationBarTitleText": "掌上秒拍",
+    "config": {
+      "usingComponents": {}
+    }
 }

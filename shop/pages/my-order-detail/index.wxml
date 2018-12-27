@@ -2,37 +2,48 @@
 <!--订单详情页-->
 <view>
   <view class="header-msg-container">
-    <view class='header-container'>
+    <view class='header-container' style="display:flex;justify-content:{{orderInfo.status == 0?'space-between':'flex-start'}}">
       <view>
-        <image src="../../images/orderDetail/complate.png" class='img-complate'></image>
-        <text class="text-complate">{{statuTitle}}</text>
+        <image src="../../images/orderDetail/waiting.png" class='img-complate' wx:if="{{orderInfo.status!=3}}"></image>
+        <image src="../../images/orderDetail/complate.png" class='img-complate' wx:if="{{orderInfo.status==3}}"></image>
+        <text class="text-complate" wx:if="{{orderInfo.status == 0}}">待付款</text>
+        <text class="text-complate" wx:if="{{orderInfo.status == 1}}">待发货</text>
+        <text class="text-complate" wx:if="{{orderInfo.status == 2}}">待收货</text>
+        <text class="text-complate" wx:if="{{orderInfo.status == 3}}">已完成</text>
       </view>
-      <!-- <text>剩余：23小时50分钟</text> -->
+      <text wx:if="{{orderInfo.status == 0}}" style="font-size:26rpx;color:#fff;line-height:60rpx;height:60rpx;">剩余： {{time.hours}}小时{{time.minutes}}分钟</text>
     </view>
-    <!--物流信息-->
-    <view class='logistics-container'>
-      <view class="logistics-message">
+  <!--物流信息-->
+  <view class='logistics-container' >
+      <view class="logistics-message" wx:if="{{orderInfo.status == 3}}">
         <image src="../../images/orderDetail/logistics.png" class='img-complate'></image>
         <view class="logistics-text">
-          <text>{{freightMsg}}</text>
-          <text class='logistics-time'>2018-12-14 15:30</text>
-        </view>
-        <image src="../../images/orderDetail/into.png" class='img-into' ></image>
+            <text>{{freightMsg}}</text>
+            <text class='logistics-time'>{{orderInfo.newfinishtime}}</text>
+          </view>
+          <image src="../../images/orderDetail/into.png" class='img-into' ></image>
       </view>
-    </view>
+      <view class='logistics-message logistics-message-address' wx:if="{{orderInfo.status != 3}}">
+        <image src='../../images/orderDetail/address.png' class='address-img img-complate'></image>
+        <view class='logistics-text'>
+          <text class="address-name ">{{orderInfo.address.realname}} {{orderInfo.address.mobile}}</text>
+          <view >{{orderInfo.address.province + orderInfo.address.city +orderInfo.address.area +orderInfo.address.address}}</view>
+        </view>
+      </view>
   </view>
+</view>
 
   <!--商品列表部分-->
   <view class='product-list'>
-    <view wx:for="{{productList}}" wx:key="{{item.id}}">
+    <view wx:for="{{orderInfo.orderGoodsList}}" wx:key="{{item.id}}">
       <view class='product-item'>
         <view class='product-msg'>
           <image src="{{item.thumb}}" class='product-img'></image>
           <text class='product-text'>{{item.title}}</text>
         </view>
-        <text class="product-price">￥{{item.price}}</text>
+        <text class="product-price">￥{{item.marketprice}}</text>
       </view>
-      <text class="product-count {{index==4?'clear-border':''}}">x{{item.count}}</text>
+      <text class="product-count {{index==4?'clear-border':''}}">x{{item.total}}</text>
     </view>
   </view>
   
@@ -40,24 +51,24 @@
   <view class='item-container order-msg-container'>
     <view class='order-msg-item'>
       <text class='order-msg-title'>订单编号:</text>
-      <text>{{orderMsg.number}}</text>
+      <text>{{orderInfo.ordersn}}</text>
     </view>
     <view class='order-msg-item'>
       <text class='order-msg-title'>下单时间:</text>
-      <text>{{orderMsg.orderTime}}</text>
+      <text>{{orderInfo.newcreatetime}}</text>
     </view>
-    <view class='order-msg-item'>
+    <view class='order-msg-item' wx:if="{{orderInfo.status!=0}}">
       <text class='order-msg-title'>支付时间:</text>
-      <text>{{orderMsg.payTime}}</text>
+      <text>{{orderInfo.newpaytime}}</text>
     </view>   
   </view>
 
   <!--收货地址-->
-  <view class='item-container address-container'>
+  <view class='item-container address-container' hidden='{{orderInfo.status != 3}}'>
     <image src='../../images/orderDetail/address.png' class='address-img'></image>
     <view class='address-msg'>
-      <text class="address-name">{{customer.name}} {{customer.phone}}</text>
-      <view >{{customer.address}}</view>
+      <text class="address-name">{{orderInfo.address.realname}} {{orderInfo.address.mobile}}</text>
+      <view >{{orderInfo.address.province + orderInfo.address.city +orderInfo.address.area +orderInfo.address.address}}</view>
     </view>
   </view>
 
@@ -66,28 +77,31 @@
     <view class="price-item-container">
       <view class='price-item '>
         <text>商品总额</text>
-        <text >￥{{bills.pTotal}}</text>
+        <text >￥{{orderInfo.oldprice}}</text>
       </view>
-      <view class='price-item' hidden="{{!bills.freight}}">
+      <view class='price-item' hidden="{{!orderInfo.dispatchprice }}">
         <text>运费</text>
-        <text >￥{{bills.freight}}</text>
+        <text >￥{{orderInfo.dispatchprice}}</text>
       </view>
-      <view class='price-item' hidden='{{!bills.coupon}}'>
+      <!--优惠卷 后期会添加-->
+      <view class='price-item' >  
         <text>优惠券</text>
-        <text >-￥{{bills.coupon}}</text>
+        <text >-￥{{orderInfo.couponprice }}</text>
       </view>  
       <view class='price-item' hidden='{{!isSuper}}'>
         <image src='../../images/orderDetail/super.png' class='price-item-img'></image>
-        <text >-￥{{bills.supers}}</text>
+        <text >-￥{{orderInfo.discountprice }}</text>
       </view>
     </view>
     <view class='price-pay-msg'>
       实付款：
-      <text class="price-pay-count">￥{{bills.pay}}</text>
+      <text class="price-pay-count">￥{{orderInfo.price}}</text>
     </view>      
   </view>
   <view class='custom-service'>
-    <button size="mini" plain='true' class="custom-button" type="warn" bindtap="hrefCommit" >去评价</button>
+      <button size="mini" plain='true' class="custom-button" type="warn" bindtap="hrefCommit" wx:if="{{orderInfo.status==3}}" data-orderid="{{orderInfo.id}}">去评价</button>
+      <button size="mini" class="custom-button custom-button-pay"  bindtap="hrefToPay" wx:if="{{orderInfo.status==0}}" data-orderid="{{orderInfo.id}}">去付款</button>
+      <button size="mini" plain='true' class="custom-button custom-button-cancel"  bindtap="hrefCancel"  wx:if="{{orderInfo.status==0}}" data-orderid="{{orderInfo.id}}">取消订单</button>
     <view class='custom-icon' bindtap='hrefCService'>
        <image src='../../images/message.png' class="custom-img"></image>
        <text >联系客服</text>

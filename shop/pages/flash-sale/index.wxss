@@ -42,11 +42,18 @@ color: transparent;
 }
 /*抢购的商品列表*/
 .productList>view{display:flex;padding:40rpx 20rpx 40rpx 50rpx;background: #fff;margin-bottom: 20rpx;}
-.productList .productSubscrib{padding: 0 0 0 40rpx;}
+.productList .productSubscrib{padding: 0 0 0 40rpx;width:50%;}
 .productList .productSubscrib>text{font-size:30rpx;}
-.productSubscrib>text:first-child{margin-bottom: 12rpx;display: inline-block;width: 100%;overflow: hidden;text-overflow:ellipsis;font-weight: 600;word-wrap:nowrap; }
-.productList .productSubscrib>view>text:first-child{font-size:28rpx;color:#ee8488;display: inline-block;margin-right:10rpx;}
+.productSubscrib>text:first-child{margin-bottom: 12rpx;display: inline-block;width: 100%;overflow: hidden;text-overflow:ellipsis;font-weight: 600;white-space: nowrap; }
+.productList .productSubscrib>view>text:first-child{font-size:28rpx;color:#eb414a;display: inline-block;margin-right:10rpx;}
 .productList .productSubscrib>view>text:nth-child(2){font-size:24rpx;color:#777777;text-decoration:line-through;}
 .productList .productSubscrib>view>view:nth-child(3){font-size:24rpx;color:#777777;margin-top:12rpx;}
+
+/*已售商品进度条信息提示*/
+.shop-rate-text{margin-right:10rpx;color:#eb414a;font-size:24rpx;}
+.shop-rate-progress{width:50%;height:35rpx;}
 .productList>view>view>image{width: 150rpx;height: 160rpx;}
-.flash-sale-btn{align-self:flex-end;font-size:24rpx;color:#fff;background:#f2f2f2;background:#8f8f8f;display:inline-block;padding:5rpx 15rpx;border-radius:5rpx;margin-left:160rpx;margin-bottom:10rpx;}
+/*去抢购按钮*/
+.flash-sale-btn{align-self:flex-end;font-size:24rpx;color:#fff;background:#8f8f8f;display:inline-block;padding:5rpx 15rpx;border-radius:5rpx;margin-left:40rpx;margin-bottom:20rpx;}
+.productList>view .isFlash{color:#fff;background:#eb414a;}
+

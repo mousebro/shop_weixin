@@ -4,11 +4,23 @@
     <image src="/images/search.png"/>
     <text>52°景芝鸿福酒</text>
   </view>
-  <view class="index-sever">
-    <image src="/images/search.png"/>
+  <view class="index-sever" bindtap="listenerButton">
+    <image src="/images/message.png"/>
     <text>客服</text>
   </view>
 </view>
+
+<!-- 底部客服弹窗 -->
+<action-sheet hidden="{{actionSheetHidden}}" bindchange="listenerActionSheet" >
+  <block>
+    <action-sheet-item bindtap="call">拨打客服热线</action-sheet-item>
+    <action-sheet-item >
+      <button open-type="contact" type="button" name="button" bindtap="close">客服消息入口</button>
+    </action-sheet-item>
+  </block>
+  <!--自动隐藏action-sheet-->
+  <action-sheet-cancel bindtap="close">取消</action-sheet-cancel>
+</action-sheet>
 
 <view class="index-swiper">
   <swiper class="index-swiper-block" indicator-dots="true" circular="true" autoplay="true" interval="5000" duration="1000" indicator-color="#cbcbcb" indicator-active-color="#ea4149">
@@ -21,6 +33,10 @@
       </swiper-item>
     </block>
   </swiper>
+</view>
+
+<view>
+
 </view>
 
 <view class="">

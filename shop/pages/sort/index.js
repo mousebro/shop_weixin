@@ -12,6 +12,7 @@ Page({
   onLoad: function(){
     let _this = this
     _this.getCategory()
+    _this.getUserInfo()
   },
   // 点击左侧栏
   addActive: function(e){
@@ -105,6 +106,40 @@ Page({
         }
       },
       fail: (res) => {
+      }
+    })
+  },
+  // 测试获取用户数据
+  getUserInfo: function(){
+    let _this = this
+    console.log(wx.getStorageSync('sessionId'));
+    wx.request({
+      url: 'https://'+app.globalData.productUrl+'/api?resprotocol=json&reqprotocol=json&class=MiniAppUser&method=GetInfo',
+      method: 'post',
+      data: JSON.stringify({
+        baseClientInfo: {longitude: 0, latitude: 0 ,appId: ''+app.globalData.appId+''}
+      }),
+      header: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'cookie': 'PBCSID=' + wx.getStorageSync('sessionId') + ';PBCSTOKEN=' + wx.getStorageSync('sessionId')
+      },
+      success: (res) => {
+        let code = res.data.baseServerInfo.code
+        let msg = res.data.baseServerInfo.msg
+        if (code == 1) {
+          console.log(res);
+        }
+        else if (code == 1019){
+          wx.navigateTo({
+            url: '/pages/login/index'
+          })
+        }
+        else {
+          console.log(msg);
+        }
+      },
+      fail: (res) => {
+        console.log(res);
       }
     })
   },

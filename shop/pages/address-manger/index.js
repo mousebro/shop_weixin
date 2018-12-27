@@ -18,7 +18,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.getAddress(options.id)
+    if(options.id!=0){this.getAddress(options.id)}
   },
   //设置是否设置为默认地址
   switchChange(e){
@@ -52,6 +52,7 @@ Page({
         showCancel:false,
         confirmColor:'#f04c4a'
       })
+      return;
     }else if(uname == ''){
       wx.showModal({
         title: '提示',
@@ -60,6 +61,7 @@ Page({
         showCancel: false,
         confirmColor: '#f04c4a'
       })
+      return;
     } else if (region==""){
       wx.showModal({
         title: '提示',
@@ -68,6 +70,7 @@ Page({
         showCancel: false,
         confirmColor: '#f04c4a'
       })
+      return;
     }else if(address == ''){
       wx.showModal({
         title: '提示',
@@ -76,7 +79,9 @@ Page({
         showCancel: false,
         confirmColor: '#f04c4a'
       })
+      return;
     } 
+    console.log(_this.data.isDefault, phone, uname, region,address)
     wx.request({
       url: 'https://' + app.globalData.productUrl + '/api?resprotocol=json&reqprotocol=json&class=Address&method=AddOrEditAddress',
       method: 'post',
@@ -101,7 +106,8 @@ Page({
         if (code == 1) {
             wx.showModal({
               title:'提示',
-              content:'添加修改成功',
+              content:msg,
+              showCancel:false,
               success:()=>{
                 wx.navigateBack({
                   delta:1

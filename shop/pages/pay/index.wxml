@@ -1,17 +1,17 @@
   <!-- 订单地址昵称等信息 -->
-  <view class="address">
-    <text>{{userName}}</text>
+  <view class="address" bindtap="changeAddress">
+    <text>{{realname}}</text>
     <text>{{mobile}}</text>
     <text>{{address}}</text>
   </view>
   <!-- 商品信息 -->
   <view class="shop">
-    <block wx:for="{{shopList}}">
+    <block wx:for="{{goodsList}}">
       <view class="shop-block clearfix">
-        <image src="/pic/banner1.png"/>
+        <image src="{{item.pic}}"/>
         <text>{{item.name}}</text>
-        <text>￥{{item.price/100}}</text>
-        <text>x{{item.count}}</text>
+        <text>￥{{item.price}}</text>
+        <text>x{{item.number}}</text>
       </view>
     </block>
   </view>
@@ -51,3 +51,12 @@
   <view class="submit" bindtap="submit">
     <text>立即支付</text>
   </view>
+
+  <!-- 底部分享弹窗 -->
+  <!-- <action-sheet hidden="{{actionSheetHidden}}" bindchange="listenerActionSheet" >
+    <block>
+      <action-sheet-item bindtap="hrefToAddress">从平台地址选择</action-sheet-item>
+      <action-sheet-item bindtap="hrefToWXadd">从微信地址选择</action-sheet-item>
+    </block>
+    <action-sheet-cancel bindtap="close">取消</action-sheet-cancel>
+  </action-sheet> -->

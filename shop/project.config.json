@@ -41,20 +41,20 @@
 			"list": [
 				{
 					"id": 0,
-					"name": "test",
-					"pathName": "pages/pay/index",
+					"name": "my-order",
+					"pathName": "pages/my-order/index",
 					"query": ""
 				},
 				{
 					"id": 1,
-					"name": "address",
-					"pathName": "pages/address/index",
+					"name": "group-buy-detail",
+					"pathName": "pages/group-buy-detail/index",
 					"query": ""
 				},
 				{
 					"id": 2,
-					"name": "flash-sale",
-					"pathName": "pages/flash-sale/index",
+					"name": "my-order-detail",
+					"pathName": "pages/my-order-detail/index",
 					"query": ""
 				},
 				{

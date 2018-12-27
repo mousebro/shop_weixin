@@ -1,4 +1,7 @@
 /**index.wxss**/
+button{padding: 0;font-size: 36rpx;line-height: 50rpx;overflow: visible;background-color: #ffffff;}
+button:hover,button:active{background: none;}
+button::after{border: none;}
 .clearfix:after {content: " ";display: block;height: 0;clear: both;visibility: hidden;}
 .index-title{width: 100%;background: linear-gradient(#f85b49, #ff6849);position: fixed;top: 0;z-index: 20;}
 

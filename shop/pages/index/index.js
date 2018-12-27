@@ -4,16 +4,7 @@ const app = getApp()
 
 Page({
   data: {
-    motto: 'Hello World',
-    userInfo: {},
-    hasUserInfo: false,
-    canIUse: wx.canIUse('button.open-type.getUserInfo')
-  },
-  //事件处理函数
-  bindViewTap: function() {
-    wx.navigateTo({
-      url: '../logs/logs'
-    })
+    actionSheetHidden:true
   },
   onLoad: function () {
     if (app.globalData.userInfo) {
@@ -43,12 +34,28 @@ Page({
       })
     }
   },
-  getUserInfo: function(e) {
-    console.log(e)
-    app.globalData.userInfo = e.detail.userInfo
-    this.setData({
-      userInfo: e.detail.userInfo,
-      hasUserInfo: true
+  //唤起底部客服弹窗
+  listenerButton: function () {
+    let _this = this
+    _this.setData({
+      actionSheetHidden: false
     })
-  }
+  },
+  //拨打客服热线
+  call: function () {
+    let _this = this
+    _this.setData({
+      actionSheetHidden: true
+    })
+    wx.makePhoneCall({
+      phoneNumber: '13400000000' // 仅为示例，并非真实的电话号码
+    })
+  },
+  //取消底部弹窗
+  close: function () {
+    let _this = this
+    _this.setData({
+      actionSheetHidden: true
+    })
+  },
 })

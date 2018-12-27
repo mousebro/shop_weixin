@@ -55,35 +55,44 @@
     <text>评价</text>
   </view>
   <!-- 滚动区域 -->
-  <scroll-view class="scroll-body" scroll-y="true" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}" scroll-with-animation="true">
+    <scroll-view class="scroll-body" scroll-y="true" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}" scroll-with-animation="true">
     <!-- 商品轮播图 -->
-    <swiper class="swiper shop-swiper" id="a1" indicator-dots="true" circular="true" autoplay="true" interval="5000" duration="1000" indicator-color="#cbcbcb" indicator-active-color="#ea4149">
-      <block wx:for="{{thumbList}}" wx:key="{{item}}">
-        <swiper-item>
-          <image lazy-load="true" src="{{item}}" class="swiper-img"/>
-        </swiper-item>
-      </block>
-    </swiper>
-    <!-- 商品名称以及价格 -->
-    <view class="shop-detail">
-      <!-- 商品名称 -->
-      <view class="shop-detail-name">
-        <text>{{title}}</text>
-        <view class="shop-detail-share clearfix">
+    <view style="position:relative;">
+      <swiper class="swiper shop-swiper" id="a1" indicator-dots="true" circular="true" autoplay="true" interval="5000" duration="1000" indicator-color="#cbcbcb" indicator-active-color="#ea4149">
+        <block wx:for="{{4}}" wx:key="{{index}}">
+          <swiper-item>
+            <image lazy-load="true" src="../../../pic/product01.png" class="swiper-img"/>
+          </swiper-item>
+        </block>
+      </swiper>
+      <view class="shop-detail-name" >
+        <view class="shop-detail-share ">
           <image src="/images/share.png" class="swiper-img" mode="aspectFill"/>
-          <text>分享</text>
+            <text>分享</text>
         </view>
       </view>
-      <!-- 商品价格 -->
+    </view>
+    <!-- 商品名称以及价格 -->
+    <view class="shop-detail">
+      <!-- 价格、倒计时 -->
+      <view style="background-size " class="countDown" >
+        <text>3人成团</text>
+        <view>
+          <text>￥199.90</text><text>￥368.90</text>
+          <view>已拼<text>580</text>件</view>
+        </view>
+        <view>
+          <text>距离借宿仅剩</text>
+          <view>16:15:54</view>
+        </view>
+      </view>
+      <!-- 商品名称 -->
       <view class="shop-detail-price">
-        <text>￥</text>
-        <text>{{marketprice}}</text>
-        <text></text>
-        <text class="delLine">￥{{productprice}}</text>
+        <text>53°茅台王子酒53°茅台王子酒</text>
       </view>
       <!-- 会员折扣 -->
       <view class="shop-detail-super">
-        <image src="/images/super.png" class="swiper-img" mode="widthFix"/>
+        <image src="/images/super.png"  mode="widthFix"/>
         <text>会员下单再享98折，可省18.00元</text>
       </view>
     </view>
@@ -128,10 +137,11 @@
       <text>{{shopNum}}</text>
     </view>
     <view class="shop-buy-addcar" bindtap="showBuyCar">
-      <text>加入购物车</text>
+      <text></text>
+      <text>单独购买</text>
     </view>
     <view class="shop-buy-now" bindtap="showBuy">
-      <text>立即购买</text>
+      <text>发起拼单</text>
     </view>
   </view>
   <!-- 底部客服弹窗 -->

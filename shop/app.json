@@ -15,7 +15,8 @@
     "pages/commit/index",
     "pages/address/index",
     "pages/address-manger/index",
-    "pages/flash-sale/index"
+    "pages/flash-sale/index",
+    "pages/group-buy-detail/index"
   ],
   "window": {
     "backgroundTextStyle": "light",

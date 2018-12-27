@@ -5,11 +5,12 @@ page{background: #f2f2f2;height:calc(100% - 20rpx)}
 
 /*收货人信息*/
 .address-item{display: flex;justify-content: space-between;font-size:28rpx;padding:30rpx 20rpx 30rpx 0;border-bottom: 1px solid #f2f2f2;margin-left: 30rpx;}
-.address-item-text{width:30%;line-height:45rpx;height:45rpx;}
+.address-item-text{width:30%;line-height:45rpx;height:45rpx;margin-top:5rpx;}
 .address-item-input{width:70%;line-height:45rpx;height:45rpx;}
 .address-location{align-items: center;padding:40rpx 20rpx 40rpx 0;}
 .address-item-belong{font-size: 28rpx;}
 
+/*所在地区*/
 .address-belong{display:flex;justify-content:space-between;border-bottom:1px solid #f2f2f2;line-height:100rpx;align-items:center;margin-left: 30rpx;padding-right:30rpx;}
 .address-msg{width:500rpx;height:100rpx;display:flex;justify-content:flex-end;align-items:center;}
 .more-pic{height:25rpx;width:15rpx;margin-left:20rpx}

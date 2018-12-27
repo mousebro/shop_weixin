@@ -7,34 +7,32 @@
     <view wx:for="{{navbar}}" data-idx="{{index}}" class="item {{currentTab==index ? 'active' : ''}}" wx:key="unique" bindtap="navbarTap" bindtap='handleChose'>{{item}}</view>
   </scroll-view>
   <!--根据选项卡的选项，渲染不同的数据-->
-  <!--待付款-->
-  <view class='waiting-for-pay-container'>
-     <template is="{{waitPayData.goodsList.length>0?'waiting-for-pay' : ''}}" data="{{...waitPayData}}"></template>
-      <view class='oprator-btn-container'>
-        <button  size="mini" plain='true' class='cancle-btn'>取消订单</button>
-        <button size="mini" type="warn" plain='true' >去付款</button>
-      </view>
-  </view>
-  <!--待发货-->
-  <view class='waiting-for-pay-container'>
-     <template is="{{waitDeliveryData.goodsList.length>0?'waiting-for-pay' : ''}}" data="{{...waitDeliveryData}}"></template>
-      <view class='oprator-btn-container'>
-        <button  size="mini" plain='true' class='cancle-btn'>取消订单</button>
-      </view>
-  </view>
-  <!--待收货-->
-  <view class='waiting-for-pay-container'>
-     <template is="{{waitReciveData.goodsList.length>0?'waiting-for-pay' : ''}}" data="{{...waitReciveData}}"></template>
-      <view class='oprator-btn-container'>
-        <button  size="mini" plain='true' class='cancle-btn'>查看物流</button>
-        <button size="mini" type="warn" plain='true' >确认收货</button>
-      </view>
-  </view>
-  <!--已完成-->
-  <view class='waiting-for-pay-container'>
-     <template is="{{completeData.goodsList.length>0?'waiting-for-pay' : ''}}" data="{{...completeData}}"></template>
-      <view class='oprator-btn-container'>
-        <button size="mini" type="warn" plain='true' >确认收货</button>
-      </view>
+  <view class="all-order-container">
+    <!--待付款-->
+    <view class='waiting-for-pay-container' wx:for="{{orderList}}" wx:key="{{index}}">
+      <template is="{{orderList.length>0?'waiting-for-pay' : ''}}" data="{{...orderList[index]}}"></template>
+    </view>
+    <!--待发货-->
+    <!-- <view class='waiting-for-pay-container'>
+      <template is="{{waitDeliveryData.goodsList.length>0?'waiting-for-pay' : ''}}" data="{{...waitDeliveryData}}"></template>
+        <view class='oprator-btn-container'>
+          <button  size="mini" plain='true' class='cancle-btn'>取消订单</button>
+        </view>
+    </view> -->
+    <!--待收货-->
+    <!-- <view class='waiting-for-pay-container'>
+      <template is="{{waitReciveData.goodsList.length>0?'waiting-for-pay' : ''}}" data="{{...waitReciveData}}"></template>
+        <view class='oprator-btn-container'>
+          <button  size="mini" plain='true' class='cancle-btn'>查看物流</button>
+          <button size="mini" type="warn" plain='true' >确认收货</button>
+        </view>
+    </view> -->
+    <!--已完成-->
+    <!-- <view class='waiting-for-pay-container'>
+      <template is="{{completeData.goodsList.length>0?'waiting-for-pay' : ''}}" data="{{...completeData}}"></template>
+        <view class='oprator-btn-container'>
+          <button size="mini" type="warn" plain='true' >确认收货</button>
+        </view>
+    </view> -->
   </view>
 </view>

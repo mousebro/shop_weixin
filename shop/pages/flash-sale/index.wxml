@@ -14,29 +14,35 @@
   <view class='all-contain timing-end-container'>
     <text wx:if="{{!isFlash}}">即将开始</text>
     <text wx:if="{{isFlash}}">抢购中</text>
-    <view>
+    <view wx:if="{{!isFlash}}">
       <text>距开始 </text><text class='time-style'>{{time.hours}}</text>:<text class='time-style'>{{time.minutes}}</text>:<text class='time-style'>{{time.seconds}}</text>
+    </view>
+    <view wx:if="{{isFlash}}">
+      <text>距结束 </text><text class='time-style'>{{time.hours}}</text>:<text class='time-style'>{{time.minutes}}</text>:<text class='time-style'>{{time.seconds}}</text>
     </view>
   </view>
 
   <!--抢购的商品列表-->
   <scroll-view style='height:calc(100% - 240rpx);width:100%;' scroll-y>
     <view class='productList'>
-      <view wx:for="{{6}}" wx:key="{{index}}" catchtap="hrefToDetail" data-idx="{{index}}">
+      <view wx:for="{{6}}" wx:key="{{index}}" catchtap="hrefToDetail" data-idx="{{201}}">
         <!--左侧商品图片-->
         <view>
           <image src="../../pic/product01.png"></image>
         </view>
         <!--右侧商品信息、商品价格 -->
         <view class='productSubscrib'>
-          <text >53°茅台王子酒</text>
+          <text>53°茅台王子酒aaaaaaaaa </text>
           <view>
-            <text>￥199.90</text>
+            <text>￥<text style="font-size:36rpx">199</text>.90</text>
             <text>￥369.00</text>
-            <view>19:00准时开抢</view>
+            <view wx:if="{{!isFlash}}">{{choseTime}}准时开抢</view>
+            <view wx:if="{{isFlash}}" style="display:flex;justify-content:flex-start">
+              <text class='shop-rate-text'>已经售{{37+index*10}}%</text><progress percent="{{37+index*10}}"  border-radius="20px" active='true' activeColor='#eb414a'  class='shop-rate-progress'/>
+            </view>
           </view>
         </view>
-        <view  class='flash-sale-btn' >去抢购</view>
+        <view  class="flash-sale-btn {{isFlash==true?'isFlash':''}}" >去抢购</view>
       </view>
     </view>
   </scroll-view>
