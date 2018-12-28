@@ -3,7 +3,7 @@
 <view>
 <view style="width:100%;height:20rpx;background:#f2f2f2;"></view>
 <view class='address-container' >
-  <scroll-view scroll-y style="height:1050rpx;">
+  <view>
     <view class='address-list'>
       <view class='address-item' wx:for="{{addressList}}" wx:key="{{index}}" data-name="{{item.realname}}" data-mobile="{{item.mobile}}" data-address="{{item.province+item.city+item.area+item.address}}" data-id="{{item.id}}" bindtap='hrefHandle' data-idx="{{index}}" >
         <view class='address-item-left'>
@@ -22,7 +22,7 @@
         </view>
       </view>
     </view>
-  </scroll-view>
+  </view>
   <button class="add-address-btn" bindtap="addNewAddress" wx:if="{{addressList.length<10}}">+ 新建收货地址</button>
 </view>
 

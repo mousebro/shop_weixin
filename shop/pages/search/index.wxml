@@ -3,7 +3,7 @@
 <view class='search-container'>
   <view class='search-box' >
     <image src="../../images/search.png"  class='search-icon'></image>
-    <input type='text' auto-focus placeholder='请输入商品名' class='search-input' bindinput="bindKeyInput"></input>
+    <input type='text' auto-focus placeholder='请输入商品名' class='search-input' confirm-type='search' bindconfirm="bindKeyInput"></input>
   </view>
   <!--如果没有搜索到相关产品，进行相对应的提示信息-->
   <view wx:if="{{isNoCatchData}}">

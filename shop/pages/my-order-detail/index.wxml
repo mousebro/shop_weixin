@@ -41,9 +41,11 @@
           <image src="{{item.thumb}}" class='product-img'></image>
           <text class='product-text'>{{item.title}}</text>
         </view>
-        <text class="product-price">￥{{item.marketprice}}</text>
+        <view>
+          <text class="product-price">￥{{item.marketprice}}</text>
+          <text class="product-count {{index==4?'clear-border':''}}">x{{item.total}}</text>
+        </view>
       </view>
-      <text class="product-count {{index==4?'clear-border':''}}">x{{item.total}}</text>
     </view>
   </view>
   
@@ -79,19 +81,19 @@
         <text>商品总额</text>
         <text >￥{{orderInfo.oldprice}}</text>
       </view>
-      <view class='price-item' hidden="{{!orderInfo.dispatchprice }}">
+      <view class='price-item' hidden="{{ !orderInfo.dispatchprice }}" >
         <text>运费</text>
-        <text >￥{{orderInfo.dispatchprice}}</text>
+        <text >￥0.00</text>
       </view>
       <!--优惠卷 后期会添加-->
-      <view class='price-item' >  
+      <!-- <view class='price-item' >  
         <text>优惠券</text>
         <text >-￥{{orderInfo.couponprice }}</text>
-      </view>  
-      <view class='price-item' hidden='{{!isSuper}}'>
+      </view>  -->
+      <!-- <view class='price-item' hidden='{{!isSuper}}'>
         <image src='../../images/orderDetail/super.png' class='price-item-img'></image>
         <text >-￥{{orderInfo.discountprice }}</text>
-      </view>
+      </view> -->
     </view>
     <view class='price-pay-msg'>
       实付款：
@@ -99,7 +101,7 @@
     </view>      
   </view>
   <view class='custom-service'>
-      <button size="mini" plain='true' class="custom-button" type="warn" bindtap="hrefCommit" wx:if="{{orderInfo.status==3}}" data-orderid="{{orderInfo.id}}">去评价</button>
+      <!-- <button size="mini" plain='true' class="custom-button" type="warn" bindtap="hrefCommit" wx:if="{{orderInfo.status==3}}" data-orderid="{{orderInfo.id}}">去评价</button> -->
       <button size="mini" class="custom-button custom-button-pay"  bindtap="hrefToPay" wx:if="{{orderInfo.status==0}}" data-orderid="{{orderInfo.id}}">去付款</button>
       <button size="mini" plain='true' class="custom-button custom-button-cancel"  bindtap="hrefCancel"  wx:if="{{orderInfo.status==0}}" data-orderid="{{orderInfo.id}}">取消订单</button>
     <view class='custom-icon' bindtap='hrefCService'>

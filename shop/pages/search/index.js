@@ -101,9 +101,18 @@ Page({
           let code = res.data.baseServerInfo.code
           let msg = res.data.baseServerInfo.msg
           if (code == 1) {
-            _this.setData({
-              productList: res.data.goodsList
-            })
+            let productList = res.data.goodsList
+            if (productList.length == 0) {
+              _this.setData({
+                isNoCatchData:true,
+              })
+            }
+            else {
+              _this.setData({
+                isNoCatchData:false,
+                productList: productList
+              })
+            }
           }
           else {
 

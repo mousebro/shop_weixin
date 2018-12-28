@@ -46,7 +46,7 @@
         <view class="to-pay-btn {{noSelect?'no-select':''}}" hidden="{{saveHidden}}" bindtap="deleteSelected">删除</view>
     </view>
 
-    <view class="separation">
+    <!-- <view class="separation">
       <text>猜你喜欢</text>
-    </view>
+    </view> -->
 </template>

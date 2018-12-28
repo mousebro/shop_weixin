@@ -14,13 +14,13 @@ page{background:#f2f2f2;}
 .logistics-message .img-into{width:15rpx;height:25rpx;}
 .logistics-message-address{padding:35rpx 40rpx}
 /*商品列表信息*/
-.product-list{padding:150rpx 40rpx 0;margin-bottom: 30rpx;background: #fff;}
-.product-item{display: flex;justify-content: space-between;align-items: center;margin-top:40rpx;}
-.product-item .product-img{width:90rpx;height:90rpx;vertical-align: middle;margin-right: 20rpx;}
-.product-item .product-msg{display:flex;align-items: center;}
+.product-list{padding:150rpx 40rpx 30rpx;margin-bottom: 30rpx;background: #fff;}
+.product-item{display: flex;justify-content: space-between;align-items: flex-start;padding:20rpx 0;border-bottom:1px solid #f2f2f2;}
+.product-item .product-img{width:200rpx;height:120rpx;vertical-align: middle;margin-right: 20rpx;}
+.product-item .product-msg{display:flex;align-items: flex-start;}
 .product-item .product-msg .product-text{overflow:hidden;text-overflow: ellipsis;width: 80%;white-space: nowrap;font-size:32rpx;}
 .product-item .product-price{color:#ea4049;font-size: 28rpx;font-weight: 600;}
-.product-count{text-align: right;display:block;font-size:28rpx;border-bottom: 1px solid #e8e8e8;padding-bottom:40rpx;}
+.product-count{text-align: right;display:block;font-size:28rpx;padding-bottom:40rpx;}
 .clear-border{border: 0;}
 
 /*订单编号、下单时间、支付时间*/

@@ -12,7 +12,7 @@ page{background-color: #f2f2f2;}
 .shop-block image{width: 150rpx;height: 150rpx;display: block;float: left;}
 .shop-block text:nth-child(2){display: block;float: left;width: 50%;margin-left: 20rpx;margin-top: 20rpx;font-size: 32rpx;}
 .shop-block text:nth-child(3){display: block;float: left;width: 50%;margin-left: 20rpx;margin-top: 30rpx;font-size: 26rpx;color: #ea4149;font-weight: bold;}
-.shop-block text:nth-child(4){position: absolute;bottom: 50rpx;right: 30rpx;color: #555555;font-size: 26rpx;}
+.shop-block text:nth-child(4){position: absolute;bottom: 50rpx;right: 0;color: #555555;font-size: 26rpx;}
 /* 计算价格部分 */
 .countprice{width: 90%;margin-top: 20rpx;background-color: #ffffff;padding: 30rpx 5% 0;}
 .countprice-plus{width: 100%;}

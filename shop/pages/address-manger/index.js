@@ -32,7 +32,7 @@ Page({
     this.setData({
       region:e.detail.value
     })
-    
+
   },
   //提交保存
   formSubmit(e){
@@ -80,8 +80,17 @@ Page({
         confirmColor: '#f04c4a'
       })
       return;
-    } 
-    console.log(_this.data.isDefault, phone, uname, region,address)
+    }
+    let isLogin = wx.getStorageSync('isLogin')
+    if (!isLogin) {
+      wx.navigateTo({
+        url: '/pages/login/index',
+      })
+      wx.setStorage({
+        key: 'isLogin',
+        data: false
+      })
+    }
     wx.request({
       url: 'https://' + app.globalData.productUrl + '/api?resprotocol=json&reqprotocol=json&class=Address&method=AddOrEditAddress',
       method: 'post',
@@ -98,7 +107,7 @@ Page({
       }),
       header: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        'cookie': 'PBCSID=' + wx.getStorageSync('sessionId') + ';PBCSTOKEN=' + wx.getStorageSync('sessionId')
+        'cookie': 'PBCSID=' + wx.getStorageSync('sessionId') + ';PBCSTOKEN=' + wx.getStorageSync('token')
       },
       success: (res) => {
         let code = res.data.baseServerInfo.code
@@ -131,7 +140,7 @@ Page({
       _this.setData({
         uname:e.detail.value
       })
-    }else if (item == 'phone') { 
+    }else if (item == 'phone') {
       _this.setData({
         phone: e.detail.value
       })
@@ -140,7 +149,7 @@ Page({
         address: e.detail.value
       })
     }
-   
+
   },
   //获取地址信息
   getAddress(id){
@@ -154,7 +163,7 @@ Page({
       }),
       header: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        'cookie': 'PBCSID=' + wx.getStorageSync('sessionId') + ';PBCSTOKEN=' + wx.getStorageSync('sessionId')
+        'cookie': 'PBCSID=' + wx.getStorageSync('sessionId') + ';PBCSTOKEN=' + wx.getStorageSync('token')
       },
       success: (res) => {
         let code = res.data.baseServerInfo.code
@@ -170,7 +179,7 @@ Page({
             address: data.address,
             id:data.id
           })
-         
+
         } else {
           console.log(res.msg)
         }

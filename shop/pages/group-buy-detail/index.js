@@ -237,7 +237,7 @@ Page({
       }),
       header: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        'cookie': 'PBCSID=' + wx.getStorageSync('sessionId') + ';PBCSTOKEN=' + wx.getStorageSync('sessionId')
+        'cookie': 'PBCSID=' + wx.getStorageSync('sessionId') + ';PBCSTOKEN=' + wx.getStorageSync('token')
       },
       success: (res) => {
         _this.closeModal1();
@@ -292,4 +292,8 @@ Page({
       actionSheetHidden: true
     })
   },
+  //关闭拼单列表
+  closeGroupList(){
+    console.log('fdsfd')
+  }
 })

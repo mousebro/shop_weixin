@@ -1,38 +1,19 @@
 <!--pages/my-order/index.wxml-->
 <import src="../template-order/template-order.wxml"/>
 <!--我的订单-->
-<view>
+<view class="view-container">
 <!--导航条-->
   <scroll-view scroll-x="true" class="navbar"  style="height:50px;width:100%" >
-    <view wx:for="{{navbar}}" data-idx="{{index}}" class="item {{currentTab==index ? 'active' : ''}}" wx:key="unique" bindtap="navbarTap" bindtap='handleChose'>{{item}}</view>
+    <view wx:for="{{navbar}}" data-idx="{{index}}" class="item {{currentTab==index ? 'active' : ''}}" wx:key="unique" bindtap='handleChose'>{{item}}</view>
   </scroll-view>
   <!--根据选项卡的选项，渲染不同的数据-->
   <view class="all-order-container">
-    <!--待付款-->
+    <!--订单列表-->
     <view class='waiting-for-pay-container' wx:for="{{orderList}}" wx:key="{{index}}">
-      <template is="{{orderList.length>0?'waiting-for-pay' : ''}}" data="{{...orderList[index]}}"></template>
+      <template is="{{orderList.length>0?'waiting-for-pay' : ''}}" data="{{...orderList[index]}}" wx:if="{{orderList[index].status == nowStatus ||nowStatus == -2 && orderList[index].id}}"></template>
     </view>
-    <!--待发货-->
-    <!-- <view class='waiting-for-pay-container'>
-      <template is="{{waitDeliveryData.goodsList.length>0?'waiting-for-pay' : ''}}" data="{{...waitDeliveryData}}"></template>
-        <view class='oprator-btn-container'>
-          <button  size="mini" plain='true' class='cancle-btn'>取消订单</button>
-        </view>
-    </view> -->
-    <!--待收货-->
-    <!-- <view class='waiting-for-pay-container'>
-      <template is="{{waitReciveData.goodsList.length>0?'waiting-for-pay' : ''}}" data="{{...waitReciveData}}"></template>
-        <view class='oprator-btn-container'>
-          <button  size="mini" plain='true' class='cancle-btn'>查看物流</button>
-          <button size="mini" type="warn" plain='true' >确认收货</button>
-        </view>
-    </view> -->
-    <!--已完成-->
-    <!-- <view class='waiting-for-pay-container'>
-      <template is="{{completeData.goodsList.length>0?'waiting-for-pay' : ''}}" data="{{...completeData}}"></template>
-        <view class='oprator-btn-container'>
-          <button size="mini" type="warn" plain='true' >确认收货</button>
-        </view>
-    </view> -->
+  </view>
+  <view class='warning-msg'wx:if="{{!pageCount}}">
+    没有更多内容了
   </view>
 </view>

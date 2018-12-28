@@ -6,7 +6,7 @@
         <text class="wait-sub-title" wx:if="{{status==1}}">待发货</text>
         <text class="wait-sub-title" wx:if="{{status==2}}">待收货</text>
         <text class="wait-sub-title" wx:if="{{status==3}}">已完成</text>
-        <text class='wait-for-time'>{{createtime}}</text>
+        <text class='wait-for-time'>{{newCreatetime}}</text>
       </view>
       <text class='order-for-more' catchtap='handleClick'></text>
     </view>
@@ -28,7 +28,7 @@
 
     </view>
   </view>
-  <view class='oprator-btn-container'>
+  <view class='oprator-btn-container' >
       <button  size="mini" plain='true' class='cancle-btn' catchtap='cancleOrder' data-orderId="{{id}}" wx:if="{{status==0 ||status ==1}}">取消订单</button>
       <button size="mini" type="warn" plain='true' catchtap='gotoPay' data-orderId="{{id}}" wx:if="{{status==0}}">去付款</button>
       <button  size="mini" plain='true' class='cancle-btn' data-orderId="{{id}}" wx:if="{{status==2}}" catchtap='watchLogistics'>查看物流</button>

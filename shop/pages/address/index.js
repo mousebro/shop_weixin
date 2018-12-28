@@ -27,6 +27,16 @@ Page({
   //点击新建收货地址，跳转到地址页
   addNewAddress(){
     let _this = this
+    let isLogin = wx.getStorageSync('isLogin')
+    if (!isLogin) {
+      wx.navigateTo({
+        url: '/pages/login/index',
+      })
+      wx.setStorage({
+        key: 'isLogin',
+        data: false
+      })
+    }
     if (wx.chooseAddress) {
       wx.showModal({
         title: '提示',
@@ -51,7 +61,7 @@ Page({
                   }),
                   header: {
                     'Content-Type': 'application/x-www-form-urlencoded',
-                    'cookie': 'PBCSID=' + wx.getStorageSync('sessionId') + ';PBCSTOKEN=' + wx.getStorageSync('sessionId')
+                    'cookie': 'PBCSID=' + wx.getStorageSync('sessionId') + ';PBCSTOKEN=' + wx.getStorageSync('token')
                   },
                   success: (res) => {
                     let code = res.data.baseServerInfo.code
@@ -90,6 +100,12 @@ Page({
   //加载用户的收货地址
   getaddress(){
     let _this = this
+    let isLogin = wx.getStorageSync('isLogin')
+    if (!isLogin) {
+      wx.navigateTo({
+        url: '/pages/login/index',
+      })
+    }
     wx.request({
       url: 'https://' + app.globalData.productUrl + '/api?resprotocol=json&reqprotocol=json&class=Address&method=GetAddressList',
       method: 'post',
@@ -98,7 +114,7 @@ Page({
       }),
       header: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        'cookie': 'PBCSID=' + wx.getStorageSync('sessionId') + ';PBCSTOKEN=' + wx.getStorageSync('sessionId')
+        'cookie': 'PBCSID=' + wx.getStorageSync('sessionId') + ';PBCSTOKEN=' + wx.getStorageSync('token')
       },
       success: (res) => {
         let code = res.data.baseServerInfo.code
@@ -116,6 +132,10 @@ Page({
         }else if(code==1019){
           wx.navigateTo({
             url: '/pages/login/index',
+          })
+          wx.setStorage({
+            key: 'isLogin',
+            data: false
           })
         }
 
@@ -151,7 +171,7 @@ Page({
             }),
             header: {
               'Content-Type': 'application/x-www-form-urlencoded',
-              'cookie': 'PBCSID=' + wx.getStorageSync('sessionId') + ';PBCSTOKEN=' + wx.getStorageSync('sessionId')
+              'cookie': 'PBCSID=' + wx.getStorageSync('sessionId') + ';PBCSTOKEN=' + wx.getStorageSync('token')
             },
             success: (res) => {
               let code = res.data.baseServerInfo.code

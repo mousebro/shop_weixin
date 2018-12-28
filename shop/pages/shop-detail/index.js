@@ -227,6 +227,13 @@ Page({
   // 增加商品到服务器购物车
   addGoods: function(){
     let _this = this
+    let isLogin = wx.getStorageSync('isLogin')
+    if (!isLogin) {
+      wx.navigateTo({
+        url: '/pages/login/index'
+      })
+      wx.setStorageSync('isLogin', false)
+    }
     wx.request({
       url: 'https://'+app.globalData.productUrl+'/api?resprotocol=json&reqprotocol=json&class=ShoppingCart&method=AddGoods',
       method: 'post',
@@ -237,7 +244,7 @@ Page({
       }),
       header: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        'cookie': 'PBCSID=' + wx.getStorageSync('sessionId') + ';PBCSTOKEN=' + wx.getStorageSync('sessionId')
+        'cookie': 'PBCSID=' + wx.getStorageSync('sessionId') + ';PBCSTOKEN=' + wx.getStorageSync('token')
       },
       success: (res) => {
         _this.closeModal1();

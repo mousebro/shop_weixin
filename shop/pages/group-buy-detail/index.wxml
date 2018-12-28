@@ -75,15 +75,15 @@
     <!-- 商品名称以及价格 -->
     <view class="shop-detail">
       <!-- 价格、倒计时 -->
-      <view style="background-size " class="countDown" >
-        <text>3人成团</text>
-        <view>
+      <view style="background:#fff9f1 url(../../images/group-buy/group-detail.png) no-repeat;background-size:170rpx 150rpx" class="countDown" >
+        <text class="countDown-group-number">3人成团</text>
+        <view class="countDown-group-price">
           <text>￥199.90</text><text>￥368.90</text>
           <view>已拼<text>580</text>件</view>
         </view>
         <view>
-          <text>距离借宿仅剩</text>
-          <view>16:15:54</view>
+          <text>距结束仅剩</text>
+          <view><text>16</text>:<text>15</text>:<text>54</text></view>
         </view>
       </view>
       <!-- 商品名称 -->
@@ -94,6 +94,60 @@
       <view class="shop-detail-super">
         <image src="/images/super.png"  mode="widthFix"/>
         <text>会员下单再享98折，可省18.00元</text>
+      </view>
+    </view>
+    <!--优惠券-->
+    <view class='coupon-container'>
+      <view>
+        <text>优惠</text>
+        <text>可享受以下优惠</text>
+      </view>
+      <view>
+        <text>优惠券</text>
+        <text>消费满1000立减50</text>
+      </view>
+    </view>
+    <!-- 拼单用户列表 -->
+    <view class="group-buy-list">
+      <view class="group-buy-list-head">
+        <text>37人在拼单，可直接参与</text>
+        <text>查看全部></text>
+      </view>
+      <view class=" group-buy-list-item">
+          <view>
+            <image src="/pic/banner1.png"/>
+            <text>喵喵酱</text>
+          </view>
+          <view>
+            <view>
+              <view>
+                还差<text>1</text>人拼成
+              </view>
+              <text>剩余23:15:36</text>
+            </view>
+            <text>去拼单</text>
+          </view>
+      </view>
+    </view>
+    <!--拼团详情正在拼单列表-->
+    <view class='mask' >
+      <view class='group-buy-list-container' >
+          <image src="../../images/group-buy/close.png" class="close-btn" bindtap='closeGroupList'></image>
+          <view class='list-header' >正在拼单</view>
+          <scroll-view style="height:calc(100% - 135rpx);width:90%;margin:auto;" scroll-y >
+            <view wx:for="{{10}}" wx:key="{{index}}" class="group-list-item"  wx:if="{{index<10}}">
+              <view  class="avator-name-container">
+                <image src="/pic/banner1.png" class='avator'></image>
+                <view>
+                  <view>
+                    <text class="name">喵咪酱</text>还差<text style="color:#ea4148">1</text>人
+                  </view>
+                   <view>剩余 14:12:08</view> 
+                </view>              
+              </view>
+              <view  class="go-group-Btn">去拼单</view>
+            </view>
+          </scroll-view>
       </view>
     </view>
     <!-- 评价 -->
@@ -137,10 +191,11 @@
       <text>{{shopNum}}</text>
     </view>
     <view class="shop-buy-addcar" bindtap="showBuyCar">
-      <text></text>
+      <text>￥368.00</text>
       <text>单独购买</text>
     </view>
     <view class="shop-buy-now" bindtap="showBuy">
+      <text>￥199.00</text>
       <text>发起拼单</text>
     </view>
   </view>

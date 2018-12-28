@@ -58,4 +58,10 @@ Page({
       actionSheetHidden: true
     })
   },
+  // 跳转到搜索页
+  hrefToSearch: function(){
+    wx.navigateTo({
+      url: '/pages/search/index'
+    })
+  },
 })

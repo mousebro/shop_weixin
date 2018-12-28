@@ -67,6 +67,13 @@ Page({
   // 获取用户地址
   getAddress: function(){
     let _this = this
+    let isLogin = wx.getStorageSync('isLogin')
+    if (!isLogin) {
+      wx.navigateTo({
+        url: '/pages/login/index'
+      })
+      wx.setStorageSync('isLogin', false)
+    }
     wx.request({
       url: 'https://'+app.globalData.productUrl+'/api?resprotocol=json&reqprotocol=json&class=Address&method=GetAddressList',
       method: 'post',
@@ -75,7 +82,7 @@ Page({
       }),
       header: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        'cookie': 'PBCSID=' + wx.getStorageSync('sessionId') + ';PBCSTOKEN=' + wx.getStorageSync('sessionId')
+        'cookie': 'PBCSID=' + wx.getStorageSync('sessionId') + ';PBCSTOKEN=' + wx.getStorageSync('token')
       },
       success: (res) => {
         let code = res.data.baseServerInfo.code
@@ -127,30 +134,21 @@ Page({
       url: '/pages/address/index?url=order'
     })
   },
-  // hrefToWXaddress:function(){
-  //   wx.chooseAddress({
-  //     success(res) {
-  //       let realname = res.userName
-  //       let mobile = res.telNumber
-  //       let
-  //       console.log(res.userName)
-  //       console.log(res.postalCode)
-  //       console.log(res.provinceName)
-  //       console.log(res.cityName)
-  //       console.log(res.countyName)
-  //       console.log(res.detailInfo)
-  //       console.log(res.nationalCode)
-  //       console.log(res.telNumber)
-  //     }
-  //   })
-  // }
   // 提交生成订单
   submit: function(){
     let _this = this
     let addressId = _this.data.addressId
     let submitGoodsList = _this.data.submitGoodsList
-    console.log(addressId);
-    console.log(submitGoodsList);
+    let isLogin = wx.getStorageSync('isLogin')
+    if (!isLogin) {
+      wx.navigateTo({
+        url: '/pages/login/index'
+      })
+    }
+    wx.showLoading({
+      mask:true,
+      title: '订单生成中...'
+    })
     wx.request({
       url: 'https://'+app.globalData.productUrl+'/api?resprotocol=json&reqprotocol=json&class=Order&method=CreateOrder',
       method: 'post',
@@ -161,16 +159,21 @@ Page({
       }),
       header: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        'cookie': 'PBCSID=' + wx.getStorageSync('sessionId') + ';PBCSTOKEN=' + wx.getStorageSync('sessionId')
+        'cookie': 'PBCSID=' + wx.getStorageSync('sessionId') + ';PBCSTOKEN=' + wx.getStorageSync('token')
       },
       success: (res) => {
         let code = res.data.baseServerInfo.code
         let msg = res.data.baseServerInfo.msg
         if (code == 1) {
           let orderId = res.data.id
+          wx.hideLoading()
+          _this.setData({
+            orderId:orderId
+          })
           wx.navigateTo({
             url: '/pages/pay-success/index?Id='+orderId+''
           });
+          // _this.payfor()
           console.log('订单创建成功，开始调用微信支付');
         }
         else if (code == 1019) {
@@ -195,6 +198,71 @@ Page({
     //     url: "/pages/pay-success/index"
     //   });
     // },1000)
+  },
+  // 提交生成订单
+  payfor: function(){
+    let _this = this
+    let orderId = _this.data.orderId
+    wx.showLoading({
+      mask:true,
+      title: '订单支付中...'
+    })
+    wx.request({
+      url: 'https://'+app.globalData.productUrl+'/api?resprotocol=json&reqprotocol=json&class=Order&method=CreateOrder',
+      method: 'post',
+      data: JSON.stringify({
+        baseClientInfo: { longitude: 0, latitude: 0 ,appId: ''+app.globalData.appId+''},
+        orderId:orderId
+      }),
+      header: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'cookie': 'PBCSID=' + wx.getStorageSync('sessionId') + ';PBCSTOKEN=' + wx.getStorageSync('sessionId')
+      },
+      success: (res) => {
+        let code = res.data.baseServerInfo.code
+        let msg = res.data.baseServerInfo.msg
+        if (code == 1) {
+          let orderId = res.data.id
+          wx.hideLoading()
+              let appId = apiParam.appId
+              let timeStamp = apiParam.timeStamp
+              let nonceStr  = apiParam.nonceStr
+              let prepayId  = apiParam.prepayId
+              let sign      = apiParam.sign
+              let orderSn   = apiParam.orderSn
+              wx.requestPayment({
+                'timeStamp': ''+timeStamp+'',
+                'nonceStr': nonceStr,
+                'package': 'prepay_id='+prepayId,
+                'signType': 'MD5',
+                'paySign': sign,
+                'success':function(res){
+                  _this.paySuccess(orderSn,prepayId)
+                },
+                'fail':function(res){
+                  _this.cancelOrder(orderSn)
+                },
+                'complete':function(res){
+                }
+              })
+        }
+        else if (code == 1019) {
+          wx.navigateTo({
+            url: '/pages/login/index'
+          })
+        }
+        else{
+          wx.showModal({
+            title:'提示',
+            content:msg,
+            showCancel:false,
+            success:function(res){}
+          })
+        }
+      },
+      fail: (res) => {
+      }
+    })
   },
 
 })

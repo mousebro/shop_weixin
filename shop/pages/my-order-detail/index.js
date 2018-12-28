@@ -23,7 +23,6 @@ Page({
    */
   onLoad: function (options) {
       //获取订单的ID
-      options.Id = 195
       if(options.Id){
         this.setData({
           orderId:options.Id
@@ -57,17 +56,63 @@ Page({
   /*点击按钮，进行支付*/
   hrefToPay(e){
     let orderId = e.currentTarget.dataset.orderid
-    wx.navigateTo({
-      url: '/pages/pay/index?Id='+orderId
-    })
+    console.log(orderId)
+
   },
   /*点击按钮，取消订单*/
   hrefCancel(e){
     let orderId = e.currentTarget.dataset.orderid
+    let _this = this
+    let isLogin = wx.getStorageSync('isLogin')
+    if (!isLogin) {
+      wx.navigateTo({
+        url: '/pages/login/index',
+      })
+      wx.setStorage({
+        key: 'isLogin',
+        data: false
+      })
+    }
+    wx.request({
+      url: 'https://' + app.globalData.productUrl + '/api?resprotocol=json&reqprotocol=json&class=Order&method=CancelOrder',
+      method: 'post',
+      data: JSON.stringify({
+        baseClientInfo: { longitude: 0, latitude: 0, appId: '' + app.globalData.appId + '' },
+        id: orderId
+      }),
+      header: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'cookie': 'PBCSID=' + wx.getStorageSync('sessionId') + ';PBCSTOKEN=' + wx.getStorageSync('token')
+      },
+      success: (res) => {
+        let code = res.data.baseServerInfo.code
+        let msg = res.data.baseServerInfo.msg
+        if (code == 1) {
+          wx.navigateBack({
+            delta:1
+          })
+        } else {
+          console.log(res.msg)
+        }
+
+      },
+      fail: (res) => {
+      }
+    })
   },
   /*获取订单详情*/
   getOrderList(Id) {
     let _this = this
+    let isLogin = wx.getStorageSync('isLogin')
+    if(!isLogin){
+      wx.navigateTo({
+        url: '/pages/login/index',
+      })
+      wx.setStorage({
+        key: 'isLogin',
+        data: false
+      })
+    }
     console.log(_this.data.orderId)
     wx.request({
       url: 'https://' + app.globalData.productUrl + '/api?resprotocol=json&reqprotocol=json&class=Order&method=GetOrderDetail',
@@ -78,7 +123,7 @@ Page({
       }),
       header: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        'cookie': 'PBCSID=' + wx.getStorageSync('sessionId') + ';PBCSTOKEN=' + wx.getStorageSync('sessionId')
+        'cookie': 'PBCSID=' + wx.getStorageSync('sessionId') + ';PBCSTOKEN=' + wx.getStorageSync('token')
       },
       success: (res) => {
         let code = res.data.baseServerInfo.code
@@ -120,7 +165,7 @@ Page({
       }),
       header: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        'cookie': 'PBCSID=' + wx.getStorageSync('sessionId') + ';PBCSTOKEN=' + wx.getStorageSync('sessionId')
+        'cookie': 'PBCSID=' + wx.getStorageSync('sessionId') + ';PBCSTOKEN=' + wx.getStorageSync('token')
       },
       success: (res) => {
         let code = res.data.baseServerInfo.code

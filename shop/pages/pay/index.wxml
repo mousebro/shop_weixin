@@ -3,6 +3,7 @@
     <text>{{realname}}</text>
     <text>{{mobile}}</text>
     <text>{{address}}</text>
+    <!-- <image src="/images/super.png"/> -->
   </view>
   <!-- 商品信息 -->
   <view class="shop">

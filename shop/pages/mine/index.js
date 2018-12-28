@@ -4,56 +4,102 @@ const app = getApp()
 
 Page({
   data: {
-    motto: 'Hello World',
-    userInfo: {},
-    hasUserInfo: false,
-    canIUse: wx.canIUse('button.open-type.getUserInfo'),
+    nickname: '',
+    avatar: '',
     isSupper:true
   },
-  //事件处理函数
-  bindViewTap: function() {
-    wx.navigateTo({
-      url: '../logs/logs'
-    })
-  },
   onLoad: function () {
-    if (app.globalData.userInfo) {
-      this.setData({
-        userInfo: app.globalData.userInfo,
-        hasUserInfo: true
-      })
-    } else if (this.data.canIUse){
-      // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-      // 所以此处加入 callback 以防止这种情况
-      app.userInfoReadyCallback = res => {
-        this.setData({
-          userInfo: res.userInfo,
-          hasUserInfo: true
-        })
-      }
-    } else {
-      // 在没有 open-type=getUserInfo 版本的兼容处理
-      wx.getUserInfo({
-        success: res => {
-          app.globalData.userInfo = res.userInfo
-          this.setData({
-            userInfo: res.userInfo,
-            hasUserInfo: true
-          })
-        }
-      })
-    }
+    this.getUserInfo()
   },
   getUserInfo: function(e) {
-    console.log(e)
-    app.globalData.userInfo = e.detail.userInfo
-    this.setData({
-      userInfo: e.detail.userInfo,
-      hasUserInfo: true
+    let _this = this
+    let isLogin = wx.getStorageSync('isLogin')
+    if (!isLogin) {
+      wx.navigateTo({
+        url: '/pages/login/index'
+      })
+    }
+    wx.showLoading({
+      mask:true,
+      title: '获取用户信息中...'
+    })
+    wx.request({
+      url: 'https://'+app.globalData.productUrl+'/api?resprotocol=json&reqprotocol=json&class=MiniAppUser&method=GetInfo',
+      method: 'post',
+      data: JSON.stringify({
+        baseClientInfo: { longitude: 0, latitude: 0 ,appId: ''+app.globalData.appId+''}
+      }),
+      header: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'cookie': 'PBCSID=' + wx.getStorageSync('sessionId') + ';PBCSTOKEN=' + wx.getStorageSync('token')
+      },
+      success: (res) => {
+        let code = res.data.baseServerInfo.code
+        let msg = res.data.baseServerInfo.msg
+        console.log(res);
+        if (code == 1) {
+          let userId = res.data.userInfo.userId
+          let nickname = res.data.userInfo.nickname
+          let avatar = res.data.userInfo.avatar
+          _this.setData({
+            nickname:nickname,
+            avatar:avatar
+          })
+          wx.hideLoading()
+        }
+        else if (code == 1019) {
+          wx.navigateTo({
+            url: '/pages/login/index'
+          })
+          wx.setStorageSync('isLogin', false)
+        }
+        else{
+          wx.showModal({
+            title:'提示',
+            content:msg,
+            showCancel:false,
+            success:function(res){}
+          })
+        }
+      },
+      fail: (res) => {
+      }
     })
   },
   //点击查看全部进行跳转
   readMore:function(){
-    console.log("查看全部")
-  }
+    wx.navigateTo({
+      url: '/pages/my-order/index?',
+    })
+  },
+  //点击查看待付款订单进行跳转
+  hrefToWaitPay:function(){
+    wx.navigateTo({
+      url: '/pages/my-order/index?status=0',
+    })
+  },
+  //点击查看待发货订单进行跳转
+  hrefToWaitSend:function(){
+    wx.navigateTo({
+      url: '/pages/my-order/index?status=1',
+    })
+  },
+  //点击查看待收货订单进行跳转
+  hrefToWaitAccept:function(){
+    wx.navigateTo({
+      url: '/pages/my-order/index?status=2',
+    })
+  },
+  //点击查看待评价订单进行跳转
+  hrefToWaitCommit:function(){
+    wx.navigateTo({
+      url: '/pages/my-order/index?status=3',
+    })
+  },
+  //点击查看待评价订单进行跳转
+  hrefToAddress:function(){
+    wx.navigateTo({
+      url: '/pages/address/index',
+    })
+  },
 })

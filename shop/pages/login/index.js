@@ -262,11 +262,11 @@ Page({
                   if (res.statusCode == 200) {
                     let code = res.data.baseServerInfo.code
                     let msg = res.data.baseServerInfo.msg
-                    console.log(res.data);
                     if (code == 1) {
                       wx.setStorageSync('isLogin', true)
                       wx.setStorageSync('userInfo', res.data.userInfo)
                       wx.setStorageSync('sessionId', res.data.sessionId)
+                      wx.setStorageSync('token', res.data.token)
                       wx.navigateBack()
                     }
                     else{

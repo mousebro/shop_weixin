@@ -14,4 +14,4 @@ page{background:#fff;height:calc(100% - 20rpx)}
 .address-detele-img{width:50rpx;height:50rpx;margin-left: 20rpx;color:#000;}
 .address-detele-img:active{background: #ccc;}
 /*新建收货地址按钮*/
-.add-address-btn{position: absolute;bottom:-120rpx;width: 95%;margin:20rpx;background:linear-gradient(to right bottom,#eb414a 10%,#fe6748);color:#fff;}
+.add-address-btn{position: fixed;bottom:0;width: 95%;margin:20rpx;background:linear-gradient(to right bottom,#eb414a 10%,#fe6748);color:#fff;}
