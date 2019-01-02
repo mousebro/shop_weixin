@@ -109,16 +109,16 @@
     </view>
     <!-- 拼单用户列表 -->
     <view class="group-buy-list">
-      <view class="group-buy-list-head">
+      <view class="group-buy-list-head" bindtap="showGroupList">
         <text>37人在拼单，可直接参与</text>
-        <text>查看全部></text>
+        <text >查看全部</text>
       </view>
-      <view class=" group-buy-list-item">
+      <view class=" group-buy-list-item" bindtap="goToGroupBuy">
           <view>
             <image src="/pic/banner1.png"/>
             <text>喵喵酱</text>
           </view>
-          <view>
+          <view >
             <view>
               <view>
                 还差<text>1</text>人拼成
@@ -129,13 +129,13 @@
           </view>
       </view>
     </view>
-    <!--拼团详情正在拼单列表-->
-    <view class='mask' >
+    <!--拼团详情正在拼团列表 悬浮框-->
+    <view class="mask  {{isShowList == true?'hidden-msak':''}}" >
       <view class='group-buy-list-container' >
           <image src="../../images/group-buy/close.png" class="close-btn" bindtap='closeGroupList'></image>
-          <view class='list-header' >正在拼单</view>
+          <view class='list-header' style="padding:20rpx;">正在拼单</view>
           <scroll-view style="height:calc(100% - 135rpx);width:90%;margin:auto;" scroll-y >
-            <view wx:for="{{10}}" wx:key="{{index}}" class="group-list-item"  wx:if="{{index<10}}">
+            <view wx:for="{{10}}" wx:key="{{index}}" class="group-list-item"  wx:if="{{index<10}}"> <!--只显示10条拼单数据-->
               <view  class="avator-name-container">
                 <image src="/pic/banner1.png" class='avator'></image>
                 <view>
@@ -148,6 +148,32 @@
               <view  class="go-group-Btn">去拼单</view>
             </view>
           </scroll-view>
+      </view> 
+    </view>
+    <!--单个拼团信息-->
+    <view class="mask {{isShowItem == true?'hidden-msak':''}}" >
+      <view class='group-buy-list-container list-one-container' >
+          <image src="../../images/group-buy/close.png" class="close-btn" bindtap='closePersonalGroup'></image>
+          <view class='list-header list-one-header'  >参与喵咪酱的拼团</view>
+          <view class="list-one-session">
+              <view class="list-item"  >
+              仅剩<text class="list-item-count" >1</text>个名额，14:38:04后结束
+              </view>                
+                <view class="list-item-avator-container">
+                  <view class="" >
+                    <image src="/pic/banner1.png" class='avator'></image>
+                    
+                  </view>
+                  <view class="" >
+                    <image src="../../images/group-buy/noBody.png" class='avator'></image>
+                  </view>
+                  <view class="" >
+                    <image src="../../images/group-buy/noBody.png" class='avator'></image>
+                  </view>
+                </view>
+                <view class="list-one-btn" >参与拼单</view>
+          </view>         
+  
       </view>
     </view>
     <!-- 评价 -->

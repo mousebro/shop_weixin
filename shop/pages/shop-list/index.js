@@ -18,12 +18,13 @@ Page({
   onShow: function(){
 
   },
-  onLoad: function(){
+  onLoad: function(options){
     //this.getData();//进行页面数据加载
     //在跳转到商品列表的时进行商品列表的请求并加载
     let categoryId = this.options.Id
     this.setData({
-      categoryId: categoryId
+      categoryId: categoryId,
+      imageUrl: app.globalData.imageUrl
     })
     let _this = this
     wx.request({
@@ -32,7 +33,7 @@ Page({
       data: JSON.stringify({
         baseClientInfo: { longitude: 0, latitude: 0, appId: '' + app.globalData.appId + '' },
         page:_this.data.currentPage,
-        pageLength:5,
+        pageLength:10,
         obField:1,
         obType:0,
         categoryId:categoryId
@@ -45,8 +46,16 @@ Page({
           let code = res.data.baseServerInfo.code
           let msg = res.data.baseServerInfo.msg
           if (code == 1) {
+            let goodsList = res.data.goodsList
+            for (var i = 0; i < goodsList.length; i++) {
+              let img = goodsList[i].thumb
+              let url = img.substring(0,4)
+              if (url != 'http') {
+                goodsList[i].thumb = app.globalData.imageUrl+img
+              }
+            }
             _this.setData({
-              productList: res.data.goodsList,
+              productList: goodsList,
               allPages: res.data.pageCount
             })
           }
@@ -132,11 +141,11 @@ Page({
       })
    }else if(index == 2){ //如果点击按销量排序
       obField = 2
-      obType = 0 
+      obType = 0
       this.setData({
         obField: obField,
         obType: obType
-      }) 
+      })
    }
    //根据选项卡来请求不同的数据
     let _this = this
@@ -146,7 +155,7 @@ Page({
       data: JSON.stringify({
         baseClientInfo: { longitude: 0, latitude: 0, appId: '' + app.globalData.appId + '' },
         page: _this.data.currentPage,
-        pageLength: 5,
+        pageLength: 10,
         obField: obField,
         obType: obType,
         categoryId: _this.data.categoryId
@@ -158,9 +167,17 @@ Page({
         if (res.statusCode == 200) {
           let code = res.data.baseServerInfo.code
           let msg = res.data.baseServerInfo.msg
+          let goodsList = res.data.goodsList
+          for (var i = 0; i < goodsList.length; i++) {
+            let img = goodsList[i].thumb
+            let url = img.substring(0,4)
+            if (url != 'http') {
+              goodsList[i].thumb = app.globalData.imageUrl+img
+            }
+          }
           if (code == 1) {
             _this.setData({
-              productList: res.data.goodsList
+              productList: goodsList
             })
           }
           else {
@@ -174,7 +191,7 @@ Page({
       fail: (res) => {
       }
     })
-   
+
  },
   //下拉刷新
   onPullDownRefresh(){
@@ -189,7 +206,7 @@ Page({
       data: JSON.stringify({
         baseClientInfo: { longitude: 0, latitude: 0, appId: '' + app.globalData.appId + '' },
         page: _this.data.currentPage,
-        pageLength: 5,
+        pageLength: 10,
         obField: this.data.obField,
         obType: this.data.obType,
         categoryId: _this.data.categoryId
@@ -203,9 +220,17 @@ Page({
         if (res.statusCode == 200) {
           let code = res.data.baseServerInfo.code
           let msg = res.data.baseServerInfo.msg
+          let goodsList = res.data.goodsList
+          for (var i = 0; i < goodsList.length; i++) {
+            let img = goodsList[i].thumb
+            let url = img.substring(0,4)
+            if (url != 'http') {
+              goodsList[i].thumb = app.globalData.imageUrl+img
+            }
+          }
           if (code == 1) {
             _this.setData({
-              productList: res.data.goodsList
+              productList: goodsList
             })
           }
           else {
@@ -219,7 +244,7 @@ Page({
       fail: (res) => {
       }
     })
-  
+
 
 
   },
@@ -227,16 +252,10 @@ Page({
   onReachBottom(){
     let _this = this
     if (_this.data.currentPage == _this.data.allPages){
-      wx.showModal({
-        title: '提示',
-        content: '没有更多了',
-        success(res) {
-        }
-      })
       return ;
     }
     _this.setData({
-      currentPage:_this.data.currentPage++
+      currentPage:_this.data.currentPage + 1
     })
     wx.request({
       url: 'https://' + app.globalData.productUrl + '/api?resprotocol=json&reqprotocol=json&class=Goods&method=GetGoodsList',
@@ -244,7 +263,7 @@ Page({
       data: JSON.stringify({
         baseClientInfo: { longitude: 0, latitude: 0, appId: '' + app.globalData.appId + '' },
         page: _this.data.currentPage,
-        pageLength: 5,
+        pageLength: 10,
         obField: 1,
         obType: 0,
         categoryId: _this.data.categoryId
@@ -256,9 +275,17 @@ Page({
         if (res.statusCode == 200) {
           let code = res.data.baseServerInfo.code
           let msg = res.data.baseServerInfo.msg
+          let goodsList = res.data.goodsList
+          for (var i = 0; i < goodsList.length; i++) {
+            let img = goodsList[i].thumb
+            let url = img.substring(0,4)
+            if (url != 'http') {
+              goodsList[i].thumb = app.globalData.imageUrl+img
+            }
+          }
           if (code == 1) {
             _this.setData({
-              productList: res.data.goodsList,
+              productList: goodsList,
               allPages: res.data.pageCount
             })
           }
@@ -279,5 +306,11 @@ Page({
     wx.navigateTo({
       url: '/pages/shop-detail/index?Id='+idx + '',
     })
-  }
+  },
+  // 跳转到搜索页
+  hrefToSearch: function(){
+    wx.navigateTo({
+      url: '/pages/search/index'
+    })
+  },
 })

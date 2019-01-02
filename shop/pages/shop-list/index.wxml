@@ -1,8 +1,8 @@
 <!-- 搜索框 -->
 <view>
-    <view class="search">
+  <view class="search" bindtap="hrefToSearch">
     <image src="/images/search.png"/>
-    <text>52°景芝鸿福酒</text>
+    <text>习酒窖藏1988</text>
   </view>
   <!--商品列表页 头部选项栏-->
   <view class="headerTabs" >
@@ -26,7 +26,7 @@
         </view>
         <!--右侧商品信息、商品价格 -->
         <view class='productSubscrib'>
-          <text >{{item.title}}</text>
+          <view>{{item.title}}</view>
           <view>
             <text>￥{{item.marketprice}}</text>
             <text>￥{{item.productprice}}</text>

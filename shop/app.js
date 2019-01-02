@@ -35,6 +35,6 @@ App({
     userInfo: null,
     appId: 'wx708226e5d691c69f',
     productUrl: 'shopapidev.91uda.com',
-    // imageUrl: 'https://allnet-shop-cdn.91uda.com/static/miniappbeacontower/images/'
+    imageUrl: 'https://allnet-shop-cdn.91uda.com/'
   }
 })

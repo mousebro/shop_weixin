@@ -7,7 +7,7 @@
   </view>
   <!--如果没有搜索到相关产品，进行相对应的提示信息-->
   <view wx:if="{{isNoCatchData}}">
-    <text>抱歉！没有搜索到相关商品。。。</text>
+    <text class="noshop">抱歉！没有搜索到相关商品</text>
   </view>
   <!--展示搜回来的产品列表-->
   <scroll-view scroll-y style="height:1000rpx;" wx:if="{{productList}}">

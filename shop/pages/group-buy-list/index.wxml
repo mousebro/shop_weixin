@@ -1,0 +1,30 @@
+<!--pages/group-buy-list/index.wxml-->
+<view class="card-container" hover-class="none" hover-stop-propagation="false">
+    <view class="card" wx:for="{{5}}" wx:key="{{index}}">
+        <image class="card-img" src="../../pic/banner1.png" mode="aspectFit" lazy-load="true" >
+        </image>
+        <view class="card-msg" >
+            53度茅台王子酒53度茅台王子酒53度茅台王子酒53度茅台王子酒53度茅台王子酒53度茅台王子酒53度茅台王子酒53度茅台王子酒53度茅台王子酒53度茅台王子酒53度茅台王子酒53度茅台王子酒53度茅台王子酒
+        </view>
+        <view class="card-handle" hover-class="none" hover-stop-propagation="false">
+            <view class="price" hover-class="none" hover-stop-propagation="false">
+                <text>￥</text>
+                <text>88.</text>
+                <text>00</text>
+            </view>
+            <view class="avator-contain" hover-class="none" hover-stop-propagation="false">
+                <view>
+                    <image class="avator" src="../../pic/product01.png" mode="aspectFit" lazy-load="false" binderror="" bindload="">
+                    </image>
+                    <image class="avator" src="../../pic/product01.png" mode="aspectFit" lazy-load="false" binderror="" bindload="">
+                    </image>
+                </view>
+                <view class="btn-container" hover-class="none" hover-stop-propagation="false">
+                    <text>3人团</text>
+                    <text>3人团</text>
+                   
+                </view>
+            </view>
+        </view>
+    </view>
+</view>

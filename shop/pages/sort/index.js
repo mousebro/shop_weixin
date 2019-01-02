@@ -7,11 +7,15 @@ Page({
     showActive:'a0'
   },
   onShow: function(){
-
+    let _this = this
+    _this.setData({
+      imageUrl: app.globalData.imageUrl
+    })
+    _this.getCategory()
   },
   onLoad: function(){
-    let _this = this
-    _this.getCategory()
+    // let _this = this
+    // _this.getCategory()
   },
   // 点击左侧栏
   addActive: function(e){
@@ -112,6 +116,13 @@ Page({
   hrefToSearch: function(){
     wx.navigateTo({
       url: '/pages/search/index'
+    })
+  },
+  // 二级分类检索
+  searchSecondType: function(e){
+    let id = e.currentTarget.dataset.id
+    wx.navigateTo({
+      url: '/pages/shop-list/index?Id='+id+''
     })
   },
 })

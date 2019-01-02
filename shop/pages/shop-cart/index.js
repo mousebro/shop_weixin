@@ -55,7 +55,7 @@ Page({
       wx.navigateTo({
         url: '/pages/login/index'
       })
-      wx.setStorageSync('isLogin', false)
+      return false;
     }
     wx.request({
       url: 'https://'+app.globalData.productUrl+'/api?resprotocol=json&reqprotocol=json&class=ShoppingCart&method=GetShoppingCartList',
@@ -82,10 +82,13 @@ Page({
             let total = toolShopList[i].total // 商品数量
             let goodsTitle = toolShopList[i].goodsTitle // 商品名称
             let thumb = toolShopList[i].thumb // 商品缩略图
+            let url = thumb.substring(0,4)
+            if (url != 'http') {
+              toolShopList[i].thumb = app.globalData.imageUrl+thumb
+            }
             let price = toolShopList[i].marketprice // 商品单价
-            shopList.push({id:shopId,goodsId:goodsId,name:goodsTitle,number:total,pic:thumb,price:price})
+            shopList.push({id:shopId,goodsId:goodsId,name:goodsTitle,number:total,pic:toolShopList[i].thumb,price:price})
           }
-          console.log(shopList);
           this.data.goodsList.list = shopList;
           this.setGoodsList(this.getSaveHide(),this.totalPrice(),this.allSelect(),this.noSelect(),shopList);
         }
@@ -183,7 +186,7 @@ Page({
       }),
       header: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        'cookie': 'PBCSID=' + wx.getStorageSync('sessionId') + ';PBCSTOKEN=' + wx.getStorageSync('sessionId')
+        'cookie': 'PBCSID=' + wx.getStorageSync('sessionId') + ';PBCSTOKEN=' + wx.getStorageSync('token')
       },
       success: (res) => {
         let code = res.data.baseServerInfo.code
@@ -275,7 +278,8 @@ Page({
           totalPrice:total,
           allSelect:allSelect,
           noSelect:noSelect,
-          list:list
+          list:list,
+          imageUrl: app.globalData.imageUrl
         }
       });
       var shopCarInfo = {};
@@ -340,7 +344,7 @@ Page({
       }),
       header: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        'cookie': 'PBCSID=' + wx.getStorageSync('sessionId') + ';PBCSTOKEN=' + wx.getStorageSync('sessionId')
+        'cookie': 'PBCSID=' + wx.getStorageSync('sessionId') + ';PBCSTOKEN=' + wx.getStorageSync('token')
       },
       success: (res) => {
         let code = res.data.baseServerInfo.code
@@ -403,7 +407,7 @@ Page({
       }),
       header: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        'cookie': 'PBCSID=' + wx.getStorageSync('sessionId') + ';PBCSTOKEN=' + wx.getStorageSync('sessionId')
+        'cookie': 'PBCSID=' + wx.getStorageSync('sessionId') + ';PBCSTOKEN=' + wx.getStorageSync('token')
       },
       success: (res) => {
         let code = res.data.baseServerInfo.code

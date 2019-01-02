@@ -14,7 +14,7 @@
       <text wx:if="{{orderInfo.status == 0}}" style="font-size:26rpx;color:#fff;line-height:60rpx;height:60rpx;">剩余： {{time.hours}}小时{{time.minutes}}分钟</text>
     </view>
   <!--物流信息-->
-  <view class='logistics-container' >
+  <view class='logistics-container'>
       <view class="logistics-message" wx:if="{{orderInfo.status == 3}}">
         <image src="../../images/orderDetail/logistics.png" class='img-complate'></image>
         <view class="logistics-text">
@@ -23,7 +23,14 @@
           </view>
           <image src="../../images/orderDetail/into.png" class='img-into' ></image>
       </view>
-      <view class='logistics-message logistics-message-address' wx:if="{{orderInfo.status != 3}}">
+      <view class="logistics-message" wx:if="{{orderInfo.status == 2}}">
+          <image src="../../images/orderDetail/logistics.png" class='img-complate'></image>
+          <view class="logistics-text">
+              <text>您的订单已发货，可通过物流编号查询进度</text>
+              <text class='logistics-time'>{{orderInfo.expresscom}}： {{orderInfo.expresssn}}</text>
+            </view>
+      </view>
+      <view class='logistics-message logistics-message-address' wx:if="{{orderInfo.status == 1 || orderInfo.status == 0}}">
         <image src='../../images/orderDetail/address.png' class='address-img img-complate'></image>
         <view class='logistics-text'>
           <text class="address-name ">{{orderInfo.address.realname}} {{orderInfo.address.mobile}}</text>
@@ -32,13 +39,12 @@
       </view>
   </view>
 </view>
-
   <!--商品列表部分-->
   <view class='product-list'>
     <view wx:for="{{orderInfo.orderGoodsList}}" wx:key="{{item.id}}">
       <view class='product-item'>
-        <view class='product-msg'>
-          <image src="{{item.thumb}}" class='product-img'></image>
+        <view class='product-msg' style="width:70%;">
+          <image src="{{item.thumb}}" class='product-img' mode="aspectFit"></image>
           <text class='product-text'>{{item.title}}</text>
         </view>
         <view>
@@ -48,7 +54,7 @@
       </view>
     </view>
   </view>
-  
+
   <!--订单编号、下单时间、支付时间-->
   <view class='item-container order-msg-container'>
     <view class='order-msg-item'>
@@ -62,7 +68,7 @@
     <view class='order-msg-item' wx:if="{{orderInfo.status!=0}}">
       <text class='order-msg-title'>支付时间:</text>
       <text>{{orderInfo.newpaytime}}</text>
-    </view>   
+    </view>
   </view>
 
   <!--收货地址-->
@@ -86,7 +92,7 @@
         <text >￥0.00</text>
       </view>
       <!--优惠卷 后期会添加-->
-      <!-- <view class='price-item' >  
+      <!-- <view class='price-item' >
         <text>优惠券</text>
         <text >-￥{{orderInfo.couponprice }}</text>
       </view>  -->
@@ -98,15 +104,27 @@
     <view class='price-pay-msg'>
       实付款：
       <text class="price-pay-count">￥{{orderInfo.price}}</text>
-    </view>      
+    </view>
   </view>
   <view class='custom-service'>
       <!-- <button size="mini" plain='true' class="custom-button" type="warn" bindtap="hrefCommit" wx:if="{{orderInfo.status==3}}" data-orderid="{{orderInfo.id}}">去评价</button> -->
-      <button size="mini" class="custom-button custom-button-pay"  bindtap="hrefToPay" wx:if="{{orderInfo.status==0}}" data-orderid="{{orderInfo.id}}">去付款</button>
-      <button size="mini" plain='true' class="custom-button custom-button-cancel"  bindtap="hrefCancel"  wx:if="{{orderInfo.status==0}}" data-orderid="{{orderInfo.id}}">取消订单</button>
-    <view class='custom-icon' bindtap='hrefCService'>
+      <view size="mini" class="custom-button custom-button-pay"  bindtap="payfor" wx:if="{{orderInfo.status==0}}" data-orderid="{{orderInfo.id}}" >去付款</view>
+      <view size="mini" plain='true' class="custom-button custom-button-cancel"  bindtap="hrefCancel"  wx:if="{{orderInfo.status==0}}" data-orderid="{{orderInfo.id}}">取消订单</view>
+    <view class='custom-icon' bindtap='listenerButton'>
        <image src='../../images/message.png' class="custom-img"></image>
        <text >联系客服</text>
     </view>
   </view>
 </view>
+
+<!-- 底部客服弹窗 -->
+<action-sheet hidden="{{actionSheetHidden}}" bindchange="listenerActionSheet" >
+  <block>
+    <action-sheet-item bindtap="call">拨打客服热线</action-sheet-item>
+    <action-sheet-item >
+      <button open-type="contact" type="button" name="button" bindtap="close">客服消息入口</button>
+    </action-sheet-item>
+  </block>
+  <!--自动隐藏action-sheet-->
+  <action-sheet-cancel bindtap="close">取消</action-sheet-cancel>
+</action-sheet>

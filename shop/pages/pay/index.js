@@ -14,12 +14,13 @@ Page({
   },
   onShow: function(){
     let _this = this
-    console.log(_this.data.addressId);
+    _this.getAddress()
     _this.setData({
       addressId:_this.data.addressId,
       realname:_this.data.realname,
       mobile:_this.data.mobile,
-      address:_this.data.address
+      address:_this.data.address,
+      imageUrl: app.globalData.imageUrl
     })
   },
   onLoad: function(){
@@ -27,11 +28,11 @@ Page({
     let goodsList = wx.getStorageSync('orderShopList');
     let submitGoodsList = []  // 提交订单用商品对象列表
     let goodsIdList = [] // 获取运费用商品id列表
-    _this.getAddress() // 获取用户地址簿
+    // _this.getAddress() // 获取用户地址簿
     // let couponList = [{id:1,name:'满减50优惠券',price:5000,usePrice:100000}]
-    let fare = 1000
+    let fare = 0
     let isVip = true
-    let vipPrice = 12000
+    let vipPrice = 0
     let totalPrice = _this.data.totalPrice
     for (let i = 0; i < goodsList.length; i++) {
       let goodsId = goodsList[i].goodsId
@@ -101,7 +102,6 @@ Page({
             let area = addressInfo.area
             let addressDetail = addressInfo.address
             let addressId = addressInfo.id
-            console.log(addressInfo);
             let showAddress = province+city+area+addressDetail
             _this.setData({
               addressId:addressId,
@@ -164,17 +164,21 @@ Page({
       success: (res) => {
         let code = res.data.baseServerInfo.code
         let msg = res.data.baseServerInfo.msg
+        wx.hideLoading()
         if (code == 1) {
           let orderId = res.data.id
-          wx.hideLoading()
-          _this.setData({
-            orderId:orderId
+          wx.showModal({
+            title:'提示',
+            content:'支付暂未开通',
+            showCancel:false,
+            success:function(res){
+              _this.cancelOrder(orderId)
+            }
           })
-          wx.navigateTo({
-            url: '/pages/pay-success/index?Id='+orderId+''
-          });
-          // _this.payfor()
-          console.log('订单创建成功，开始调用微信支付');
+          // _this.payfor(orderId)
+          // wx.navigateTo({
+          //   url: '/pages/pay-success/index?Id='+orderId+''
+          // });
         }
         else if (code == 1019) {
           wx.navigateTo({
@@ -200,51 +204,59 @@ Page({
     // },1000)
   },
   // 提交生成订单
-  payfor: function(){
+  payfor: function(orderId){
     let _this = this
-    let orderId = _this.data.orderId
     wx.showLoading({
       mask:true,
       title: '订单支付中...'
     })
     wx.request({
-      url: 'https://'+app.globalData.productUrl+'/api?resprotocol=json&reqprotocol=json&class=Order&method=CreateOrder',
+      url: 'https://'+app.globalData.productUrl+'/api?resprotocol=json&reqprotocol=json&class=Payment&method=WechatPayOrder',
       method: 'post',
       data: JSON.stringify({
         baseClientInfo: { longitude: 0, latitude: 0 ,appId: ''+app.globalData.appId+''},
-        orderId:orderId
+        orderId:orderId,
+        orderType:1
       }),
       header: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        'cookie': 'PBCSID=' + wx.getStorageSync('sessionId') + ';PBCSTOKEN=' + wx.getStorageSync('sessionId')
+        'cookie': 'PBCSID=' + wx.getStorageSync('sessionId') + ';PBCSTOKEN=' + wx.getStorageSync('token')
       },
       success: (res) => {
         let code = res.data.baseServerInfo.code
         let msg = res.data.baseServerInfo.msg
+        let payInfo = res.data
+        wx.hideLoading()
         if (code == 1) {
-          let orderId = res.data.id
-          wx.hideLoading()
-              let appId = apiParam.appId
-              let timeStamp = apiParam.timeStamp
-              let nonceStr  = apiParam.nonceStr
-              let prepayId  = apiParam.prepayId
-              let sign      = apiParam.sign
-              let orderSn   = apiParam.orderSn
-              wx.requestPayment({
-                'timeStamp': ''+timeStamp+'',
-                'nonceStr': nonceStr,
-                'package': 'prepay_id='+prepayId,
-                'signType': 'MD5',
-                'paySign': sign,
-                'success':function(res){
-                  _this.paySuccess(orderSn,prepayId)
-                },
-                'fail':function(res){
-                  _this.cancelOrder(orderSn)
-                },
-                'complete':function(res){
-                }
-              })
+          wx.showModal({
+            title:'提示',
+            content:'支付暂未开通',
+            showCancel:false,
+            success:function(res){
+              _this.cancelOrder(orderId)
+            }
+          })
+              // let appId = payInfo.appId
+              // let timeStamp = payInfo.timeStamp
+              // let nonceStr  = payInfo.nonceStr
+              // let prepayId  = payInfo.prepayId
+              // let sign      = payInfo.sign
+              // let orderSn   = payInfo.orderSn
+              // wx.requestPayment({
+              //   'timeStamp': ''+timeStamp+'',
+              //   'nonceStr': nonceStr,
+              //   'package': 'prepay_id='+prepayId,
+              //   'signType': 'MD5',
+              //   'paySign': sign,
+              //   'success':function(res){
+              //     _this.paySuccess(orderSn,prepayId,orderId)
+              //   },
+              //   'fail':function(res){
+              //     _this.cancelOrder(orderId)
+              //   },
+              //   'complete':function(res){
+              //   }
+              // })
         }
         else if (code == 1019) {
           wx.navigateTo({
@@ -264,5 +276,35 @@ Page({
       }
     })
   },
-
+  // 支付成功回调
+  paySuccess: function(orderSn,prepayId,orderId){
+    let _this = this
+    wx.request({
+      url: 'https://'+app.globalData.productUrl+'/api?resprotocol=json&reqprotocol=json&class=Payment&method=WechatPaySuccess',
+      method: 'post',
+      data: JSON.stringify({
+        baseClientInfo: { longitude: 0, latitude: 0 },
+        orderSn: orderSn,
+        prepayId:prepayId
+      }),
+      header: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'cookie': 'PBCSID=' + wx.getStorageSync('sessionId') + ';PBCSTOKEN=' + wx.getStorageSync('token')
+      },
+      success: function(res) {
+        wx.reLaunch({
+          url: '/pages/pay-success/index?Id='+orderId+''
+        });
+      },
+      fail: function(res) {
+      }
+    })
+  },
+  // 支付失败回调
+  cancelOrder: function(orderId){
+    console.log(orderId);
+    wx.navigateTo({
+      url: '/pages/my-order-detail/index?Id='+orderId+''
+    });
+  },
 })

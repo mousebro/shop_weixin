@@ -52,7 +52,7 @@
   <view class="shop-title clearfix">
     <text class="{{showActive == 'a1'?'shop-title-active':''}}" data-id="a1" bindtap="scrollPosition">商品</text>
     <text class="{{showActive == 'a2'?'shop-title-active':''}}" data-id="a2" bindtap="scrollPosition">详情</text>
-    <text>评价</text>
+    <!-- <text>评价</text> -->
   </view>
   <!-- 滚动区域 -->
   <scroll-view class="scroll-body" scroll-y="true" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}" scroll-with-animation="true">
@@ -69,9 +69,9 @@
       <!-- 商品名称 -->
       <view class="shop-detail-name">
         <text>{{title}}</text>
-        <view class="shop-detail-share clearfix">
+        <view class="shop-detail-share clearfix" bindtap="share">
           <image src="/images/share.png" class="swiper-img" mode="aspectFill"/>
-          <text>分享</text>
+          <button open-type="share">分享</button>
         </view>
       </view>
       <!-- 商品价格 -->
@@ -79,16 +79,16 @@
         <text>￥</text>
         <text>{{marketprice}}</text>
         <text></text>
-        <text class="delLine">￥{{productprice}}</text>
+        <text wx:if="{{productprice != '0.00'}}" class="delLine">￥{{productprice}}</text>
       </view>
       <!-- 会员折扣 -->
-      <view class="shop-detail-super">
+      <!-- <view class="shop-detail-super">
         <image src="/images/super.png" class="swiper-img" mode="widthFix"/>
         <text>会员下单再享98折，可省18.00元</text>
-      </view>
+      </view> -->
     </view>
     <!-- 评价 -->
-    <view class="shop-assess">
+    <!-- <view class="shop-assess">
       <view class="shop-assess-title">
         <text>评价(123)</text>
         <text>查看全部></text>
@@ -98,14 +98,9 @@
         <text>喵喵酱</text>
       </view>
       <view class="shop-assess-detail clearfix">
-        <!-- <image src="/pic/banner1.png" class="swiper-img"/>
-        <image src="/pic/banner1.png" class="swiper-img"/>
-        <image src="/pic/banner1.png" class="swiper-img"/>
-        <image src="/pic/banner1.png" class="swiper-img"/>
-        <image src="/pic/banner1.png" class="swiper-img"/> -->
         <text>喵喵酱喵喵酱喵喵酱喵喵酱喵喵酱喵喵酱喵喵酱喵喵酱喵喵酱喵喵酱喵喵酱喵喵酱喵喵酱喵喵酱喵喵酱</text>
       </view>
-    </view>
+    </view> -->
     <!-- 商品详情 -->
     <view class="shop-parse" id="a2">
       <text>商品详情</text>

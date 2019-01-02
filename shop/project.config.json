@@ -41,14 +41,14 @@
 			"list": [
 				{
 					"id": 0,
-					"name": "my-order",
-					"pathName": "pages/my-order/index",
+					"name": "group",
+					"pathName": "pages/group-buy-list/index",
 					"query": ""
 				},
 				{
 					"id": 1,
-					"name": "group-buy-detail",
-					"pathName": "pages/group-buy-detail/index",
+					"name": "shop-list",
+					"pathName": "pages/shop-list/index",
 					"query": ""
 				},
 				{

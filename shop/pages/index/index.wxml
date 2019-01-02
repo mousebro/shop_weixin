@@ -2,10 +2,10 @@
 <view class="index-title">
   <view class="index-search" bindtap="hrefToSearch">
     <image src="/images/search.png"/>
-    <text>52°景芝鸿福酒</text>
+    <text>习酒窖藏1988</text>
   </view>
   <view class="index-sever" bindtap="listenerButton">
-    <image src="/images/message.png"/>
+    <image src="/images/index/sever2.png"/>
     <text>客服</text>
   </view>
 </view>
@@ -24,15 +24,23 @@
 
 <view class="index-swiper">
   <swiper class="index-swiper-block" indicator-dots="true" circular="true" autoplay="true" interval="5000" duration="1000" indicator-color="#cbcbcb" indicator-active-color="#ea4149">
-    <block>
+    <block wx:for="{{bannerList}}">
       <swiper-item>
-        <image src="/pic/banner1.png" class="swiper-img"/>
-      </swiper-item>
-      <swiper-item>
-        <image src="/pic/banner2.png" class="swiper-img"/>
+        <image src="{{item.thumb}}" class="swiper-img"/>
       </swiper-item>
     </block>
   </swiper>
+</view>
+
+<view class="shop-list">
+  <text>热销商品</text>
+  <block wx:for="{{goodsList}}">
+    <view class="shop-list-block" data-id="{{item.id}}" bindtap="hrefToDetail">
+      <image src="{{item.thumb}}" class="swiper-img"/>
+      <text>{{item.title}}</text>
+      <text>￥{{item.marketprice}}</text>
+    </view>
+  </block>
 </view>
 
 <view class="">

@@ -1,29 +1,28 @@
 <!--pages/address/index.wxml-->
 <!--地址列表页-->
-<view>
-<view style="width:100%;height:20rpx;background:#f2f2f2;"></view>
-<view class='address-container' >
-  <view>
-    <view class='address-list'>
-      <view class='address-item' wx:for="{{addressList}}" wx:key="{{index}}" data-name="{{item.realname}}" data-mobile="{{item.mobile}}" data-address="{{item.province+item.city+item.area+item.address}}" data-id="{{item.id}}" bindtap='hrefHandle' data-idx="{{index}}" >
-        <view class='address-item-left'>
-          <view class='address-name-phone'>
-            <text class='address-name'>{{item.realname}}</text>
-            <text class='address-phone'>{{item.mobile}}</text>
-            <text class='address-default' wx:if="{{item.isdefault=='1'}}">默认</text>
-          </view>
-          <text class='address-detail'>{{item.totalAddress}}</text>
-        </view>
-        <view class='address-item-right'>
-            <view>
-              <image src='../../images/address/delete.png'  class='address-detele-img' catchtap="deleteAddress" data-idx="{{item.id}}"></image>
-              <image src='../../images/address/editor.png' class='address-detele-img' catchtap="editorAddress" data-idx="{{item.id}}"></image>
+<view class="body">
+  <view style="width:100%;height:20rpx;background:#f2f2f2;"></view>
+  <view class='address-container' >
+    <view>
+      <view class='address-list'>
+        <view class='address-item' wx:for="{{addressList}}" wx:key="{{index}}" data-name="{{item.realname}}" data-mobile="{{item.mobile}}" data-address="{{item.province+item.city+item.area+item.address}}" data-id="{{item.id}}" bindtap='hrefHandle' data-idx="{{index}}" >
+          <view class='address-item-left'>
+            <view class='address-name-phone'>
+              <text class='address-name'>{{item.realname}}</text>
+              <text class='address-phone'>{{item.showMobile}}</text>
+              <text class='address-default' wx:if="{{item.isdefault=='1'}}">默认</text>
             </view>
+            <text class='address-detail'>{{item.totalAddress}}</text>
+          </view>
+          <view class='address-item-right'>
+              <view>
+                <image src='../../images/address/delete.png'  class='address-detele-img' catchtap="deleteAddress" data-idx="{{item.id}}"></image>
+                <image src='../../images/address/editor.png' class='address-detele-img' catchtap="editorAddress" data-idx="{{item.id}}"></image>
+              </view>
+          </view>
         </view>
       </view>
     </view>
+    <button class="add-address-btn" bindtap="addNewAddress" wx:if="{{addressList.length<10}}">+ 新建收货地址</button>
   </view>
-  <button class="add-address-btn" bindtap="addNewAddress" wx:if="{{addressList.length<10}}">+ 新建收货地址</button>
-</view>
-
 </view>

@@ -9,7 +9,9 @@ Page({
     buyNumMax: 100,
     shopCarInfo: {},
     showActive: 'a1',
-    actionSheetHidden: true
+    actionSheetHidden: true,
+    isShowList:true,
+    isShowItem:true
   },
   onShow: function () {
     let _this = this
@@ -292,8 +294,30 @@ Page({
       actionSheetHidden: true
     })
   },
-  //关闭拼单列表
+  //关闭拼单列表悬浮框
   closeGroupList(){
-    console.log('fdsfd')
+    this.setData({
+      isShowList:!this.data.isShowList
+    })
+  },
+  //点击查看全部显示拼单列表
+  showGroupList(){
+    this.setData({
+      isShowList:!this.data.isShowList,
+      isShowItem:true
+    })
+  },
+  //点击单个拼团信息进行拼团操作
+  goToGroupBuy(){
+    this.setData({
+      isShowItem:!this.data.isShowItem,
+      isShowList:true
+    })
+  },
+  //关闭单个拼团悬浮框
+  closePersonalGroup(){
+    this.setData({
+      isShowItem:!this.data.isShowItem,
+    })
   }
 })

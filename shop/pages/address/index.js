@@ -123,7 +123,7 @@ Page({
         if (code == 1) {
           let arr = res.data.addressList
           for(var i in arr){
-             arr[i].mobile = _this.phoneFilter(arr[i].mobile)   //对电话号码进行过滤处理
+             arr[i].showMobile = _this.phoneFilter(arr[i].mobile)   //对电话号码进行过滤处理
              arr[i].totalAddress = arr[i].province + arr[i].city + arr[i].area +arr[i].address
           }
           _this.setData({

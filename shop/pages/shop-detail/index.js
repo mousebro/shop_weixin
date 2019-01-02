@@ -6,10 +6,11 @@ Page({
   data: {
     buyNumber:1,
     buyNumMin:1,
-    buyNumMax:100,
+    buyNumMax:9999,
     shopCarInfo:{},
-    showActive:'a0',
-    actionSheetHidden:true
+    showActive:'a1',
+    actionSheetHidden:true,
+    imgUrl:''
   },
   onShow: function(){
     let _this = this
@@ -29,6 +30,7 @@ Page({
     let _this = this
     this.setData({
       shopId:shopId,
+      imageUrl: app.globalData.imageUrl
     })
     _this.getGoodsInfo()
   },
@@ -86,7 +88,6 @@ Page({
     let number = _this.data.buyNumber;
     let price = _this.data.countPrice;
     shopList.push({id:id,goodsId:goodsId,pic:pic,name:name,number:number,price:price})
-    console.log(shopList);
     wx.setStorage({
       key:"orderShopList",
       data:shopList
@@ -192,6 +193,13 @@ Page({
             let productprice = goodsInfo.productprice
             let marketprice = goodsInfo.marketprice
             let thumbUrl = goodsInfo.thumbUrl
+            for (var i = 0; i < thumbUrl.length; i++) {
+              let img = thumbUrl[i]
+              let url = img.substring(0,4)
+              if (url != 'http') {
+                thumbUrl[i] = app.globalData.imageUrl+img
+              }
+            }
             let goodsPicture = goodsInfo.thumbUrl[0]
             let description = goodsInfo.content
             let countPrice = parseFloat(marketprice)
@@ -217,7 +225,7 @@ Page({
           }
         }
         else {
-          console.log(res.statusCode);
+
         }
       },
       fail: (res) => {
@@ -232,7 +240,7 @@ Page({
       wx.navigateTo({
         url: '/pages/login/index'
       })
-      wx.setStorageSync('isLogin', false)
+      return false;
     }
     wx.request({
       url: 'https://'+app.globalData.productUrl+'/api?resprotocol=json&reqprotocol=json&class=ShoppingCart&method=AddGoods',
@@ -289,7 +297,7 @@ Page({
       actionSheetHidden: true
     })
     wx.makePhoneCall({
-      phoneNumber: '13400000000' // 仅为示例，并非真实的电话号码
+      phoneNumber: '0591-88325999' // 仅为示例，并非真实的电话号码
     })
   },
   //取消底部弹窗
@@ -298,5 +306,14 @@ Page({
     _this.setData({
       actionSheetHidden: true
     })
+  },
+  //分享
+  onShareAppMessage: function(res) {
+    let _this = this
+    return {
+      title: ''+_this.data.title+'',
+      path: '/pages/shop-detail/index?Id='+_this.data.id+'',
+      imageUrl:this.data.goodsPicture
+    }
   },
 })

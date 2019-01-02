@@ -1,0 +1,54 @@
+<!--pages/group-buy-success/index.wxml-->
+<view class="all-container" >
+    <!---->
+    <view class="product-item">
+        <image class="product-img" src="../../pic/product01.png" mode="aspectFit" lazy-load="false" ></image>
+        <view class="product-msg-container" >
+              <text class="title">
+                  53°茅台王子酒53°茅台王子酒
+              </text>
+              <view class="count-container" >
+                  <text class="count-total" >已拼580件</text>
+                  <text class="count-buy" >x1</text>
+              </view>
+              <view class="price-container">
+                <view class="count" >
+                    3人团
+                </view>
+                <view class="price">
+                    <text class="oldPrice">￥199.90</text><text class="newPrice02">￥</text><text class="newPrice">368.</text><text class="newPrice02">90</text>
+                </view>
+              </view>
+        </view>
+
+    </view>
+    <view class="team-container" hover-class="none" hover-stop-propagation="false">
+       <view class="team-msg" hover-class="none" hover-stop-propagation="false" hidden="{{!isPay}}">
+            <text>拼团成功</text>
+       </view>
+       <view class="team-msg-two" hover-class="none" hover-stop-propagation="false" >
+        <view class="" hover-class="none" hover-stop-propagation="false">
+            还差<text>2</text>人即可拼团成功，剩余时间
+        </view>
+        <view class="" hover-class="none" hover-stop-propagation="false">
+            <text>56</text>:<text>38</text>:<text>17</text>
+        </view>
+      </view>
+       <view class="list-item-avator-container">
+            <view class="" >
+              <image src="/pic/banner1.png" class='avator'></image>
+              <view> <!---->
+                  团长
+              </view>
+            </view>
+            <view class="" >
+              <image src="../../images/group-buy/noBody.png" class='avator'></image>
+            </view>
+            <view class="" >
+              <image src="../../images/group-buy/noBody.png" class='avator'></image>
+            </view>
+          </view>
+    </view> 
+    <view class="buttonFixed" wx:if="{{isPay}}">查看详情</view>
+    <view class="buttonFixed" wx:else>邀人进团</view>
+</view>

@@ -3,7 +3,7 @@
 <view class='commit-container'>
   <!--商品评分-->
   <view class='commit-star-container' style=''>
-    <image src='../../pic/product01.png'  class='product-img'></image>
+    <image src='../../pic/product01.png'  class='product-img'  mode="aspectFit"></image>
     <view >
       <view class="commit-msg">商品评分</view>
       <image class='commit-star' wx:for="{{5}}" wx:key="{{index}}" src="{{index<star?'../../images/product-commit/star-red.png':'../../images/product-commit/star-gray.png'}}" catchtap="setStar" data-idx="{{index+1}}"></image>
@@ -16,9 +16,9 @@
 
       <!--添加图片-->
       <view>
-        <image src='../../images/product-commit/add-pic.png' class="commit-addpic" bindtap="addPic"></image>
+        <image src='../../images/product-commit/add-pic.png' mode="aspectFit" class="commit-addpic" bindtap="addPic"></image>
       </view>
-       <button form-type="submit"  class='submitBtn'>提交</button>
+       <view form-type="submit"  class='submitBtn'>提交</view>
   </form>
 
 </view>

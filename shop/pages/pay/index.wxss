@@ -1,16 +1,17 @@
 page{background-color: #f2f2f2;}
 .clearfix:after {content: ".";display: block;height: 0;clear: both;visibility: hidden;}
 /* 头部地址栏 */
-.address{width: 90%;margin-top: 20rpx;background-color: #ffffff;padding: 30rpx 5%;}
+.address{width: 90%;margin-top: 20rpx;background-color: #ffffff;padding: 30rpx 5%;position: relative;}
 .address text:nth-child(1){font-size: 30rpx;color: #222222;display: inline-block;font-weight: bold;}
 .address text:nth-child(2){font-size: 30rpx;color: #222222;display: inline-block;font-weight: bold;margin-left: 20rpx;}
 .address text:nth-child(3){font-size: 24rpx;color: #555555;display: block;margin: 20rpx 0 0;width: 100%;}
+.address image{display: block;position: absolute;width: 20rpx;height: 30rpx;top: 40rpx;right: 5%;}
 /* 商品部分 */
 .shop{width: 100%;background-color: #ffffff;}
 .shop-block{width: 90%;margin-top: 20rpx;background-color: #ffffff;margin-left: 5%;padding: 30rpx 0;position: relative;border-bottom: 1px solid #e8e8e8;}
 .shop-block:nth-last-child(1){border: none;}
 .shop-block image{width: 150rpx;height: 150rpx;display: block;float: left;}
-.shop-block text:nth-child(2){display: block;float: left;width: 50%;margin-left: 20rpx;margin-top: 20rpx;font-size: 32rpx;}
+.shop-block text:nth-child(2){display: block;float: left;width: 50%;margin-left: 20rpx;margin-top: 20rpx;font-size: 32rpx;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;}
 .shop-block text:nth-child(3){display: block;float: left;width: 50%;margin-left: 20rpx;margin-top: 30rpx;font-size: 26rpx;color: #ea4149;font-weight: bold;}
 .shop-block text:nth-child(4){position: absolute;bottom: 50rpx;right: 0;color: #555555;font-size: 26rpx;}
 /* 计算价格部分 */

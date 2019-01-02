@@ -1,5 +1,6 @@
 /* pages/address/index.wxss */
 page{background:#fff;height:calc(100% - 20rpx)}
+.body{padding-bottom:150rpx;}
 .address-container{height:100%;margin-top:20rpx;position: relative;}
 
 /*单个地址信息*/

@@ -3,7 +3,7 @@
     <text>{{realname}}</text>
     <text>{{mobile}}</text>
     <text>{{address}}</text>
-    <!-- <image src="/images/super.png"/> -->
+    <image src="/images/more.png"/>
   </view>
   <!-- 商品信息 -->
   <view class="shop">
@@ -39,10 +39,10 @@
       <text>优惠券</text>
       <text>-￥{{couponPrice}}</text>
     </view> -->
-    <view wx:if="{{isVip}}" class="countprice-less clearfix">
+    <!-- <view wx:if="{{isVip}}" class="countprice-less clearfix">
       <image src="/images/super.png" class="swiper-img" mode="widthFix"/>
       <text class="vip-price">-￥{{vipPrice/100}}</text>
-    </view>
+    </view> -->
     <view class="countprice-total">
       <text>实付金额</text>
       <text>￥{{payPrice/100}}</text>

@@ -1,0 +1,16 @@
+/* pages/group-buy-list/index.wxss */
+page{background: #f2f2f2;}
+.card{margin-top:18rpx;background: #fff;padding:27rpx 22rpx;}
+.card .card-img{width: 100%;height:370rpx;}
+.card .card-msg{font-size:25rpx;color:#222222;height:60rpx;overflow:hidden;text-overflow: ellipsis;}
+.card .card-handle .price>text:first-child{font-size:20rpx ;color:#ea4149;}
+.card .card-handle .price>text:nth-child(2){font-size:46rpx;color:#ea4149;}
+.card .card-handle .price>text:nth-child(3){font-size:20rpx;color:#ea4149;}
+.card .card-handle{display: flex;justify-content: space-between;align-items: center;}
+.card .avator-contain view .avator{width:42rpx;height:42rpx;border-radius: 50%;border:6rpx solid #fff;}
+.card .avator-contain view .avator:last-child{margin-left: -20rpx;}
+.card .card-handle{margin-top:40rpx;}
+.card .avator-contain{display: flex;height:46rpx;}
+.card .avator-contain .btn-container{height: 100%;line-height: 100%;}
+.card .avator-contain .btn-container>text:first-child{font-size:24rpx;color:#ea4149;border:1px solid #ea4149;height:100%;display:inline-block;width: 100rpx;text-align: center;box-sizing: border-box;}
+.card .avator-contain .btn-container>text:last-child{font-size:24rpx;color:#fff;border:1px solid #ea4149;height:100%;display:inline-block;width: 100rpx;text-align: center;box-sizing: border-box;background: #ea4149;}

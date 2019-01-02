@@ -51,12 +51,12 @@ function wxParse() {
   var transData = {}; //存放转化后的数据
   if (type == 'html') {
     transData = _html2json2.default.html2json(data, bindName);
-    console.log(JSON.stringify(transData, ' ', ' '));
+    // console.log(JSON.stringify(transData, ' ', ' '));
   } else if (type == 'md' || type == 'markdown') {
     var converter = new _showdown2.default.Converter();
     var html = converter.makeHtml(data);
     transData = _html2json2.default.html2json(html, bindName);
-    console.log(JSON.stringify(transData, ' ', ' '));
+    // console.log(JSON.stringify(transData, ' ', ' '));
   }
   transData.view = {};
   transData.view.imagePadding = 0;

@@ -25,12 +25,14 @@
     </view> -->
   </view>
   <!--我的订单-->
-  <scroll-view style='height:1000rpx;width:100%;' scroll-y>
+  <view>
     <view class='my-order-container '>
       <!--我的订单+查看全部-->
       <view class='my-order-text' bindtap='readMore'>
         <text class='order-text'>我的订单</text>
-        <view class="order-more" >查看全部<text class='order-for-more'></text></view>
+        <view class="order-more" >查看全部 <image class="more-icon" src="../../images/more.png" mode="aspectFit" lazy-load="false" >
+          
+        </image></view>
       </view>
       <view class='my-order-menu'>
         <view class="order-menu-icon" bindtap="hrefToWaitPay">
@@ -72,7 +74,9 @@
           <image src='../../images/personal/address.png' style="height:40rpx;width:35rpx;" class='oprator-card-image'></image>
           <text  class='oprator-card-text'>地址管理</text>
         </view>
-        <text class='order-for-more'></text>
+        <image class="more-icon" src="../../images/more.png" mode="aspectFit" lazy-load="false" >
+          
+        </image>
       </view>
       <!-- <view class='oprator-card'>
         <view>
@@ -82,5 +86,5 @@
         <text class='order-for-more'></text>
       </view> -->
     </view>
-  </scroll-view>
+  </view>
 </view>

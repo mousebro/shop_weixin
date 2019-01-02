@@ -9,6 +9,9 @@ Page({
     isSupper:true
   },
   onLoad: function () {
+    
+  },
+  onShow:function(){
     this.getUserInfo()
   },
   getUserInfo: function(e) {
@@ -18,6 +21,7 @@ Page({
       wx.navigateTo({
         url: '/pages/login/index'
       })
+      return false;
     }
     wx.showLoading({
       mask:true,

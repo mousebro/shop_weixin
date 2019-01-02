@@ -5,7 +5,7 @@ page{
   position: relative;
   background: #f2f2f2;
 }
-.view-container{height:calc(100% - 200rpx);background:#fff;position: relative;}
+.view-container{height:calc(100% - 200rpx);background:#f2f2f2;position: relative;}
 /*头部选项卡*/
 .navbar{
   background: #fff;
@@ -53,7 +53,7 @@ color: transparent;
 
 .all-order-container{margin-top:120rpx;}
 /*待付款*/
-.waiting-for-pay-container{background: #fff;margin-bottom: 30rpx;}
+.waiting-for-pay-container{background: #fff;border-bottom:20rpx solid #f2f2f2;}
 /*按钮样式*/
 .oprator-btn-container{text-align:right;padding:40rpx 20rpx 20rpx;}
 .oprator-btn-container button{margin-left: 30rpx;}

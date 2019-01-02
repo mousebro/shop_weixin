@@ -9,8 +9,8 @@
       <text>付款成功</text>
     </view>
 
-    <view class="href clearfix" bindtap="hrefToOrderDetail">
-      <text>订单详情</text>
+    <view class="href clearfix">
+      <text bindtap="hrefToOrderDetail">订单详情</text>
       <button open-type="contact" type="button" name="button">联系客服</button>
     </view>
 
