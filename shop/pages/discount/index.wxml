@@ -1,0 +1,36 @@
+<!--pages/discount/index.wxml-->
+<view class="discount-all-container" >
+<!--商品列表页 头部选项栏-->
+    <view class="fixed-header">
+        <view class="headerTabs" >
+            <view class="{{isChose==1?'isActive':''}}" bindtap='handleTap' data-idx="1">未使用</view>
+            <view class="{{isChose==2?'isActive':''}}" bindtap='handleTap' data-idx="2">已使用</view>
+            <view class="{{isChose==3?'isActive':''}}" bindtap='handleTap' data-idx="3">已过期</view>
+        </view>
+    </view>
+    <view class="discount-session" hover-class="none" hover-stop-propagation="false" >
+        <view  wx:for="{{couponList}}" wx:key="{{index}}" class="discount-item-unuse" style="background:#fff url({{imgUrl}}) no-repeat;background-size:100%" >
+            <view class="price">
+                <view class="{{isChose==1?'fontRed':''}}">
+                <!--再根据具体优惠券类型进行展示-->
+                    <view wx:if="{{item.backtype==0}}" ><text >￥</text><text >{{item.newDeduct[0]}}</text></view>
+                    <view wx:if="{{item.backtype==1}}"><text class="discount">{{item.discount}}</text><text class="count">折</text></view>
+                </view>
+                <text class="{{isChose==1?'fontGray':''}}">满{{item.enough}}可用</text>
+            </view>
+            <view class="title">
+                <!--再根据具体优惠券类型进行展示-->
+                <text  wx:if="{{isChose!=1}}" class="" selectable="false" space="false" decode="false" class="{{isChose==1?'fontBlack':''}}">
+                    {{item.couponname}}
+                </text>
+                <text wx:if="{{isChose==1}}" class="" selectable="false" space="false" decode="false" class="{{isChose==1?'fontBlack':''}}">
+                    {{item.couponname}}
+                </text>
+                <text class="{{isChose==1?'fontGray':''}}">有效期：{{item.startTime}} - {{item.endTime}}</text>
+            </view>
+        </view>
+        <view style="text-align:center;height:400rpx;line-height:400rpx;" wx:if="{{couponList.length==0}}">
+                暂无优惠券
+        </view>
+    </view>
+</view>

@@ -1,12 +1,12 @@
 <!--pages/flash-sale/index.wxml-->
-<!--限时秒杀-->
+<!--限时秒杀列表-->
 <view style='height:100%;'>
 <!--导航条-->
   <scroll-view scroll-x="true" class="navbar"  style="height:120rpx;width:100%;" >
-    <view wx:for="{{timeList}}" data-idx="{{index}}"  wx:key="index" data-idx="{{index}}" catchtap='handleChose' class="item-time {{index==idx?'item-active':''}}" data-tamp="{{item.tamp}}" data-falsh="{{item.isFlash}}">
+    <view wx:for="{{timeList}}" data-idx="{{index}}"  wx:key="index" data-idx="{{index}}" data-id="{{item.id}}" catchtap='handleChose' class="item-time {{index==idx?'item-active':''}}" data-tamp="{{item.tamp}}" data-falsh="{{item.isFlash}}">
       <view  class="item-time-container">
         <text class="right-now">{{item.title}}</text>
-        <text  class="times">{{item.time}}</text>
+        <text  class="times">{{item.timeStr}}</text>
       </view>      
     </view>
   </scroll-view>

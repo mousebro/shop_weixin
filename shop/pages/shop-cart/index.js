@@ -33,7 +33,7 @@ Page({
     });
   },
   onLoad: function () {
-      this.initEleWidth();
+    this.initEleWidth();
   },
   onShow: function(){
       // var shopList = [];
@@ -108,7 +108,7 @@ Page({
   },
   // 跳转回首页
   hrefToIndex:function(){
-      wx.switchTab({
+      wx.redirectTo({
           url: "/pages/index/index"
       });
   },
@@ -279,7 +279,8 @@ Page({
           allSelect:allSelect,
           noSelect:noSelect,
           list:list,
-          imageUrl: app.globalData.imageUrl
+          imageUrl: app.globalData.imageUrl,
+          isIpx:app.globalData.isIpx
         }
       });
       var shopCarInfo = {};
@@ -516,5 +517,23 @@ Page({
     wx.navigateTo({
       url:"/pages/pay/index"
     })
-  }
+  },
+  //跳转到首页
+  hrefToIndex: function(){
+    wx.reLaunch({
+      url: '/pages/index/index'
+    })
+  },
+  //跳转到分类
+  hrefToSort: function(){
+    wx.reLaunch({
+      url: '/pages/sort/index'
+    })
+  },
+  //跳转到个人中心
+  hrefToMine: function(){
+    wx.reLaunch({
+      url: '/pages/mine/index'
+    })
+  },
 })

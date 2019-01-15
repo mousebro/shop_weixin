@@ -1,9 +1,12 @@
 <template name="waiting-for-pay" data-id="{{id}}">
-    <view class="wait-for-pay" bindtap='handleClick' data-orderId="{{id}}"> <!--传递订单Id-->
+    <view class="wait-for-pay" bindtap='handleClick' data-orderId="{{id}}" data-ordertype="{{type}}" data-isteam="{{isteam}}" data-success="{{success}}"> <!--传递订单Id-->
     <view class="wait-title">
       <view >
         <text class="wait-sub-title" wx:if="{{status==0}}">待付款</text>
-        <text class="wait-sub-title" wx:if="{{status==1}}">待发货</text>
+        <text class="wait-sub-title" wx:if="{{status==1 && type==1}}">待发货</text>
+        <text class="wait-sub-title" wx:if="{{status==1 && type==2 && success==0 && isteam==0}}">待发货</text>
+        <text class="wait-sub-title" wx:if="{{status==1 && type==2 && success==1 && isteam==1}}">待发货</text>
+        <text class="wait-sub-title" wx:if="{{status==1 && type==2 && isteam==1 && success==0}}">待分享</text>
         <text class="wait-sub-title" wx:if="{{status==2}}">待收货</text>
         <text class="wait-sub-title" wx:if="{{status==3}}">已完成</text>
         <text class='wait-for-time'>{{newCreatetime}}</text>
@@ -22,15 +25,16 @@
         <text class='product-item-eslise' wx:if="{{orderGoodsList.length>2}}" >...</text>
         <view >
           <text class='product-item-text'>共{{totalCount}}件，实付</text>
-          <text class='product-item-price'>￥{{oldprice}}</text>
+          <text class='product-item-price'>￥{{price}}</text>
         </view>
       </view>
     </view>
   </view>
   <view class='oprator-btn-container' >
-      <button  size="mini" plain='true' class='cancle-btn' catchtap='cancleOrder' data-orderId="{{id}}" wx:if="{{status==0}}">取消订单</button>
-      <button size="mini" type="warn" plain='true' catchtap='payfor' data-orderId="{{id}}" wx:if="{{status==0}}">去付款</button>
+      <button  size="mini" plain='true' class='cancle-btn' catchtap='cancleOrder' data-orderId="{{id}}" wx:if="{{status==0}}" data-orderType="{{type}}">取消订单</button>
+      <button size="mini" type="warn" plain='true' catchtap='payfor' data-orderId="{{id}}" wx:if="{{status==0}}" data-ordertype="{{type}}">去付款</button>
+      <!-- <button size="mini" type="warn" plain='true' catchtap="gotoCommit" data-orderId="{{id}}" data-ordertype="{{type}}" data-isteam="{{isteam}}" data-success="{{success}}" wx:if="{{status==3}}" >去评价</button> -->
       <!-- <button  size="mini" plain='true' class='cancle-btn' data-orderId="{{id}}" wx:if="{{status==2}}" catchtap='watchLogistics'>查看物流</button> -->
-      <button size="mini" type="warn" plain='true' data-orderId="{{id}}"  wx:if="{{ status==2}}"  catchtap='comfiremFn'>确认收货</button>
+      <button size="mini" type="warn" plain='true' data-orderId="{{id}}" data-ordertype="{{type}}" data-isteam="{{isteam}}" data-success="{{success}}" wx:if="{{ status==2}}"  catchtap='comfiremFn'>确认收货</button>
   </view>
 </template>

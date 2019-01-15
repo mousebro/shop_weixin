@@ -1,0 +1,18 @@
+.clearfix:after {content: ".";display: block;height: 0;clear: both;visibility: hidden;}
+.commit-title{width: 100%;position: relative;text-align: center;height: 50rpx;line-height: 50rpx;margin-bottom: 50rpx;}
+.commit-title text{font-size: 32rpx;font-weight: bold;}
+.commit-title text:nth-child(1){position: absolute;left: 5%;top: 0;display: block;height: 50rpx;line-height: 50rpx;}
+
+.commit-info{width: 90%;padding: 40rpx 5%;}
+.commit-info-block{width: 100%;border-bottom: 1px solid #e2e2e2;padding-bottom: 60rpx;margin-top: 40rpx;}
+.commit-info-block:last-child{border: none;}
+.commit-info-block-top{position: relative;width: 80%;padding-left: 20%;}
+.commit-info-block-top image:nth-child(1){display:block;position: absolute;left: 0;top: 0;width: 15%;height: 100rpx;border: 1px solid #e2e2e2;border-radius: 50%;}
+.commit-info-block-top text{display: block;float: left;height: 60rpx;line-height: 60rpx;}
+.commit-info-block-top text:nth-child(2){width: 50%;font-size: 30rpx;font-weight: bold;color: #000000;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;}
+.commit-info-block-top text:nth-child(3){width: 50%;font-size: 26rpx;text-align: right;color: #777777;}
+.commit-info-block-top image:nth-child(4),.commit-info-block-top image:nth-child(5),.commit-info-block-top image:nth-child(6),.commit-info-block-top image:nth-child(7),.commit-info-block-top image:nth-child(8){width: 30rpx;height: 30rpx;margin-right: 10rpx;}
+
+.commit-info-block-body{width: 80%;padding-left: 20%;}
+.commit-info-block-body text{display: block;width: 100%;font-size:28rpx;color: #777777;margin-bottom: 20rpx;line-height: 46rpx;}
+.commit-info-block-body image{width: 30%;padding-right: 3%;float: left;height: 180rpx;margin-top: 20rpx;}

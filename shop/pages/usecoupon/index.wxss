@@ -1,0 +1,23 @@
+page{background-color: #f2f2f2;}
+.body{padding-bottom: 200rpx;}
+
+.modal1{position: absolute;z-index: 21;width: 100%;min-height: 100%;background-color: #f2f2f2;top:0;text-align: center;}
+.modal1 > text{position: fixed;bottom: 20rpx;height: 100rpx;width: 90%;left: 5%;line-height: 100rpx;background-color: #ea4149;color: #ffffff;font-size: 28rpx;}
+.couponBlock{position: relative;height: 200rpx;width: 90%;margin: 20rpx 5%;background-color: #ffffff;border-radius: 10rpx;}
+.couponBlock image:nth-child(1){width: 92%;height: 180rpx;position: absolute;top: 20rpx;left: 4%;z-index: -1;}
+.coupon-left{width:35%;float: left;margin-top: 26rpx;}
+.coupon-left-block{text-align: center;width: 100%;line-height: 90rpx;}
+.coupon-left-block text:nth-child(1){font-size: 28rpx;color: #ea4149;}
+.coupon-left-block text:nth-child(2){font-size: 52rpx;color: #ea4149;font-weight: bold;}
+.coupon-left > text:nth-child(2){font-size: 22rpx;color:#555555;display:block;width: 100%;float: left;margin-top: -10rpx;}
+.coupon-left-block2{text-align: center;width: 100%;line-height: 90rpx;}
+.coupon-left-block2 text:nth-child(1){font-size: 52rpx;color: #ea4149;font-weight: bold;}
+.coupon-left-block2 text:nth-child(2){font-size: 28rpx;color: #ea4149;}
+.coupon-right{width:65%;float: left;margin-top: 24rpx;}
+.coupon-right text:nth-child(1){font-size: 34rpx;line-height: 90rpx;display: block;text-align: left;}
+.coupon-right text:nth-child(2){font-size: 22rpx;color:#555555;display:block;width: 100%;text-align: left;}
+.white{color:#fffefe !important; }
+.modal1-body{padding-bottom: 140rpx;}
+/* 支付按钮 */
+.submit{margin:20rpx 30rpx;position: fixed;bottom: 0;background: linear-gradient(to right,#ea4149, #ff6849);text-align: center;width: calc(100% - 30px);height: 100rpx;line-height: 100rpx;}
+.submit text{font-size: 32rpx;color: #ffffff;}

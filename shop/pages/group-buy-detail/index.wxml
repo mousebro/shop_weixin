@@ -3,9 +3,9 @@
   <!-- 购物车弹窗 -->
   <view class="modal"  wx:if="{{modal1 == true}}">
     <view class="modal-shopDetail clearfix">
-      <image src="{{thumbList[0]}}"/>
-      <text>{{title}}</text>
-      <text>￥{{price}}</text>
+      <image src="{{imageUrl[0]}}"/>
+      <text>{{goodsTitle}}</text>
+      <text>￥{{goodsDetail.singleprice}}</text>
       <image bindtap="closeModal1" src="/images/close.png"/>
     </view>
 
@@ -22,18 +22,18 @@
     <!-- <view class="modal-shopCount">
 
     </view> -->
-    <text class="modal-bottomButton" bindtap="addShopCar">加入购物车</text>
+    <text class="modal-bottomButton" bindtap="hrefToPay" data-goodId="{{goodsDetail.id}}">立即购买</text>
   </view>
   <!-- 立即购买弹窗 -->
   <view class="modal"  wx:if="{{modal2 == true}}">
     <view class="modal-shopDetail clearfix">
-      <image src="{{thumbList[0]}}"/>
-      <text>{{title}}</text>
-      <text>￥{{price}}</text>
+      <image src="{{imageUrl[0]}}"/>
+      <text>{{goodsTitle}}</text>
+      <text>￥{{goodsDetail.groupsprice}}</text>
       <image bindtap="closeModal2" src="/images/close.png"/>
     </view>
 
-    <view class="modal-shopCount">
+    <!-- <view class="modal-shopCount">
        <text class="modal-shopCount-number">购买数量</text>
        <view class="modal-shopCount-box">
            <text class="modal-shopCount-less {{buyNumber == buyNumMin ? 'hui': ''}}" bindtap="lessTap">-</text>
@@ -42,62 +42,67 @@
            </view>
            <text class="modal-shopCount-plus {{buyNumber== buyNumMax ? 'hui': ''}}" bindtap="plusTap">+</text>
        </view>
-    </view>
+    </view> -->
     <!-- <view class="modal-shopCount">
 
     </view> -->
-    <text class="modal-bottomButton" bindtap="hrefToPay">立即购买</text>
+    <text class="modal-bottomButton" catchtap="startAgroup" data-goodId="{{goodsDetail.id}}">发起拼单</text>
   </view>
   <!-- 顶部栏位 -->
   <view class="shop-title clearfix">
     <text class="{{showActive == 'a1'?'shop-title-active':''}}" data-id="a1" bindtap="scrollPosition">商品</text>
     <text class="{{showActive == 'a2'?'shop-title-active':''}}" data-id="a2" bindtap="scrollPosition">详情</text>
-    <text>评价</text>
+    <text bindtap="hrefToCommentList">评价</text>
+    <image src="/images/backToIndex.png" class="swiper-index" mode="aspectFill" bindtap="herfToIndex"/>
   </view>
   <!-- 滚动区域 -->
     <scroll-view class="scroll-body" scroll-y="true" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}" scroll-with-animation="true">
     <!-- 商品轮播图 -->
     <view style="position:relative;">
       <swiper class="swiper shop-swiper" id="a1" indicator-dots="true" circular="true" autoplay="true" interval="5000" duration="1000" indicator-color="#cbcbcb" indicator-active-color="#ea4149">
-        <block wx:for="{{4}}" wx:key="{{index}}">
+        <block wx:for="{{goodsDetail.thumbUrl}}" wx:key="{{index}}">
           <swiper-item>
-            <image lazy-load="true" src="../../../pic/product01.png" class="swiper-img"/>
+            <image lazy-load="true" src="{{item}}" class="swiper-img"/>
           </swiper-item>
         </block>
       </swiper>
       <view class="shop-detail-name" >
-        <view class="shop-detail-share ">
+        <button class="shop-detail-share "  hover-class="none" open-type="share" style="background-color: #ea4149;">
           <image src="/images/share.png" class="swiper-img" mode="aspectFill"/>
             <text>分享</text>
-        </view>
+        </button>
       </view>
     </view>
     <!-- 商品名称以及价格 -->
     <view class="shop-detail">
       <!-- 价格、倒计时 -->
-      <view style="background:#fff9f1 url(../../images/group-buy/group-detail.png) no-repeat;background-size:170rpx 150rpx" class="countDown" >
-        <text class="countDown-group-number">3人成团</text>
-        <view class="countDown-group-price">
-          <text>￥199.90</text><text>￥368.90</text>
-          <view>已拼<text>580</text>件</view>
+      <view style="background:#fff9f1 url({{background}}) no-repeat;background-size:170rpx 150rpx;" class="countDown" >
+        <view class="countDown-group-number">
+          <view>{{goodsDetail.groupnum}}人</view>
+          <view>成团</view>
         </view>
-        <view>
+        <view class="countDown-group-price">
+          <text>￥</text><text>{{goodsDetail.priceArr[0]}}.</text><text>{{goodsDetail.priceArr[1]}}</text><text>￥{{goodsDetail.singleprice}}</text>
+          <view>已拼<text>{{goodsDetail.sales}}</text>件</view>
+        </view>
+        <!--团购倒计时暂时不做-->
+        <!-- <view>
           <text>距结束仅剩</text>
           <view><text>16</text>:<text>15</text>:<text>54</text></view>
-        </view>
+        </view> -->
       </view>
       <!-- 商品名称 -->
-      <view class="shop-detail-price">
-        <text>53°茅台王子酒53°茅台王子酒</text>
-      </view>
+      <!-- <view class="shop-detail-price">
+        <text>{{goodsDetail.title}}</text>
+      </view> -->
       <!-- 会员折扣 -->
-      <view class="shop-detail-super">
+      <!-- <view class="shop-detail-super">
         <image src="/images/super.png"  mode="widthFix"/>
         <text>会员下单再享98折，可省18.00元</text>
-      </view>
+      </view> -->
     </view>
     <!--优惠券-->
-    <view class='coupon-container'>
+    <!-- <view class='coupon-container'>
       <view>
         <text>优惠</text>
         <text>可享受以下优惠</text>
@@ -106,24 +111,24 @@
         <text>优惠券</text>
         <text>消费满1000立减50</text>
       </view>
-    </view>
+    </view> -->
     <!-- 拼单用户列表 -->
     <view class="group-buy-list">
       <view class="group-buy-list-head" bindtap="showGroupList">
-        <text>37人在拼单，可直接参与</text>
+        <text>{{nownum}}人在拼单，可直接参与</text>
         <text >查看全部</text>
       </view>
-      <view class=" group-buy-list-item" bindtap="goToGroupBuy">
+      <view class=" group-buy-list-item" bindtap="goToGroupBuy" wx:for="{{teamList}}" wx:key="{{index}}" wx:if="{{index<=1}}" data-teamid="{{item.teamid}}" data-goodsid="{{item.goodsid}}" data-index="{{index}}">
           <view>
-            <image src="/pic/banner1.png"/>
-            <text>喵喵酱</text>
+            <image src="{{item.avatar}}"/>
+            <text>{{item.nickname}}</text>
           </view>
           <view >
             <view>
               <view>
-                还差<text>1</text>人拼成
+                还差<text>{{item.groupnum-item.nownum}}</text>人拼成
               </view>
-              <text>剩余23:15:36</text>
+              <text style="width:150rpx;display: inline-block;">剩余{{timeList[index].hours}}:{{timeList[index].minutes}}:{{timeList[index].secondeds}}</text>
             </view>
             <text>去拼单</text>
           </view>
@@ -134,67 +139,58 @@
       <view class='group-buy-list-container' >
           <image src="../../images/group-buy/close.png" class="close-btn" bindtap='closeGroupList'></image>
           <view class='list-header' style="padding:20rpx;">正在拼单</view>
-          <scroll-view style="height:calc(100% - 135rpx);width:90%;margin:auto;" scroll-y >
-            <view wx:for="{{10}}" wx:key="{{index}}" class="group-list-item"  wx:if="{{index<10}}"> <!--只显示10条拼单数据-->
+          <scroll-view style="height:calc(100% - 240rpx);width:90%;margin:auto;" scroll-y >
+            <view bindtap="goToGroupBuy" wx:for="{{teamList}}" wx:key="{{index}}"  data-teamid="{{item.teamid}}" data-goodsid="{{item.goodsid}}" data-index="{{index}}" class="group-list-item"  wx:if="{{index<10}}"> <!--只显示10条拼单数据-->
               <view  class="avator-name-container">
-                <image src="/pic/banner1.png" class='avator'></image>
+                <image src="{{item.avatar}}" class='avator'></image>
                 <view>
                   <view>
-                    <text class="name">喵咪酱</text>还差<text style="color:#ea4148">1</text>人
+                    <text class="name">{{item.nickname}}</text>还差<text style="color:#ea4148">{{item.groupnum - item.nownum}}</text>人
                   </view>
-                   <view>剩余 14:12:08</view> 
-                </view>              
+                   <view>剩余 {{timeList[index].hours}}:{{timeList[index].minutes}}:{{timeList[index].secondeds}}</view>
+                </view>
               </view>
               <view  class="go-group-Btn">去拼单</view>
             </view>
           </scroll-view>
-      </view> 
+      </view>
     </view>
     <!--单个拼团信息-->
     <view class="mask {{isShowItem == true?'hidden-msak':''}}" >
-      <view class='group-buy-list-container list-one-container' >
+      <view class="group-buy-list-container list-one-container  {{goodsDetail.groupnum>3?'list-one-container-heigher':''}}"  style="padding-top:0;">
           <image src="../../images/group-buy/close.png" class="close-btn" bindtap='closePersonalGroup'></image>
-          <view class='list-header list-one-header'  >参与喵咪酱的拼团</view>
+          <view class='list-header list-one-header'  >参与{{teamList[choseIndex].nickname}}的拼团</view>
           <view class="list-one-session">
               <view class="list-item"  >
-              仅剩<text class="list-item-count" >1</text>个名额，14:38:04后结束
-              </view>                
-                <view class="list-item-avator-container">
-                  <view class="" >
-                    <image src="/pic/banner1.png" class='avator'></image>
-                    
+              仅剩<text class="list-item-count" >{{oneTeamDetail.leftnum}}</text>个名额，{{oneGroupTime.hours}}:{{oneGroupTime.minutes}}:{{oneGroupTime.secondeds}}后结束
+              </view>
+                <view class="list-item-avator-container {{oneTeamDetail.member.length == 4?'list-item-avator-container-flex':''}}">
+                  <view class="team-avatar" wx:for="{{oneTeamDetail.member}}" wx:key="{{index}}" data-id="{{item.id}}">
+                    <image src="{{item.avatar}}" class='avator'></image>
+                    <text wx:if="{{item.source == 1}}" class="team-leader">团长</text>
                   </view>
-                  <view class="" >
-                    <image src="../../images/group-buy/noBody.png" class='avator'></image>
-                  </view>
-                  <view class="" >
+                  <view class=""  wx:for="{{oneTeamDetail.leftnum}}" wx:key="{{index}}">
                     <image src="../../images/group-buy/noBody.png" class='avator'></image>
                   </view>
                 </view>
-                <view class="list-one-btn" >参与拼单</view>
-          </view>         
-  
+                <view class="list-one-btn"  bindtap="joinGroups" data-teamid="{{oneTeamDetail.id}}">参与拼单</view>
+          </view>
       </view>
     </view>
-    <!-- 评价 -->
-    <view class="shop-assess">
-      <view class="shop-assess-title">
-        <text>评价(123)</text>
-        <text>查看全部></text>
-      </view>
-      <view class="shop-assess-info">
-        <image src="/pic/banner1.png"/>
-        <text>喵喵酱</text>
-      </view>
-      <view class="shop-assess-detail clearfix">
-        <!-- <image src="/pic/banner1.png" class="swiper-img"/>
-        <image src="/pic/banner1.png" class="swiper-img"/>
-        <image src="/pic/banner1.png" class="swiper-img"/>
-        <image src="/pic/banner1.png" class="swiper-img"/>
-        <image src="/pic/banner1.png" class="swiper-img"/> -->
-        <text>喵喵酱喵喵酱喵喵酱喵喵酱喵喵酱喵喵酱喵喵酱喵喵酱喵喵酱喵喵酱喵喵酱喵喵酱喵喵酱喵喵酱喵喵酱</text>
-      </view>
+  <!-- 评价 -->
+  <view class="shop-assess" wx:for="{{commentList}}" wx:key="{{item.id}}" bindtap="hrefToCommentList">
+    <view class="shop-assess-title">
+      <text>评价({{totalComment}})</text>
+      <text>查看全部</text>
     </view>
+    <view class="shop-assess-info">
+      <image src="{{item.headimgurl}}"/>
+      <text>{{item.nickname}}</text>
+    </view>
+    <view class="shop-assess-detail clearfix">
+      <text>{{item.content}}</text>
+    </view>
+  </view>
     <!-- 商品详情 -->
     <view class="shop-parse" id="a2">
       <text>商品详情</text>
@@ -216,13 +212,17 @@
       <text>购物车</text>
       <text>{{shopNum}}</text>
     </view>
-    <view class="shop-buy-addcar" bindtap="showBuyCar">
-      <text>￥368.00</text>
+    <view class="shop-buy-addcar" bindtap="buyProductHandle">
+      <text>
+        <text>￥</text><text style="font-size:32rpx;">{{goodsDetail.priceOld[0]}}.</text><text style="font-size:20rpx;">{{goodsDetail.priceOld[1]}}</text>
+      </text>
       <text>单独购买</text>
     </view>
     <view class="shop-buy-now" bindtap="showBuy">
-      <text>￥199.00</text>
-      <text>发起拼单</text>
+      <text class="" hover-class="none" hover-stop-propagation="false">
+        <text>￥</text><text style="font-size:32rpx;">{{goodsDetail.priceArr[0]}}.</text><text style="font-size:20rpx;">{{goodsDetail.priceArr[1]}}</text>
+      </text>
+      <text >发起拼单</text>
     </view>
   </view>
   <!-- 底部客服弹窗 -->

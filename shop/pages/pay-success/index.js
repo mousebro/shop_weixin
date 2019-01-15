@@ -25,7 +25,7 @@ Page({
   },
   // 跳转回首页
   hrefToIndex: function(){
-    wx.switchTab({
+    wx.reLaunch({
       url: '/pages/index/index'
     })
   },

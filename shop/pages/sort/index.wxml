@@ -6,7 +6,7 @@
     </view>
   </view>
 
-  <view class="scroll">
+  <view class="scroll clearfix">
     <scroll-view class="scroll-left" scroll-y="true">
       <block  wx:for="{{categoryList}}" wx:key="{{item.id}}">
         <text class="{{showActive == item.showId?'scroll-left-active':''}}" data-id="{{item.showId}}" bindtap="addActive">{{item.name}}</text>
@@ -19,14 +19,14 @@
           <view class="position" id="{{item.showId}}">
             <block wx:for="{{item.categoryList}}" wx:for-item="secItems" data-index="{{index}}" wx:key="{{secItems.id}}">
               <image wx:if="{{secItems.thumb != ''}}" class="scroll-right-titleimage" src="{{imageUrl}}{{secItems.thumb}}"/>
-              <view class="category-title" data-id="{{secItems.id}}" bindtap="searchSecondType">
+              <view class="category-title" data-id="{{secItems.id}}" data-title="{{secItems.name}}" bindtap="searchSecondType">
                 <text>{{secItems.name}}</text>
                 <text>查看全部</text>
                 <image src="/images/more.png"/>
               </view>
               <view class="category-info clearfix">
                 <block wx:for="{{secItems.categoryList}}" wx:for-item="thirdItem" wx:key="{{thirdItem.id}}">
-                  <view class="category-info-block" data-id="{{thirdItem.id}}" bindtap="hrefToShopList">
+                  <view class="category-info-block" data-id="{{thirdItem.id}}" data-title="{{secItems.name}}" bindtap="hrefToShopList">
                     <image src="{{imageUrl}}{{thirdItem.thumb}}"/>
                     <text>{{thirdItem.name}}</text>
                   </view>
@@ -39,5 +39,21 @@
     </scroll-view>
   </view>
 
-  <view class="tab">
+  <view class="{{isIpx?'isIpx':''}} tabbar clearfix">
+    <view class="tabbar-block" bindtap="hrefToIndex">
+      <image src="/images/index.png" class="tabbar-img"/>
+      <text>首页</text>
+    </view>
+    <view class="tabbar-block">
+      <image src="/images/sort_active.png" class="tabbar-img"/>
+      <text class="tabbar-active">分类</text>
+    </view>
+    <view class="tabbar-block" bindtap="hrefToCart">
+      <image src="/images/shop.png" class="tabbar-img"/>
+      <text>购物车</text>
+    </view>
+    <view class="tabbar-block" bindtap="hrefToMine">
+      <image src="/images/mine.png" class="tabbar-img"/>
+      <text>我的</text>
+    </view>
   </view>

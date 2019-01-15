@@ -14,8 +14,9 @@ Page({
     timer:null,
     freightMsg:'您的订单已有本人签收，感谢您在名庄商城购物，欢迎再次光临',
     time:{},
-    actionSheetHidden:true //是否隐藏客服窗口
-
+    actionSheetHidden:true, //是否隐藏客服窗口
+    Class:'',
+    Method:''
   },
 
   /**
@@ -26,23 +27,40 @@ Page({
       this.setData({
         imageUrl: app.globalData.imageUrl
       })
+      console.log(options)
+
       if(options.Id){
         this.setData({
           orderId:options.Id,
-
+          orderType:options.type,
+          isteam:options.isteam,
+          isSuccess:options.isSuccess
         })
-
       }
-    this.getOrderList(options.Id)
+      if(options.type == 2){
+        this.setData({
+          Class:'ShopGroups',
+          Method:'GetGroupOrderDetail'
+        })
+      }else{
+        this.setData({
+          Class:'Order',
+          Method:'GetOrderDetail'
+        })
+      }
+    this.getOrderList(options.Id)//普通商品获取订单详情
     clearInterval(this.data.timer);
     this.getSystemTime()//获取系统时间 并设置倒计时
-
-
   },
   /*点击去评价按钮，进行页面跳转*/
-  hrefCommit(){
+  hrefCommit(e){
+    let orderId = e.currentTarget.dataset.orderid
+    let type = e.currentTarget.dataset.ordertype
+    let Id = e.currentTarget.dataset.goodid
+    let picture = e.currentTarget.dataset.picture
+    console.log(orderId,type,Id)
     wx.navigateTo({
-      url: '/pages/commit/index?Id=' + this.data.orderId
+      url: '/pages/commit/index?orderId=' + orderId+'&type='+type+'&Id='+Id+'&picture='+picture+''
     })
   },
   //唤起底部客服弹窗
@@ -59,7 +77,7 @@ Page({
       actionSheetHidden: true
     })
     wx.makePhoneCall({
-      phoneNumber: '0591-88325999' // 仅为示例，并非真实的电话号码
+      phoneNumber: app.globalData.customerMobile // 仅为示例，并非真实的电话号码
     })
   },
   //取消底部弹窗
@@ -118,7 +136,6 @@ Page({
         }
       }
     })
-
   },
   /*获取订单详情*/
   getOrderList(Id) {
@@ -134,7 +151,7 @@ Page({
       })
     }
     wx.request({
-      url: 'https://' + app.globalData.productUrl + '/api?resprotocol=json&reqprotocol=json&class=Order&method=GetOrderDetail',
+      url: 'https://' + app.globalData.productUrl + '/api?resprotocol=json&reqprotocol=json&class=' +_this.data.Class+ '&method='+_this.data.Method,
       method: 'post',
       data: JSON.stringify({
         baseClientInfo: { longitude: 0, latitude: 0, appId: '' + app.globalData.appId + '' },
@@ -147,10 +164,20 @@ Page({
       success: (res) => {
         let code = res.data.baseServerInfo.code
         let msg = res.data.baseServerInfo.msg
-        console.log(res)
+        console.log(res.data)
         if (code == 1) {
-          let obj = res.data.orderInfo
+          let obj = res.data.orderInfo || res.data.groupOrderDetail
           let orderGoodsList = obj.orderGoodsList
+          if(obj.teamid){
+            _this.setData({
+              orderType:2
+            })
+          }else{
+            _this.setData({
+              orderType:1
+            })
+          }
+
           for (var i = 0; i < orderGoodsList.length; i++) {
             let img = orderGoodsList[i].thumb
             let url = img.substring(0,4)
@@ -177,9 +204,11 @@ Page({
 
       },
       fail: (res) => {
+
       }
     })
   },
+
   /*获取系统时间*/
   getSystemTime(){
     let _this = this
@@ -227,6 +256,7 @@ Page({
   payfor: function(e){
     let _this = this
     let orderId = e.currentTarget.dataset.orderid
+
     wx.showLoading({
       mask:true,
       title: '订单支付中...'
@@ -237,7 +267,7 @@ Page({
       data: JSON.stringify({
         baseClientInfo: { longitude: 0, latitude: 0 ,appId: ''+app.globalData.appId+''},
         orderId:orderId,
-        orderType:1
+        orderType:_this.data.orderType
       }),
       header: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -317,5 +347,76 @@ Page({
   cancelOrder: function(orderId){
     let _this = this
     _this.getOrderList(orderId)
+  },
+  //待分享
+  //分享拼团商品
+  onShareAppMessage: function(res) {
+    let _this = this
+    console.log(_this.data.orderInfo)
+    return {
+      title: ''+_this.data.orderInfo.orderGoodsList[0].title+'',
+      path:'/pages/group-buy-detail/index?Id='+_this.data.orderInfo.id+'&teamid='+_this.data.orderInfo.teamid,
+      imageUrl:_this.data.orderInfo.orderGoodsList[0].thumb
+    }
+  },
+  //确认收货
+  comfirmHandle(){
+    let _this = this
+    let isLogin = wx.getStorageSync('isLogin')
+    if (!isLogin) {
+      wx.navigateTo({
+        url: '/pages/login/index'
+      })
+    }
+     if(_this.data.orderType == 2){//团购商品
+      var url = 'https://'+app.globalData.productUrl+'/api?resprotocol=json&reqprotocol=json&class=ShopGroups&method=ConfirmReceipt'
+     }else if(_this.data.orderType == 1){
+      var url = 'https://'+app.globalData.productUrl+'/api?resprotocol=json&reqprotocol=json&class=Order&method=ConfirmReceipt'
+     }
+    wx.request({
+      url: url,
+      method: 'post',
+      data: JSON.stringify({
+        baseClientInfo: { longitude: 0, latitude: 0 ,appId: ''+app.globalData.appId+''},
+        id:_this.data.orderId,
+      }),
+      header: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'cookie': 'PBCSID=' + wx.getStorageSync('sessionId') + ';PBCSTOKEN=' + wx.getStorageSync('token')
+      },
+      success: (res) => {
+        let code = res.data.baseServerInfo.code
+        let msg = res.data.baseServerInfo.msg
+        if (code == 1) {
+          wx.showModal({
+            title:'提示',
+            content:msg,
+            showCancel:false,
+            success:function(res){
+              console.log(msg)
+              wx.redirectTo({
+                url: '/pages/my-order-detail/index?Id='+_this.data.orderId+'&type='+_this.data.orderType+'&isteam='+_this.data.isteam+'&isSuccess='+_this.data.isSuccess
+              })
+            }
+          })
+        }
+        else if (code == 1019) {
+          wx.navigateTo({
+            url: '/pages/login/index'
+          })
+        }
+        else{
+          wx.showModal({
+            title:'提示',
+            content:msg,
+            showCancel:false,
+            success:function(res){}
+          })
+        }
+      },
+      fail: (res) => {
+      }
+    })
   }
 })
+//path:'/pages/group-buy-detail/index?Id='+_this.data.goodsDetail.id+'&teamid='+_this.data.team.id

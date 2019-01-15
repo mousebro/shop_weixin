@@ -1,0 +1,29 @@
+<view class="commit-title">
+  <text>评价（{{totalComment}}）</text>
+  <text></text>
+</view>
+
+<view class="commit-info">
+  <block wx:for="{{commentList}}" wx:key="{{item.id}}">
+    <view class="commit-info-block">
+      <view class="commit-info-block-top clearfix">
+        <image src="{{item.headimgurl}}"/>
+        <text>{{item.nickname}}</text>
+        <text>{{item.showTime}}</text>
+        <image src="/images/commit/star{{item.level >= 1?'_active':''}}.png"/>
+        <image src="/images/commit/star{{item.level >= 2?'_active':''}}.png"/>
+        <image src="/images/commit/star{{item.level >= 3?'_active':''}}.png"/>
+        <image src="/images/commit/star{{item.level >= 4?'_active':''}}.png"/>
+        <image src="/images/commit/star{{item.level == 5?'_active':''}}.png"/>
+      </view>
+
+      <view class="commit-info-block-body clearfix">
+        <text>{{item.content}}</text>
+        <block wx:for="{{item.imgurl}}" wx:for-item="items">
+          <image src="{{imgurl}}{{items}}"/>
+        </block>
+      </view>
+    </view>
+  </block>
+
+</view>

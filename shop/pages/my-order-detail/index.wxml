@@ -7,7 +7,10 @@
         <image src="../../images/orderDetail/waiting.png" class='img-complate' wx:if="{{orderInfo.status!=3}}"></image>
         <image src="../../images/orderDetail/complate.png" class='img-complate' wx:if="{{orderInfo.status==3}}"></image>
         <text class="text-complate" wx:if="{{orderInfo.status == 0}}">待付款</text>
-        <text class="text-complate" wx:if="{{orderInfo.status == 1}}">待发货</text>
+        <text class="text-complate" wx:if="{{orderInfo.status == 1 && orderType ==1 }}">待发货</text>
+        <text class="text-complate" wx:if="{{orderInfo.status == 1 && orderType ==2 && isteam==0 }}">待发货</text>
+        <text class="text-complate" wx:if="{{orderInfo.status == 1 && orderType ==2 && isteam==1 && isSuccess==1}}">待发货</text>
+        <text class="text-complate" wx:if="{{orderInfo.status == 1 && orderType ==2 && isteam==1 && isSuccess==0}}">待分享</text>
         <text class="text-complate" wx:if="{{orderInfo.status == 2}}">待收货</text>
         <text class="text-complate" wx:if="{{orderInfo.status == 3}}">已完成</text>
       </view>
@@ -47,11 +50,13 @@
           <image src="{{item.thumb}}" class='product-img' mode="aspectFit"></image>
           <text class='product-text'>{{item.title}}</text>
         </view>
-        <view>
+        <view >
           <text class="product-price">￥{{item.marketprice}}</text>
           <text class="product-count {{index==4?'clear-border':''}}">x{{item.total}}</text>
+          <view size="mini" plain='true' class="custom-button custom-button-cancel" wx:if="{{orderInfo.status==3 && item.isgoodscomment==2}}" data-picture="{{item.thumb}}"  bindtap="hrefCommit"  data-orderid="{{orderInfo.id}}" data-orderType="{{orderType}}" data-goodid="{{item.id}}">去评价</view>
         </view>
       </view>
+
     </view>
   </view>
 
@@ -85,17 +90,17 @@
     <view class="price-item-container">
       <view class='price-item '>
         <text>商品总额</text>
-        <text >￥{{orderInfo.oldprice}}</text>
+        <text >￥{{orderInfo.goodsprice}}</text>
       </view>
-      <view class='price-item' hidden="{{ !orderInfo.dispatchprice }}" >
+      <view class='price-item' hidden="{{ !orderInfo.dispatchprice}}" >
         <text>运费</text>
-        <text >￥0.00</text>
+        <text >￥{{orderInfo.dispatchprice}}</text>
       </view>
       <!--优惠卷 后期会添加-->
-      <!-- <view class='price-item' >
+      <view class='price-item' wx:if="{{orderType!=2}}">
         <text>优惠券</text>
-        <text >-￥{{orderInfo.couponprice }}</text>
-      </view>  -->
+        <text >-￥{{orderInfo.couponprice}}</text>
+      </view>
       <!-- <view class='price-item' hidden='{{!isSuper}}'>
         <image src='../../images/orderDetail/super.png' class='price-item-img'></image>
         <text >-￥{{orderInfo.discountprice }}</text>
@@ -109,7 +114,9 @@
   <view class='custom-service'>
       <!-- <button size="mini" plain='true' class="custom-button" type="warn" bindtap="hrefCommit" wx:if="{{orderInfo.status==3}}" data-orderid="{{orderInfo.id}}">去评价</button> -->
       <view size="mini" class="custom-button custom-button-pay"  bindtap="payfor" wx:if="{{orderInfo.status==0}}" data-orderid="{{orderInfo.id}}" >去付款</view>
+      <button size="mini" class="custom-button custom-button-pay" hover-class='btn-hover-class' bindtap="shareHandle" wx:if="{{orderInfo.status == 1 && orderType ==2 && isteam==1 && isSuccess==0}}" data-orderid="{{orderInfo.id}}" data-teamid="{{orderInfo.teamid}}" open-type="share" >去分享</button>
       <view size="mini" plain='true' class="custom-button custom-button-cancel"  bindtap="hrefCancel"  wx:if="{{orderInfo.status==0}}" data-orderid="{{orderInfo.id}}">取消订单</view>
+      <button size="mini" class="custom-button custom-button-pay" hover-class='btn-hover-class' bindtap="comfirmHandle" wx:if="{{orderInfo.status == 2}}" data-orderid="{{orderInfo.id}}" data-teamid="{{orderInfo.teamid}}" >确认收货</button>
     <view class='custom-icon' bindtap='listenerButton'>
        <image src='../../images/message.png' class="custom-img"></image>
        <text >联系客服</text>

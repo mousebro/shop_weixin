@@ -1,0 +1,25 @@
+/* pages/discount/index.wxss */
+page{background: #f2f2f2;}
+
+.fixed-header{position: fixed;top:0;width: 100%;}
+.headerTabs{ display: flex;justify-content: space-between;padding:32rpx 96rpx;font-size: 30rpx;box-sizing: border-box;background: #fff;color:#222222;}
+.headerTabs image{width: 18rpx;height: 22rpx;vertical-align: middle;margin-left: 10rpx;}
+.headerTabs view.isActive{position: relative;}
+.headerTabs view.isActive::after{position: absolute;display: block;content: '';border: 1px solid red;width: 90%;top:68rpx;left: 0;right: 0;margin: 0 auto}
+
+/*优惠券部分*/
+.discount-session{padding:20rpx;margin-top:105rpx;}
+.discount-item-unuse{width:100%;height:212rpx;display:flex;border-radius:8rpx;}
+.discount-item-unuse:not(:first-child){margin-top: 21rpx;}
+.discount-item-unuse>view.price{width:30%;color:#fff;text-align: center;display: flex;flex-direction: column;justify-content: center;}
+.discount-item-unuse>view.price>view>view>text:first-child{font-size:34rpx;}
+.discount-item-unuse>view.price>view>view>text:last-child{font-size:68rpx;}
+.discount-item-unuse>view.price>view>view>text.discount{font-size:68rpx;}
+.discount-item-unuse>view.price>view>view>text.count{font-size:34rpx;}
+.discount-item-unuse>view.price>text{font-size:22rpx;}
+.discount-item-unuse>view.title>text{font-size:30rpx;color:#fff;}
+.discount-item-unuse>view.title>text:last-child{font-size:22rpx;color:#fff;}
+
+.fontRed{color:#ea4149 !important;}
+.fontGray{color:#555555 !important;}
+.fontBlack{color:#222222 !important;}

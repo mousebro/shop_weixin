@@ -1,56 +1,101 @@
-  <!-- 订单地址昵称等信息 -->
-  <view class="address" bindtap="changeAddress">
-    <text>{{realname}}</text>
-    <text>{{mobile}}</text>
-    <text>{{address}}</text>
-    <image src="/images/more.png"/>
-  </view>
-  <!-- 商品信息 -->
-  <view class="shop">
-    <block wx:for="{{goodsList}}">
-      <view class="shop-block clearfix">
-        <image src="{{item.pic}}"/>
-        <text>{{item.name}}</text>
-        <text>￥{{item.price}}</text>
-        <text>x{{item.number}}</text>
+  <view class="body">
+    <view class="modal1" wx:if="{{showModal}}">
+      <view class="modal1-body">
+        <block wx:for="{{couponList}}" wx:key="{{item.couponItemId}}">
+          <view wx:if="{{item.backtype == 0}}" class="couponBlock clearfix" bindtap="useCashCoupon" data-id="{{item.couponItemId}}" data-price="{{item.deduct}}" data-usePrice="{{item.enough}}">
+              <view class="coupon-left">
+                <view class="coupon-left-block">
+                  <text>￥</text>
+                  <text>{{item.deduct}}</text>
+                </view>
+                <text wx:if="{{item.enough != '0'}}">满{{item.enough}}可用</text>
+                <text wx:if="{{item.enough == '0'}}">无门槛</text>
+              </view>
+              <view class="coupon-right">
+                <text>{{item.couponname}}</text>
+                <text wx:if="{{item.timelimit == 1}}">有效期：{{item.timestart}}-{{item.timeend}}</text>
+              </view>
+          </view>
+          <view wx:if="{{item.backtype == 1}}" class="couponBlock clearfix" bindtap="useDiscountCoupon" data-id="{{item.id}}" data-discount="{{item.discount}}" data-usePrice="{{item.enough}}">
+              <view class="coupon-left">
+                <view class="coupon-left-block2">
+                  <text>{{item.discount}}</text>
+                  <text>折</text>
+                </view>
+                <text wx:if="{{item.enough != '0'}}">满{{item.enough}}可用</text>
+                <text wx:if="{{item.enough == '0'}}">无门槛</text>
+              </view>
+              <view class="coupon-right">
+                <text>{{item.couponname}}</text>
+                <text wx:if="{{item.timelimit == 1}}">有效期：{{item.timestart}}-{{item.timeend}}</text>
+              </view>
+          </view>
+        </block>
       </view>
-    </block>
-  </view>
-  <!-- 价格结算 -->
-  <view class="countprice">
-    <view class="countprice-plus clearfix">
-      <text>商品金额</text>
-      <text>￥{{totalPrice/100}}</text>
+      <text bindtap="useNoCoupon">不使用优惠券</text>
     </view>
-    <view class="countprice-plus clearfix">
-      <text>运费</text>
-      <text>￥{{fare/100}}</text>
+    <!-- 订单地址昵称等信息 -->
+    <view class="address" bindtap="changeAddress">
+      <text>{{realname}}</text>
+      <text>{{mobile}}</text>
+      <text>{{address}}</text>
+      <image src="/images/more.png"/>
     </view>
-    <!-- 优惠券模块后面做 -->
-    <!-- <view wx:if="{{!choseCoupon & couponList.length != 0}}" class="countprice-less clearfix">
-      <text>优惠券</text>
-      <text>-￥{{couponPrice}}</text>
+    <!-- 商品信息 -->
+    <view class="shop">
+      <block wx:for="{{goodsList}}">
+        <view class="shop-block clearfix">
+          <image src="{{item.pic}}"/>
+          <text>{{item.name}}</text>
+          <text>￥{{item.price}}</text>
+          <text>x{{item.number}}</text>
+        </view>
+      </block>
     </view>
-    <view wx:if="{{couponList.length == 0}}" class="countprice-less clearfix">
-      <text>优惠券</text>
-      <text>-￥0</text>
+    <!-- 价格结算 -->
+    <view class="countprice">
+      <view class="countprice-plus clearfix">
+        <text>商品金额</text>
+        <text>￥{{totalPrice/100}}</text>
+      </view>
+      <view class="countprice-plus clearfix">
+        <text>运费</text>
+        <text>￥{{fare/100}}</text>
+      </view>
+      <!-- 优惠券模块后面做 -->
+      <view wx:if="{{!choseCoupon & couponList.length != 0}}" class="countprice-less clearfix" bindtap="choseCoupon">
+        <text>优惠券</text>
+        <image src="/images/more.png"/>
+        <view class="coupon-less-noselect">
+          <image src="/images/paySuccess/coupon.png"/>
+          <text>{{couponList.length}}张可用</text>
+        </view>
+      </view>
+      <!-- <view wx:if="{{couponList.length == 0}}" class="countprice-less clearfix">
+        <text>优惠券</text>
+        <text>-￥0</text>
+      </view> -->
+      <view wx:if="{{choseCoupon & couponType == 1}}" class="countprice-less clearfix" bindtap="choseCoupon">
+        <text>优惠券</text>
+        <text>-￥{{couponPrice}}</text>
+      </view>
+      <view wx:if="{{choseCoupon & couponType == 2}}" class="countprice-less clearfix" bindtap="choseCoupon">
+        <text>优惠券</text>
+        <text>{{couponDiscount}}折（-￥{{couponPrice}}）</text>
+      </view>
+      <!-- <view wx:if="{{isVip}}" class="countprice-less clearfix">
+        <image src="/images/super.png" class="swiper-img" mode="widthFix"/>
+        <text class="vip-price">-￥{{vipPrice/100}}</text>
+      </view> -->
+      <view class="countprice-total">
+        <text>实付金额</text>
+        <text>￥{{showPayPrice/100}}</text>
+      </view>
     </view>
-    <view wx:if="{{choseCoupon}}" class="countprice-less clearfix">
-      <text>优惠券</text>
-      <text>-￥{{couponPrice}}</text>
-    </view> -->
-    <!-- <view wx:if="{{isVip}}" class="countprice-less clearfix">
-      <image src="/images/super.png" class="swiper-img" mode="widthFix"/>
-      <text class="vip-price">-￥{{vipPrice/100}}</text>
-    </view> -->
-    <view class="countprice-total">
-      <text>实付金额</text>
-      <text>￥{{payPrice/100}}</text>
+    <!-- 支付订单 -->
+    <view class="submit" bindtap="submit">
+      <text>立即支付</text>
     </view>
-  </view>
-  <!-- 支付订单 -->
-  <view class="submit" bindtap="submit">
-    <text>立即支付</text>
   </view>
 
   <!-- 底部分享弹窗 -->

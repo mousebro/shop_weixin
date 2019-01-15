@@ -54,4 +54,5 @@ button::after{border: none;}
 
 /*去付款、取消订单*/
 .custom-button-cancel{border:1px solid #ccc !important;color:#ccc !important;padding:0rpx 20rpx;box-sizing: border-box;border-radius: 5rpx;}
-.custom-button-pay{background:linear-gradient(to right bottom,#eb414a 50%,#fe6748);color:#fff;margin-left: 10rpx;padding:0rpx 36rpx;box-sizing: border-box;border-radius: 5rpx;}
+.custom-button-pay{background:linear-gradient(to right bottom,#eb414a 50%,#fe6748) !important;color:#fff !important;margin-left: 10rpx;padding:0rpx 36rpx;box-sizing: border-box;border-radius: 5rpx;}
+.btn-hover-class{background:linear-gradient(to right bottom,#eb414a 50%,#fe6748) !important;color:#fff !important;margin-left: 10rpx;padding:0rpx 36rpx;box-sizing: border-box;border-radius: 5rpx;}

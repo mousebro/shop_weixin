@@ -3,7 +3,7 @@
 <view class='commit-container'>
   <!--商品评分-->
   <view class='commit-star-container' style=''>
-    <image src='../../pic/product01.png'  class='product-img'  mode="aspectFit"></image>
+    <image src='{{picture}}'  class='product-img'  mode="aspectFit"></image>
     <view >
       <view class="commit-msg">商品评分</view>
       <image class='commit-star' wx:for="{{5}}" wx:key="{{index}}" src="{{index<star?'../../images/product-commit/star-red.png':'../../images/product-commit/star-gray.png'}}" catchtap="setStar" data-idx="{{index+1}}"></image>
@@ -12,13 +12,17 @@
   <!--发表意见-->
   <form bindsubmit="bindFormSubmit">
       <!--文本输入框-->
-      <textarea class='commit-textarea' placeholder='发表一下您的评价吧，您的评价能帮助其他小伙伴呦~' auto-focus='true' placeholder-style="color:gray">  </textarea>
+      <textarea class='commit-textarea' placeholder='发表一下您的评价吧，您的评价能帮助其他小伙伴呦~' auto-focus='true' placeholder-style="color:gray" bindinput="contentInput">  </textarea>
 
       <!--添加图片-->
-      <view>
-        <image src='../../images/product-commit/add-pic.png' mode="aspectFit" class="commit-addpic" bindtap="addPic"></image>
+      <view wx:for="{{pictureList}}" class="commit-picture" wx:key="{{item.id}}">
+        <image src='{{item.url}}' class="commit-addpic"></image>
+        <image src='../../images/group-buy/close.png' class="commit-delpic" data-idx="{{item.id}}" bindtap="delPicture"></image>
       </view>
-       <view form-type="submit"  class='submitBtn'>提交</view>
+      <view>
+        <image src='../../images/product-commit/add-pic.png' mode="aspectFit" class="addpic" bindtap="addPic"></image>
+      </view>
+       <view  class='submitBtn' bindtap="bindFormSubmit">提交</view>
   </form>
 
 </view>

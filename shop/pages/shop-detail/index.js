@@ -30,9 +30,11 @@ Page({
     let _this = this
     this.setData({
       shopId:shopId,
-      imageUrl: app.globalData.imageUrl
+      imageUrl: app.globalData.imageUrl,
+      isIpx:app.globalData.isIpx
     })
     _this.getGoodsInfo()
+    _this.getCommentList()
   },
   // 点击商品以及点击详情定位
   scrollPosition: function(e){
@@ -42,6 +44,53 @@ Page({
       showActive:showId,
       toView:showId
     })
+  },
+  // 获取评论列表
+  getCommentList: function(){
+    let _this = this
+    wx.request({
+      url: 'https://'+app.globalData.productUrl+'/api?resprotocol=json&reqprotocol=json&class=OrderComment&method=GetCommentList',
+      method: 'post',
+      data: JSON.stringify({
+        baseClientInfo: { longitude: 0, latitude: 0 ,appId: ''+app.globalData.appId+''},
+        page: 1,
+        pageLength: 1,
+        goodsid: _this.data.shopId,
+        type:1
+      }),
+      header: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      success: (res) => {
+        let code = res.data.baseServerInfo.code
+        let msg = res.data.baseServerInfo.msg
+        if (code == 1) {
+          let commentList = res.data.commentList
+          let totalComment = res.data.totalNum
+          _this.setData({
+            commentList:commentList,
+            totalComment:totalComment
+          })
+        }
+        else{
+          wx.showModal({
+            title:'提示',
+            content:msg,
+            showCancel:false,
+            success:function(res){}
+          })
+        }
+      },
+      fail: (res) => {
+      }
+    })
+  },
+  // 跳转到全部评论
+  hrefToCommentList: function(){
+    let _this = this
+    wx.navigateTo({
+      url: '/pages/commit-list/index?id='+_this.data.shopId+'&type=1'
+    });
   },
   // 展示加入购物车
   showBuyCar: function(){
@@ -73,28 +122,44 @@ Page({
   },
   // 跳转到购物车
   hrefToShopCart: function(){
-    wx.switchTab({
-      url: "/pages/shop-cart/index"
-    });
+    let isLogin = wx.getStorageSync('isLogin')
+    if (!isLogin) {
+      wx.navigateTo({
+        url: '/pages/login/index'
+      })
+    }
+    else {
+      wx.navigateTo({
+        url: "/pages/shop-cart/index"
+      });
+    }
   },
   // 跳转到订单支付
   hrefToPay: function(){
     let _this = this
-    let shopList = []
-    let id = 0
-    let goodsId = _this.data.id;
-    let pic = _this.data.goodsPicture
-    let name = _this.data.title
-    let number = _this.data.buyNumber;
-    let price = _this.data.countPrice;
-    shopList.push({id:id,goodsId:goodsId,pic:pic,name:name,number:number,price:price})
-    wx.setStorage({
-      key:"orderShopList",
-      data:shopList
-    })
-    wx.navigateTo({
-      url: "/pages/pay/index"
-    });
+    let isLogin = wx.getStorageSync('isLogin')
+    if (!isLogin) {
+      wx.navigateTo({
+        url: '/pages/login/index'
+      })
+    }
+    else {
+      let shopList = []
+      let id = 0
+      let goodsId = _this.data.id;
+      let pic = _this.data.goodsPicture
+      let name = _this.data.title
+      let number = _this.data.buyNumber;
+      let price = _this.data.countPrice;
+      shopList.push({id:id,goodsId:goodsId,pic:pic,name:name,number:number,price:price})
+      wx.setStorage({
+        key:"orderShopList",
+        data:shopList
+      })
+      wx.navigateTo({
+        url: "/pages/pay/index"
+      });
+    }
   },
   // 商品数量增减
   lessTap: function() {
@@ -297,7 +362,7 @@ Page({
       actionSheetHidden: true
     })
     wx.makePhoneCall({
-      phoneNumber: '0591-88325999' // 仅为示例，并非真实的电话号码
+      phoneNumber: ''+app.globalData.customerMobile+'' // 仅为示例，并非真实的电话号码
     })
   },
   //取消底部弹窗
@@ -315,5 +380,11 @@ Page({
       path: '/pages/shop-detail/index?Id='+_this.data.id+'',
       imageUrl:this.data.goodsPicture
     }
+  },
+  // 跳转回首页
+  herfToIndex: function(){
+    wx.reLaunch({
+      url: "/pages/index/index"
+    });
   },
 })

@@ -2,53 +2,51 @@
 <view class="all-container" >
     <!---->
     <view class="product-item">
-        <image class="product-img" src="../../pic/product01.png" mode="aspectFit" lazy-load="false" ></image>
+        <image class="product-img" src="{{goodsDetail.thumbUrl[0]}}" mode="aspectFit" lazy-load="false" ></image>
         <view class="product-msg-container" >
               <text class="title">
-                  53°茅台王子酒53°茅台王子酒
+                  {{goodsDetail.title}}
               </text>
               <view class="count-container" >
-                  <text class="count-total" >已拼580件</text>
+                  <text class="count-total" >已拼{{goodsDetail.nownum}}件</text>
                   <text class="count-buy" >x1</text>
               </view>
               <view class="price-container">
                 <view class="count" >
-                    3人团
+                    {{goodsDetail.groupnum}}人团
                 </view>
                 <view class="price">
-                    <text class="oldPrice">￥199.90</text><text class="newPrice02">￥</text><text class="newPrice">368.</text><text class="newPrice02">90</text>
+                    <text class="oldPrice">￥{{goodsDetail.singleprice}}</text><text class="newPrice02">￥</text><text class="newPrice">{{goodsDetail.groupspriceArr[0]}}.</text><text class="newPrice02">{{goodsDetail.groupspriceArr[1]}}</text>
                 </view>
               </view>
         </view>
 
     </view>
     <view class="team-container" hover-class="none" hover-stop-propagation="false">
-       <view class="team-msg" hover-class="none" hover-stop-propagation="false" hidden="{{!isPay}}">
+       <view class="team-msg" hover-class="none" hover-stop-propagation="false"  wx:if="{{team.leftnum==0}}">
             <text>拼团成功</text>
        </view>
-       <view class="team-msg-two" hover-class="none" hover-stop-propagation="false" >
+       <view class="team-msg-two" hover-class="none" hover-stop-propagation="false" wx:if="{{team.leftnum>0}}">
         <view class="" hover-class="none" hover-stop-propagation="false">
-            还差<text>2</text>人即可拼团成功，剩余时间
+            还差<text>{{team.leftnum}}</text>人即可拼团成功，剩余时间
         </view>
         <view class="" hover-class="none" hover-stop-propagation="false">
-            <text>56</text>:<text>38</text>:<text>17</text>
+            <text>{{timeList.hours}}</text>:<text>{{timeList.minutes}}</text>:<text>{{timeList.secondeds}}</text>
         </view>
       </view>
        <view class="list-item-avator-container">
-            <view class="" >
-              <image src="/pic/banner1.png" class='avator'></image>
-              <view> <!---->
+            <view class="" wx:for="{{team.member}}" wx:key="{{index}}">
+              <image src="{{item.avatar}}" class='avator'></image>
+              <view wx:if="{{item.source == 1}}"> <!---->
                   团长
               </view>
             </view>
-            <view class="" >
+            <view class="" wx:for="{{team.leftnum}}" wx:key="{{index}}">
               <image src="../../images/group-buy/noBody.png" class='avator'></image>
             </view>
-            <view class="" >
-              <image src="../../images/group-buy/noBody.png" class='avator'></image>
-            </view>
+
           </view>
     </view> 
-    <view class="buttonFixed" wx:if="{{isPay}}">查看详情</view>
-    <view class="buttonFixed" wx:else>邀人进团</view>
+    <button class="buttonFixed" wx:if="{{team.leftnum==0}}" hover-class="none" bindtap="getMore">查看更多</button>
+    <button class="buttonFixed" hover-class="none" open-type="share" wx:if="{{team.leftnum>0}}">邀人进团</button>
 </view>

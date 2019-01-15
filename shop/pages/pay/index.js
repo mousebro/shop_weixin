@@ -8,13 +8,11 @@ Page({
     addressId:0,
     realname:'点击添加地址',
     mobile:'',
-    address:''
-    // choseCoupon:true,
-    // couponPrice:0
+    address:'',
+    showModal:false
   },
   onShow: function(){
     let _this = this
-    _this.getAddress()
     _this.setData({
       addressId:_this.data.addressId,
       realname:_this.data.realname,
@@ -25,11 +23,15 @@ Page({
   },
   onLoad: function(){
     let _this = this
+    _this.getAddress()
+    _this.getCouponList()
+    // let aaa = 'sdjio'
+    // wx.setNavigationBarTitle({
+    //   title: aaa
+    // })
     let goodsList = wx.getStorageSync('orderShopList');
     let submitGoodsList = []  // 提交订单用商品对象列表
     let goodsIdList = [] // 获取运费用商品id列表
-    // _this.getAddress() // 获取用户地址簿
-    // let couponList = [{id:1,name:'满减50优惠券',price:5000,usePrice:100000}]
     let fare = 0
     let isVip = true
     let vipPrice = 0
@@ -55,13 +57,15 @@ Page({
     if (isVip) {
       let payPrice = _this.data.totalPrice + _this.data.fare - _this.data.vipPrice
       _this.setData({
-        payPrice:payPrice
+        payPrice:payPrice,
+        showPayPrice:payPrice
       })
     }
     else {
       let payPrice = _this.data.totalPrice + _this.data.fare
       _this.setData({
-        payPrice:payPrice
+        payPrice:payPrice,
+        showPayPrice:payPrice
       })
     }
   },
@@ -74,6 +78,7 @@ Page({
         url: '/pages/login/index'
       })
       wx.setStorageSync('isLogin', false)
+      return false;
     }
     wx.request({
       url: 'https://'+app.globalData.productUrl+'/api?resprotocol=json&reqprotocol=json&class=Address&method=GetAddressList',
@@ -134,28 +139,18 @@ Page({
       url: '/pages/address/index?url=order'
     })
   },
-  // 提交生成订单
-  submit: function(){
+  // 获取优惠券列表
+  getCouponList:function(){
     let _this = this
-    let addressId = _this.data.addressId
-    let submitGoodsList = _this.data.submitGoodsList
-    let isLogin = wx.getStorageSync('isLogin')
-    if (!isLogin) {
-      wx.navigateTo({
-        url: '/pages/login/index'
-      })
-    }
-    wx.showLoading({
-      mask:true,
-      title: '订单生成中...'
-    })
     wx.request({
-      url: 'https://'+app.globalData.productUrl+'/api?resprotocol=json&reqprotocol=json&class=Order&method=CreateOrder',
+      url: 'https://'+app.globalData.productUrl+'/api?resprotocol=json&reqprotocol=json&class=ShopCoupon&method=UserCouponList',
       method: 'post',
       data: JSON.stringify({
         baseClientInfo: { longitude: 0, latitude: 0 ,appId: ''+app.globalData.appId+''},
-        obj:submitGoodsList,
-        addressid:addressId
+        page:1,
+        pageLength:10,
+        status:1,
+        isPage:false
       }),
       header: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -166,19 +161,11 @@ Page({
         let msg = res.data.baseServerInfo.msg
         wx.hideLoading()
         if (code == 1) {
-          let orderId = res.data.id
-          wx.showModal({
-            title:'提示',
-            content:'支付暂未开通',
-            showCancel:false,
-            success:function(res){
-              _this.cancelOrder(orderId)
-            }
+          let couponList = res.data.couponList
+          _this.setData({
+            choseCoupon:false,
+            couponList:couponList
           })
-          // _this.payfor(orderId)
-          // wx.navigateTo({
-          //   url: '/pages/pay-success/index?Id='+orderId+''
-          // });
         }
         else if (code == 1019) {
           wx.navigateTo({
@@ -197,11 +184,69 @@ Page({
       fail: (res) => {
       }
     })
-    // setTimeout(function(){
-    //   wx.navigateTo({
-    //     url: "/pages/pay-success/index"
-    //   });
-    // },1000)
+    // let couponList = [{id:1,couponname:'满减50优惠券',deduct:'50',enough:'1000',backtype:0,timelimit:1,timestart:'2019.1.1',timeend:'2019.1.10'},{id:2,couponname:'95折折扣券',discount:'9.5',enough:'0',backtype:1,beginTime:'2019.1.1',endTime:'2019.1.10'}]
+  },
+  // 点击打开优惠券列表
+  choseCoupon:function(){
+    let _this = this
+    wx.navigateTo({
+      url: '/pages/usecoupon/index?totalPrice='+_this.data.payPrice+''
+    })
+  },
+  // 提交生成订单
+  submit: function(){
+    let _this = this
+    let addressId = _this.data.addressId
+    let submitGoodsList = _this.data.submitGoodsList
+    let isLogin = wx.getStorageSync('isLogin')
+    if (!isLogin) {
+      wx.navigateTo({
+        url: '/pages/login/index'
+      })
+    }
+    wx.showLoading({
+      mask:true,
+      title: '订单生成中...'
+    })
+    console.log(_this.data.couponId);
+    wx.request({
+      url: 'https://'+app.globalData.productUrl+'/api?resprotocol=json&reqprotocol=json&class=Order&method=CreateOrder',
+      method: 'post',
+      data: JSON.stringify({
+        baseClientInfo: { longitude: 0, latitude: 0 ,appId: ''+app.globalData.appId+''},
+        obj:submitGoodsList,
+        addressid:addressId,
+        couponid:_this.data.couponId
+      }),
+      header: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'cookie': 'PBCSID=' + wx.getStorageSync('sessionId') + ';PBCSTOKEN=' + wx.getStorageSync('token')
+      },
+      success: (res) => {
+        let code = res.data.baseServerInfo.code
+        let msg = res.data.baseServerInfo.msg
+        wx.hideLoading()
+        if (code == 1) {
+          let orderId = res.data.id
+          _this.payfor(orderId)
+        }
+        else if (code == 1019) {
+          wx.navigateTo({
+            url: '/pages/login/index'
+          })
+        }
+        else{
+          wx.showModal({
+            title:'提示',
+            content:msg,
+            showCancel:false,
+            success:function(res){}
+          })
+        }
+      },
+      fail: (res) => {
+      }
+    })
   },
   // 提交生成订单
   payfor: function(orderId){
@@ -228,35 +273,27 @@ Page({
         let payInfo = res.data
         wx.hideLoading()
         if (code == 1) {
-          wx.showModal({
-            title:'提示',
-            content:'支付暂未开通',
-            showCancel:false,
-            success:function(res){
-              _this.cancelOrder(orderId)
-            }
-          })
-              // let appId = payInfo.appId
-              // let timeStamp = payInfo.timeStamp
-              // let nonceStr  = payInfo.nonceStr
-              // let prepayId  = payInfo.prepayId
-              // let sign      = payInfo.sign
-              // let orderSn   = payInfo.orderSn
-              // wx.requestPayment({
-              //   'timeStamp': ''+timeStamp+'',
-              //   'nonceStr': nonceStr,
-              //   'package': 'prepay_id='+prepayId,
-              //   'signType': 'MD5',
-              //   'paySign': sign,
-              //   'success':function(res){
-              //     _this.paySuccess(orderSn,prepayId,orderId)
-              //   },
-              //   'fail':function(res){
-              //     _this.cancelOrder(orderId)
-              //   },
-              //   'complete':function(res){
-              //   }
-              // })
+              let appId = payInfo.appId
+              let timeStamp = payInfo.timeStamp
+              let nonceStr  = payInfo.nonceStr
+              let prepayId  = payInfo.prepayId
+              let sign      = payInfo.sign
+              let orderSn   = payInfo.orderSn
+              wx.requestPayment({
+                'timeStamp': ''+timeStamp+'',
+                'nonceStr': nonceStr,
+                'package': 'prepay_id='+prepayId,
+                'signType': 'MD5',
+                'paySign': sign,
+                'success':function(res){
+                  _this.paySuccess(orderSn,prepayId,orderId)
+                },
+                'fail':function(res){
+                  _this.cancelOrder(orderId)
+                },
+                'complete':function(res){
+                }
+              })
         }
         else if (code == 1019) {
           wx.navigateTo({

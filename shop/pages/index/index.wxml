@@ -1,48 +1,151 @@
 <!--index.wxml-->
-<view class="index-title">
-  <view class="index-search" bindtap="hrefToSearch">
-    <image src="/images/search.png"/>
-    <text>习酒窖藏1988</text>
+<view class="body {{showSearch == 1?'':'hasnotop'}}">
+  <!-- 红包弹窗 -->
+  <view class="mask" wx:if="{{!isLogin & couponList.length != 0}}"></view>
+  <view class="modalDlg" wx:if="{{!isLogin & couponList.length != 0}}">
+      <image src="https://oybus-oyyx-cdn.91uda.com/static/miniappbeacontower/images/modelIndex.png" ></image>
+      <image src="https://oybus-oyyx-cdn.91uda.com/static/miniappbeacontower/images/close.png" bindtap="closeModal"></image>
+      <view class="modalDlgInfo">
+        <view wx:if="{{couponType == 0}}" class="modalDlgInfoText1 clearfix">
+          <text></text>
+          <text>{{showCouponTotal}}元红包</text>
+          <!-- <text wx:if="{{couponEnough == 0}}">无门槛</text> -->
+          <!-- <text wx:if="{{couponEnough != 0}}">满{{couponEnough}}元可用</text> -->
+        </view>
+        <view wx:if="{{couponType == 1}}" class="modalDlgInfoText1 clearfix">
+          <text>折</text>
+          <text>{{couponDiscount}}</text>
+          <!-- <text wx:if="{{couponEnough == 0}}">无门槛</text> -->
+          <!-- <text wx:if="{{couponEnough != 0}}">满{{couponEnough}}元可用</text> -->
+        </view>
+        <!-- <view class="modalDlgInfoText2">
+          <text>{{couponName}}</text>
+          <text>有效期：{{NewbeginTime}}-{{NewendTime}}</text>
+        </view> -->
+      </view>
+      <view class="modalButton">
+        <text bindtap="hrefToLoginByNewUser">立即领取</text>
+      </view>
   </view>
-  <view class="index-sever" bindtap="listenerButton">
-    <image src="/images/index/sever2.png"/>
-    <text>客服</text>
-  </view>
-</view>
 
-<!-- 底部客服弹窗 -->
-<action-sheet hidden="{{actionSheetHidden}}" bindchange="listenerActionSheet" >
-  <block>
-    <action-sheet-item bindtap="call">拨打客服热线</action-sheet-item>
-    <action-sheet-item >
-      <button open-type="contact" type="button" name="button" bindtap="close">客服消息入口</button>
-    </action-sheet-item>
-  </block>
-  <!--自动隐藏action-sheet-->
-  <action-sheet-cancel bindtap="close">取消</action-sheet-cancel>
-</action-sheet>
-
-<view class="index-swiper">
-  <swiper class="index-swiper-block" indicator-dots="true" circular="true" autoplay="true" interval="5000" duration="1000" indicator-color="#cbcbcb" indicator-active-color="#ea4149">
-    <block wx:for="{{bannerList}}">
-      <swiper-item>
-        <image src="{{item.thumb}}" class="swiper-img"/>
-      </swiper-item>
-    </block>
-  </swiper>
-</view>
-
-<view class="shop-list">
-  <text>热销商品</text>
-  <block wx:for="{{goodsList}}">
-    <view class="shop-list-block" data-id="{{item.id}}" bindtap="hrefToDetail">
-      <image src="{{item.thumb}}" class="swiper-img"/>
-      <text>{{item.title}}</text>
-      <text>￥{{item.marketprice}}</text>
+  <view wx:if="{{showSearch == 1}}" class="index-title">
+    <view class="index-search" bindtap="hrefToSearch">
+      <image src="/images/search.png"/>
+      <text>习酒窖藏1988</text>
     </view>
-  </block>
-</view>
+    <view class="index-sever" bindtap="listenerButton">
+      <image src="/images/index/sever2.png"/>
+      <text>客服</text>
+    </view>
+  </view>
+  <!-- 底部客服弹窗 -->
+  <action-sheet hidden="{{actionSheetHidden}}" bindchange="listenerActionSheet" >
+    <block>
+      <action-sheet-item bindtap="call">拨打客服热线</action-sheet-item>
+      <action-sheet-item >
+        <button open-type="contact" type="button" name="button" bindtap="close">客服消息入口</button>
+      </action-sheet-item>
+    </block>
+    <!--自动隐藏action-sheet-->
+    <action-sheet-cancel bindtap="close">取消</action-sheet-cancel>
+  </action-sheet>
+  <!-- banner -->
+  <view wx:if="{{showAdv == 1 & bannerList != 0}}" class="index-swiper">
+    <swiper class="index-swiper-block" indicator-dots="true" circular="true" autoplay="true" interval="5000" duration="1000" indicator-color="#cbcbcb" indicator-active-color="#ea4149">
+      <block wx:for="{{bannerList}}" wx:key="{{item.id}}">
+        <swiper-item>
+          <image src="{{item.thumb}}" data-type="{{item.hrefType}}" data-hrefId="{{item.hrefId}}" bindtap="bannerHref" class="swiper-img"/>
+        </swiper-item>
+      </block>
+    </swiper>
+  </view>
+  <!-- 自定义入口 -->
+  <view wx:if="{{showNav == 1}}" class="index-entrance clearfix">
+    <block wx:for="{{navInfoList}}" wx:key="{{item.navname}}">
+      <view class="index-entrance-block" data-type="{{item.hrefType}}" data-hrefId="{{item.hrefId}}" bindtap="navHref">
+        <image src="{{item.icon}}"/>
+        <text>{{item.navname}}</text>
+      </view>
+    </block>
+  </view>
+  <!-- 新人福利 -->
+  <view wx:if="{{showNewUser == 1}}" class="index-newuser" bindtap="hrefToNewPersonal">
+    <image src="/pic/newuser.png" mode="widthFix" />
+  </view>
+  <!-- 拼团 -->
+  <view wx:if="{{showGroup == 1 & groupGoodsList != 0}}" class="index-group">
+    <view class="index-group-title clearfix" bindtap="hrefToGroupList">
+      <text>人人拼团</text>
+      <text>查看更多</text>
+    </view>
+    <swiper class="index-group-block" circular="true" autoplay="true" interval="5000" duration="1000">
+      <block wx:for="{{groupGoodsList}}" wx:key="{{item.id}}">
+        <swiper-item bindtap="hrefToGroupDetail" data-id="{{item.id}}">
+          <image src="{{item.thumb}}" class="index-group-img"/>
+          <text>{{item.title}}</text>
+          <view class="index-group-info">
+            <text>￥</text>
+            <text>{{item.groupsprice}}</text>
+            <!-- <text>已拼</text>
+            <text>580</text>
+            <text>件</text> -->
+            <text></text>
+            <text></text>
+            <text></text>
+            <text>去拼团</text>
+            <text>{{item.groupnum}}人团</text>
+            <block wx:for="{{item.headimg}}" wx:for-item="items" wx:key="{{items.avatar}}">
+              <image src="{{items.avatar}}"/>
+            </block>
+            <!-- <image src="https://allnet-shop-cdn.91uda.com/images/1/2018/12/M00k0e11v1JVLzj0200XeE5K551JZ5.jpg"/>
+            <image src="https://allnet-shop-cdn.91uda.com/images/1/2018/12/kdB83P1xDm282fg1f8Bdd3qS1Mye8y.jpg"/> -->
+          </view>
+        </swiper-item>
+      </block>
+    </swiper>
+  </view>
+  <!-- 魔方 -->
+  <view wx:if="{{showCube == 1 & cubesInfoList != 0}}" class="index-cubeTitle">
 
-<view class="">
+  </view>
+  <view wx:if="{{showCube == 1 & cubesInfoList.length == 3}}" class="index-cubeInfo-3 clearfix">
+    <block wx:for="{{cubesInfoList}}" wx:key="{{item.icon}}">
+      <image src="{{item.icon}}" data-type="{{item.hrefType}}" data-hrefid="{{item.hrefId}}" data-hrefcate="{{item.hrefCate}}" bindtap="cubeHref"/>
+    </block>
+  </view>
+  <view wx:if="{{showCube == 1 & cubesInfoList.length == 4}}" class="index-cubeInfo-4 clearfix">
+    <block wx:for="{{cubesInfoList}}" wx:key="{{item.icon}}">
+      <image src="{{item.icon}}" data-type="{{item.hrefType}}" data-hrefid="{{item.hrefId}}" data-hrefcate="{{item.hrefCate}}" bindtap="cubeHref"/>
+    </block>
+  </view>
+  <!-- 推荐商品 -->
+  <view wx:if="{{showGoods == 1 & goodsList != 0 }}" class="shop-list clearfix">
+    <text>推荐商品</text>
+    <block wx:for="{{goodsList}}" wx:key="{{item.id}}">
+      <view class="shop-list-block" data-id="{{item.id}}" bindtap="hrefToDetail">
+        <image src="{{item.thumb}}" class="swiper-img"/>
+        <text>{{item.title}}</text>
+        <text>￥{{item.marketprice}}</text>
+      </view>
+    </block>
+  </view>
 
+  <view class="{{isIpx?'isIpx':''}} tabbar clearfix">
+    <view class="tabbar-block">
+      <image src="/images/index_active.png" class="tabbar-img"/>
+      <text class="tabbar-active">首页</text>
+    </view>
+    <view class="tabbar-block" bindtap="hrefToSort">
+      <image src="/images/sort.png" class="tabbar-img"/>
+      <text>分类</text>
+    </view>
+    <view class="tabbar-block" bindtap="hrefToCart">
+      <image src="/images/shop.png" class="tabbar-img"/>
+      <text>购物车</text>
+    </view>
+    <view class="tabbar-block" bindtap="hrefToMine">
+      <image src="/images/mine.png" class="tabbar-img"/>
+      <text>我的</text>
+    </view>
+  </view>
 </view>

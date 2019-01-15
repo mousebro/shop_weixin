@@ -37,30 +37,37 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 1,
+			"current": 5,
 			"list": [
 				{
 					"id": 0,
-					"name": "group",
-					"pathName": "pages/group-buy-list/index",
+					"name": "my-order",
+					"pathName": "pages/my-order/index",
 					"query": ""
 				},
 				{
 					"id": 1,
-					"name": "shop-list",
-					"pathName": "pages/shop-list/index",
-					"query": ""
-				},
-				{
-					"id": 2,
-					"name": "my-order-detail",
-					"pathName": "pages/my-order-detail/index",
+					"name": "flash-order",
+					"pathName": "pages/flash-order/index",
 					"query": ""
 				},
 				{
 					"id": -1,
 					"name": "login",
-					"pathName": "pages/login/index"
+					"pathName": "pages/login/index",
+					"query": ""
+				},
+				{
+					"id": 4,
+					"name": "flash",
+					"pathName": "pages/flash/index",
+					"query": "Id=210"
+				},
+				{
+					"id": 5,
+					"name": "flash-sale",
+					"pathName": "pages/flash-sale/index",
+					"query": ""
 				}
 			]
 		}

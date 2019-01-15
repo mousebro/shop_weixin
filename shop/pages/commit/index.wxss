@@ -2,7 +2,7 @@
 /*头部商品星级评价*/
 .commit-container{background: #fff;padding:0 46rpx;position: relative;border-top:24rpx solid #f2f2f2;}
 .commit-star-container{display: flex;justify-content: flex-start;background: #fff;margin-top:20rpx;padding:40rpx 0;}
-.commit-star-container .product-img{height:110rpx;width:192rpx;}
+.commit-star-container .product-img{height:180rpx;width:180rpx;margin-right: 20rpx;}
 .commit-star-container .commit-msg{font-size: 30rpx;margin-bottom: 10rpx;}
 .commit-star-container .commit-star{width:40rpx;height:40rpx;margin-right: 28rpx;}
 
@@ -10,7 +10,9 @@
 .commit-textarea{background:#f2f2f2;height:250rpx;width:100%;box-sizing:border-box;font-size:26rpx;padding:40rpx 20rpx;border-radius:10rpx;margin-bottom:50rpx;}
 
 /*添加图片*/
-.commit-addpic{height:168rpx;width:168rpx;}
-
+.commit-picture{position: relative;height:168rpx;width:23%;float: left;padding: 20rpx 1%;}
+.commit-addpic{width: 100%;height: 100%;}
+.commit-delpic{position: absolute;width: 30rpx;height:30rpx;top: 8rpx;right: -4rpx;}
+.addpic{height:168rpx;width:23%;float: left;padding: 20rpx 1%;}
 /*提交按钮*/
 .submitBtn{background:linear-gradient(to right bottom,#eb414a 10%,#fe6748);color:#fff;position:fixed;width: 96%;bottom:50rpx;left:2%;text-align: center;margin: 0 auto;height: 100rpx;line-height: 100rpx;font-size:35rpx;}

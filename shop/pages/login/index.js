@@ -7,12 +7,18 @@ Page({
     time:'获取验证码',
     currentTime:61,
     mobile:'',
-    verify:''
+    verify:'',
+    hrefUrl:''
   },
   onShow: function () {
 
   },
-  onLoad: function () {
+  onLoad: function (options) {
+    let _this = this
+    let hrefUrl = options.url
+    _this.setData({
+      hrefUrl:hrefUrl
+    })
     this.askForAuthorize()
   },
   // 获取用户是否授权,未授权显示授权弹窗
@@ -125,53 +131,50 @@ Page({
         mask:true,
         title: '验证码已发送...'
       })
-      setTimeout(function(){
-        wx.hideLoading()
-        _this.getCode();
-        _this.setData({
-          disabled:true,
-          buttonClass:'disButton'
+      // setTimeout(function(){
+      //   wx.hideLoading()
+      //   _this.getCode();
+      //   _this.setData({
+      //     disabled:true,
+      //     buttonClass:'disButton'
+      //   })
+      // },1000)
+        wx.request({
+          url: 'https://'+app.globalData.productUrl+'/api?resprotocol=json&reqprotocol=json&class=MiniAppUser&method=SendLoginVerifyCode',
+          header: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          method: 'POST',
+          data: JSON.stringify({
+            baseClientInfo: { longitude: 0, latitude: 0 ,appId: ''+app.globalData.appId+''},
+            mobile: mobile
+          }),
+          success: function(res) {
+            wx.hideLoading()
+            if (res.statusCode === 200) {
+              _this.getCode();
+              wx.setStorageSync('countDown', true)
+              _this.setData({
+                disabled:true,
+                buttonClass:'disButton'
+              })
+            }
+            else {
+              wx.showModal({
+          			title: '提示',
+          			content: res.data.baseServerInfo.msg,
+                showCancel:false,
+          			success: function(res) {
+          				if (res.confirm) {
+          				} else if (res.cancel) {
+          				}
+          			}
+          		})
+            }
+          },
+          fail:function(res){
+          }
         })
-      },1000)
-        // wx.request({
-        //   url: 'https://'+_this.$parent.globalData.productUrl+'/api?resprotocol=json&reqprotocol=json&class=User&method=MobileLoginSendVerification',
-        //   header: {
-        //     'Content-Type': 'application/x-www-form-urlencoded'
-        //   },
-        //   method: 'POST',
-        //   data: JSON.stringify({
-        //     baseClientInfo: {
-        //       longitude: 0,
-        //       latitude: 0
-        //     },
-        //     mobile: mobile
-        //   }),
-        //   success: function(res) {
-        //     wx.hideLoading()
-        //     if (res.statusCode === 200) {
-        //       _this.getCode();
-        //       wx.setStorageSync('countDown', true)
-        //       _this.setData({
-        //         disabled:true,
-        //         buttonClass:'disButton'
-        //       })
-        //     }
-        //     else {
-        //       wx.showModal({
-        //   			title: '提示',
-        //   			content: res.data.baseServerInfo.msg,
-        //         showCancel:false,
-        //   			success: function(res) {
-        //   				if (res.confirm) {
-        //   				} else if (res.cancel) {
-        //   				}
-        //   			}
-        //   		})
-        //     }
-        //   },
-        //   fail:function(res){
-        //   }
-        // })
     }
   },
   // 验证码倒计时
@@ -240,14 +243,13 @@ Page({
               let avatar = res.userInfo.avatarUrl
               let encryptedData = res.encryptedData
               let iv = res.iv
-              console.log(nickname,avatar,encryptedData,iv);
               wx.request({
                 url: 'https://'+app.globalData.productUrl+'/api?resprotocol=json&reqprotocol=json&class=MiniAppUser&method=Login',
                 method: 'post',
                 data: JSON.stringify({
                   baseClientInfo: { longitude: 0, latitude: 0 ,appId: ''+app.globalData.appId+''},
                   mobile:_this.data.mobile,
-                  verifyCode:'',
+                  verifyCode:_this.data.verify,
                   code:code,
                   nickname:nickname,
                   avatarUrl:avatar,
@@ -259,22 +261,29 @@ Page({
                 },
                 success: (res) => {
                   wx.hideLoading()
-                  if (res.statusCode == 200) {
-                    let code = res.data.baseServerInfo.code
-                    let msg = res.data.baseServerInfo.msg
-                    if (code == 1) {
-                      wx.setStorageSync('isLogin', true)
-                      wx.setStorageSync('userInfo', res.data.userInfo)
-                      wx.setStorageSync('sessionId', res.data.sessionId)
-                      wx.setStorageSync('token', res.data.token)
+                  let code = res.data.baseServerInfo.code
+                  let msg = res.data.baseServerInfo.msg
+                  if (code == 1) {
+                    wx.setStorageSync('isLogin', true)
+                    wx.setStorageSync('userInfo', res.data.userInfo)
+                    wx.setStorageSync('sessionId', res.data.sessionId)
+                    wx.setStorageSync('token', res.data.token)
+                    if (_this.data.hrefUrl == 'newuser') {
+                      wx.redirectTo({
+                        url: '/pages/new-personal/index'
+                      })
+                    }
+                    else {
                       wx.navigateBack()
                     }
-                    else{
-                      console.log(msg);
-                    }
                   }
-                  else {
-                    console.log(res.statusCode);
+                  else{
+                    wx.showModal({
+                      title:'提示',
+                      content:msg,
+                      showCancel:false,
+                      success:function(res){}
+                    })
                   }
                 },
                 fail: (res) => {
@@ -292,7 +301,7 @@ Page({
   },
   // 跳转回首页
   hrefToIndex: function(){
-    wx.switchTab({
+    wx.navigateTo({
       url: '/pages/index/index'
     })
   },

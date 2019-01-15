@@ -1,0 +1,62 @@
+  <!-- 订单地址昵称等信息 -->
+  <view class="address" bindtap="changeAddress">
+    <text>{{realname}}</text>
+    <text>{{mobile}}</text>
+    <text>{{address}}</text>
+    <image src="/images/more.png"/>
+  </view>
+  <!-- 商品信息 -->
+  <view class="shop">
+      <view class="shop-block clearfix">
+        <image class="" src="{{goodDetail.thumbUrl}}" >
+        </image>
+        <text>{{goodDetail.title}}32132132</text>
+        <text>￥{{goodDetail.groupsprice}}</text>
+        <text>x{{buyNumber}}</text>
+      </view>
+  </view>
+  <!-- 价格结算 -->
+  <view class="countprice">
+    <view class="countprice-plus clearfix">
+      <text>商品金额</text>
+      <text>￥{{singleprice}}</text>
+    </view>
+    <view class="countprice-plus clearfix">
+      <text>运费</text>
+      <text>￥{{goodDetail.freight}}</text>
+    </view>
+    <!-- 优惠券模块后面做 -->
+    <!-- <view wx:if="{{!choseCoupon & couponList.length != 0}}" class="countprice-less clearfix">
+      <text>优惠券</text>
+      <text>-￥{{couponPrice}}</text>
+    </view>
+    <view wx:if="{{couponList.length == 0}}" class="countprice-less clearfix">
+      <text>优惠券</text>
+      <text>-￥0</text>
+    </view>
+    <view wx:if="{{choseCoupon}}" class="countprice-less clearfix">
+      <text>优惠券</text>
+      <text>-￥{{couponPrice}}</text>
+    </view> -->
+    <!-- <view wx:if="{{isVip}}" class="countprice-less clearfix">
+      <image src="/images/super.png" class="swiper-img" mode="widthFix"/>
+      <text class="vip-price">-￥{{vipPrice/100}}</text>
+    </view> -->
+    <view class="countprice-total">
+      <text>实付金额</text>
+      <text>￥{{goodDetail.totalPrice}}</text>
+    </view>
+  </view>
+  <!-- 支付订单 -->
+  <view class="submit" bindtap="submit">
+    <text>立即支付</text>
+  </view>
+
+  <!-- 底部分享弹窗 -->
+  <!-- <action-sheet hidden="{{actionSheetHidden}}" bindchange="listenerActionSheet" >
+    <block>
+      <action-sheet-item bindtap="hrefToAddress">从平台地址选择</action-sheet-item>
+      <action-sheet-item bindtap="hrefToWXadd">从微信地址选择</action-sheet-item>
+    </block>
+    <action-sheet-cancel bindtap="close">取消</action-sheet-cancel>
+  </action-sheet> -->

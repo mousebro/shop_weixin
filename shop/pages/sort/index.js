@@ -14,6 +14,9 @@ Page({
     _this.getCategory()
   },
   onLoad: function(){
+    this.setData({
+      isIpx:app.globalData.isIpx
+    })
     // let _this = this
     // _this.getCategory()
   },
@@ -70,8 +73,9 @@ Page({
   // 跳转到商品列表
   hrefToShopList: function(e){
     let id = e.currentTarget.dataset.id
+    let title = e.currentTarget.dataset.title
     wx.navigateTo({
-      url: '/pages/shop-list/index?Id='+id+''
+      url: '/pages/shop-list/index?Id='+id+'&title='+title+''
     })
   },
   // 获取分类列表
@@ -121,8 +125,43 @@ Page({
   // 二级分类检索
   searchSecondType: function(e){
     let id = e.currentTarget.dataset.id
+    let title = e.currentTarget.dataset.title
     wx.navigateTo({
-      url: '/pages/shop-list/index?Id='+id+''
+      url: '/pages/shop-list/index?Id='+id+'&title='+title+''
     })
+  },
+  //跳转到首页
+  hrefToIndex: function(){
+    wx.redirectTo({
+      url: '/pages/index/index'
+    })
+  },
+  //跳转到购物车
+  hrefToCart: function(){
+    let isLogin = wx.getStorageSync('isLogin')
+    if (!isLogin) {
+      wx.navigateTo({
+        url: '/pages/login/index'
+      })
+    }
+    else {
+      wx.redirectTo({
+        url: '/pages/shop-cart/index'
+      })
+    }
+  },
+  //跳转到个人中心
+  hrefToMine: function(){
+    let isLogin = wx.getStorageSync('isLogin')
+    if (!isLogin) {
+      wx.navigateTo({
+        url: '/pages/login/index'
+      })
+    }
+    else {
+      wx.redirectTo({
+        url: '/pages/mine/index'
+      })
+    }
   },
 })

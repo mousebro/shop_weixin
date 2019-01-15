@@ -1,7 +1,7 @@
 /* pages/group-buy-success/index.wxss */
 page{background: #f2f2f2;}
 .all-container{margin-top:12rpx;}
-.buttonFixed{position: fixed;bottom:19rpx;width: 96%;margin:0 2%;background:linear-gradient(to right,#ff3751,#ff8675);text-align: center;color: #fff;font-size:35rpx;padding:32rpx;box-sizing: border-box;border-radius: 3rpx; }
+.buttonFixed{position: fixed;bottom:19rpx;width: 96%;margin:0 2%;background:linear-gradient(to right,#ff3751,#ff8675);text-align: center;color: #fff;font-size:35rpx;box-sizing: border-box;border-radius: 3rpx;padding:10rpx; }
 .box-container{width: 96%;margin:0 2%;}
 .product-item{padding:50rpx 30rpx;background:#fff;display: flex;justify-content: space-between;}
 .product-item .product-img{width:170rpx;height:120rpx;}
@@ -20,7 +20,7 @@ page{background: #f2f2f2;}
 
 /**拼团成员*/
 .team-container{margin-top:12rpx;background: #fff;padding:100rpx 150rpx;}
-.team-container .team-msg{text-align: center;color:#ea4149;}
+.team-container .team-msg{text-align: center;color:#ea4149;margin-bottom:20rpx;}
 .team-container .team-msg::before{display:inline-block;margin-right:4%;width: 20%;content: "";height: 0;border-top: 1px solid #ea4149;vertical-align: middle;} 
 .team-container .team-msg::after{display:inline-block;margin-left:4%;width: 20%;content: "";height: 0;border-top: 1px solid #ea4149;vertical-align: middle;}
 .team-container .team-msg-two>view:first-child{font-size: 30rpx;text-align: center;}

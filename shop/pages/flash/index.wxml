@@ -1,0 +1,116 @@
+  <!--秒杀商品详情页-->
+  <!-- 蒙版 -->
+  <view class="mask"  wx:if="{{showModal == true}}"/>
+  <!-- 立即购买弹窗 -->
+  <view class="modal"  wx:if="{{modal2 == true}}">
+    <view class="modal-shopDetail clearfix">
+      <image src="{{thumbList[0]}}"/>
+      <text>{{title}}</text>
+      <text>￥{{price}}</text>
+      <image bindtap="closeModal2" src="/images/close.png"/>
+    </view>
+
+    <view class="modal-shopCount">
+       <text class="modal-shopCount-number">购买数量</text>
+       <view class="modal-shopCount-box">
+           <text class="modal-shopCount-less {{buyNumber == buyNumMin ? 'hui': ''}}" bindtap="lessTap">-</text>
+           <view class="modal-shopCount-input">
+              <input type="number" value="{{buyNumber}}" disabled/>
+           </view>
+           <text class="modal-shopCount-plus {{buyNumber== buyNumMax ? 'hui': ''}}" bindtap="plusTap">+</text>
+       </view>
+    </view>
+    <!-- <view class="modal-shopCount">
+
+    </view> -->
+    <text class="modal-bottomButton" bindtap="hrefToPay">立即购买</text>
+  </view>
+  <!-- 顶部栏位 -->
+  <view class="shop-title clearfix">
+    <text class="{{showActive == 'a1'?'shop-title-active':''}}" data-id="a1" bindtap="scrollPosition">商品</text>
+    <text class="{{showActive == 'a2'?'shop-title-active':''}}" data-id="a2" bindtap="scrollPosition">详情</text>
+    <text bindtap="hrefToCommentList">评价</text>
+    <image src="/images/backToIndex.png" class="swiper-index" mode="aspectFill" bindtap="herfToIndex"/>
+  </view>
+  <!-- 滚动区域 -->
+  <scroll-view class="scroll-body" scroll-y="true" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}" scroll-with-animation="true">
+    <!-- 商品轮播图 -->
+    <swiper class="swiper shop-swiper" id="a1" indicator-dots="true" circular="true" autoplay="true" interval="5000" duration="1000" indicator-color="#cbcbcb" indicator-active-color="#ea4149">
+      <block wx:for="{{thumbList}}" wx:key="{{item}}">
+        <swiper-item>
+          <image lazy-load="true" src="{{item}}" class="swiper-img"/>
+        </swiper-item>
+      </block>
+    </swiper>
+    <!-- 商品名称以及价格 -->
+    <view class="shop-detail">
+      <!-- 商品名称 -->
+      <view class="shop-detail-name">
+        <text>{{title}}</text>
+        <view class="shop-detail-share clearfix" bindtap="share">
+          <image src="/images/share.png" class="swiper-img" mode="aspectFill"/>
+          <button open-type="share">分享</button>
+        </view>
+      </view>
+      <!-- 商品价格 -->
+      <view class="shop-detail-price">
+        <text>￥</text>
+        <text>{{marketprice}}</text>
+        <text></text>
+        <text wx:if="{{productprice != '0.00'}}" class="delLine">￥{{productprice}}</text>
+      </view>
+      <!-- 会员折扣 -->
+      <view class="shop-detail-super">
+        <image src="/images/super.png" class="swiper-img" mode="widthFix"/>
+        <text>会员下单再享98折，可省18.00元</text>
+      </view>
+      <!--掌上秒拍倒计时-->
+      <view class="seckill-countdown">
+        <text >掌上秒拍</text><text>剩余01小时02分13秒</text>
+      </view>
+    </view>
+    <!-- 评价 -->
+    <view class="shop-assess" wx:for="{{commentList}}" wx:key="{{item.id}}" bindtap="hrefToCommentList">
+      <view class="shop-assess-title">
+        <text>评价({{totalComment}})</text>
+        <text>查看全部</text>
+      </view>
+      <view class="shop-assess-info">
+        <image src="{{item.headimgurl}}"/>
+        <text>{{item.nickname}}</text>
+      </view>
+      <view class="shop-assess-detail clearfix">
+        <text>{{item.content}}</text>
+      </view>
+    </view>
+    <!-- 商品详情 -->
+    <view class="shop-parse" id="a2">
+      <text>商品详情</text>
+      <import src="../../wxParse/wxParse.wxml"/>
+      <view class="container">
+        <!-- 这一块是富文本 显示的内容区 -->
+        <template is="wxParse" data="{{wxParseData:content.nodes}}"/>
+      </view>
+    </view>
+  </scroll-view>
+  <!-- 底部固定栏 -->
+  <view class="{{isIpx?'isIpx':''}} shop-buy" style="justify-content:flex-end;">
+    <view class="shop-buy-now" bindtap="showBuy">
+      <text>立即抢购</text>
+    </view>
+    <view class="shop-buy-sever" bindtap="listenerButton">
+      <image src="/images/message.png"/>
+      <text>联系客服</text>
+    </view>
+  </view>
+  <!-- 底部客服弹窗 -->
+  <action-sheet hidden="{{actionSheetHidden}}" bindchange="listenerActionSheet" >
+    <block>
+      <action-sheet-item bindtap="call">拨打客服热线</action-sheet-item>
+      <action-sheet-item >
+        <button open-type="contact" type="button" name="button" bindtap="close">客服消息入口</button>
+      </action-sheet-item>
+    </block>
+    <!--自动隐藏action-sheet-->
+    <action-sheet-cancel bindtap="close">取消</action-sheet-cancel>
+  </action-sheet>

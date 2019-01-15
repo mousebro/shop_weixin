@@ -1,0 +1,59 @@
+<!--pages/new-personal/index.wxml-->
+<!--新人福利页面-->
+<view>
+    <view class="header-container">
+        <image class="header-img" src="../../images/new-personal/header.png" mode="widthFix" lazy-load="false" binderror="" bindload=""></image>
+        <view class="flag-container">
+            <view>精品优选</view>
+            <view>正品保真</view>
+            <view>直营直采</view>
+            <view>闪电发货</view>
+        </view>
+    </view>
+    <view class="coupon-container">
+        <view class="title">
+            <view>新人见面礼</view>
+        </view>
+        <view wx:if="{{couponList != 0}}" class="allCoupons">
+          <block wx:for="{{couponList}}" wx:key="{{item.couponid}}">
+            <view wx:if="{{item.backtype == 0}}" class="coupon" style="background:#f2f2f2 url({{couponImg}}) no-repeat;background-size:100% 100%;">
+               <view class="price">
+                   <text>￥</text>
+                   <text>{{item.deduct}}</text>
+               </view>
+               <view class="sort">
+                    <text>直减劵</text>
+                    <text wx:if="{{item.enough == 0}}">(无门槛)</text>
+                    <text wx:if="{{item.enough != 0}}">(满{{item.enough}}可用)</text>
+                </view>
+            </view>
+
+            <view wx:if="{{item.backtype == 1}}" class="coupon" style="background:#f2f2f2 url({{couponImg}}) no-repeat;background-size:100% 100%;">
+               <view class="price">
+                   <text>折</text>
+                   <text>{{item.discount}}</text>
+               </view>
+               <view class="sort">
+                    <text>折扣劵</text>
+                    <text wx:if="{{item.enough == 0}}">(无门槛)</text>
+                    <text wx:if="{{item.enough != 0}}">(满{{item.enough}}可用)</text>
+                </view>
+            </view>
+          </block>
+        </view>
+        <view wx:if="{{!isSendTicket}}" class="button-comfirm" style="background:#f2f2f2 url({{buttonImg}}) no-repeat;background-size:100% 100%;" bindtap="getCoupon"></view>
+        <view wx:if="{{isSendTicket}}" class="button-comfirm" style="background:#f2f2f2 url({{buttonNoneImg}}) no-repeat;background-size:100% 100%;"></view>
+    </view>
+    <!-- 推荐商品 -->
+    <view class="shop-list clearfix">
+        <block wx:for="{{goodsList}}" wx:key="{{item.id}}">
+        <view class="shop-list-block" data-id="{{item.id}}" bindtap="hrefToDetail">
+            <image src="{{item.thumb}}" class="swiper-img"/>
+            <text>{{item.title}}</text>
+            <view>
+                <text>￥{{item.marketprice}}</text><text></text><text></text>
+            </view>
+        </view>
+        </block>
+    </view>
+</view>

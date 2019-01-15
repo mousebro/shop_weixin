@@ -52,7 +52,8 @@
   <view class="shop-title clearfix">
     <text class="{{showActive == 'a1'?'shop-title-active':''}}" data-id="a1" bindtap="scrollPosition">商品</text>
     <text class="{{showActive == 'a2'?'shop-title-active':''}}" data-id="a2" bindtap="scrollPosition">详情</text>
-    <!-- <text>评价</text> -->
+    <text bindtap="hrefToCommentList">评价</text>
+    <image src="/images/backToIndex.png" class="swiper-index" mode="aspectFill" bindtap="herfToIndex"/>
   </view>
   <!-- 滚动区域 -->
   <scroll-view class="scroll-body" scroll-y="true" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}" scroll-with-animation="true">
@@ -88,19 +89,19 @@
       </view> -->
     </view>
     <!-- 评价 -->
-    <!-- <view class="shop-assess">
+    <view class="shop-assess" wx:for="{{commentList}}" wx:key="{{item.id}}" bindtap="hrefToCommentList">
       <view class="shop-assess-title">
-        <text>评价(123)</text>
-        <text>查看全部></text>
+        <text>评价({{totalComment}})</text>
+        <text>查看全部</text>
       </view>
       <view class="shop-assess-info">
-        <image src="/pic/banner1.png"/>
-        <text>喵喵酱</text>
+        <image src="{{item.headimgurl}}"/>
+        <text>{{item.nickname}}</text>
       </view>
       <view class="shop-assess-detail clearfix">
-        <text>喵喵酱喵喵酱喵喵酱喵喵酱喵喵酱喵喵酱喵喵酱喵喵酱喵喵酱喵喵酱喵喵酱喵喵酱喵喵酱喵喵酱喵喵酱</text>
+        <text>{{item.content}}</text>
       </view>
-    </view> -->
+    </view>
     <!-- 商品详情 -->
     <view class="shop-parse" id="a2">
       <text>商品详情</text>
@@ -112,7 +113,7 @@
     </view>
   </scroll-view>
   <!-- 底部固定栏 -->
-  <view class="shop-buy">
+  <view class="{{isIpx?'isIpx':''}} shop-buy">
     <view class="shop-buy-sever" bindtap="listenerButton">
       <image src="/images/message.png"/>
       <text>联系客服</text>

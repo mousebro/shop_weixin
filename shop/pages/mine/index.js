@@ -9,7 +9,9 @@ Page({
     isSupper:true
   },
   onLoad: function () {
-    
+    this.setData({
+      isIpx:app.globalData.isIpx
+    })
   },
   onShow:function(){
     this.getUserInfo()
@@ -100,10 +102,34 @@ Page({
       url: '/pages/my-order/index?status=3',
     })
   },
-  //点击查看待评价订单进行跳转
+  // 跳转到我的优惠券
+  hrefToDiscount:function(){
+    wx.navigateTo({
+      url: '/pages/discount/index',
+    })
+  },
+  //跳转地址管理
   hrefToAddress:function(){
     wx.navigateTo({
       url: '/pages/address/index',
+    })
+  },
+  //跳转到分类
+  hrefToSort: function(){
+    wx.redirectTo({
+      url: '/pages/sort/index'
+    })
+  },
+  //跳转到购物车
+  hrefToCart: function(){
+    wx.redirectTo({
+      url: '/pages/shop-cart/index'
+    })
+  },
+  //跳转到首页
+  hrefToIndex: function(){
+    wx.redirectTo({
+      url: '/pages/index/index'
     })
   },
 })

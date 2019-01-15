@@ -22,10 +22,16 @@ Page({
     //this.getData();//进行页面数据加载
     //在跳转到商品列表的时进行商品列表的请求并加载
     let categoryId = this.options.Id
+    let title = this.options.title
     this.setData({
       categoryId: categoryId,
       imageUrl: app.globalData.imageUrl
     })
+    if (title != '' & title != undefined) {
+      wx.setNavigationBarTitle({
+        title: ''+title+''
+      })
+    }
     let _this = this
     wx.request({
       url: 'https://' + app.globalData.productUrl + '/api?resprotocol=json&reqprotocol=json&class=Goods&method=GetGoodsList',

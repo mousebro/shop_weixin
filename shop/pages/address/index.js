@@ -217,7 +217,15 @@ Page({
         realname:name,
         mobile:mobile,
         address:address
-      });
+      })
+      wx.navigateBack()
+    }else if(url == 'group-buy'){
+      let id = e.currentTarget.dataset.id
+      let pages = getCurrentPages()
+      let prevPage = pages[pages.length - 2];//上一页面
+      prevPage.setData({//直接给上移页面赋值
+        addressId:id
+      })
       wx.navigateBack()
     }
     // if (url=='personal')ruturn;

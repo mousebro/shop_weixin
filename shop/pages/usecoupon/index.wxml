@@ -1,0 +1,37 @@
+  <view class="body">
+    <view class="modal1">
+      <view class="modal1-body">
+        <block wx:for="{{couponList}}" wx:key="{{item.couponItemId}}">
+          <view wx:if="{{item.backtype == 0}}" class="couponBlock clearfix" bindtap="useCashCoupon" data-id="{{item.couponItemId}}" data-price="{{item.deduct}}" data-usePrice="{{item.enough}}">
+              <view class="coupon-left">
+                <view class="coupon-left-block">
+                  <text>￥</text>
+                  <text>{{item.deduct}}</text>
+                </view>
+                <text wx:if="{{item.enough != '0'}}">满{{item.enough}}可用</text>
+                <text wx:if="{{item.enough == '0'}}">无门槛</text>
+              </view>
+              <view class="coupon-right">
+                <text>{{item.couponname}}</text>
+                <text wx:if="{{item.timelimit == 1}}">有效期：{{item.timestart}}-{{item.timeend}}</text>
+              </view>
+          </view>
+          <view wx:if="{{item.backtype == 1}}" class="couponBlock clearfix" bindtap="useDiscountCoupon" data-id="{{item.couponItemId}}" data-discount="{{item.discount}}" data-usePrice="{{item.enough}}">
+              <view class="coupon-left">
+                <view class="coupon-left-block2">
+                  <text>{{item.discount}}</text>
+                  <text>折</text>
+                </view>
+                <text wx:if="{{item.enough != '0'}}">满{{item.enough}}可用</text>
+                <text wx:if="{{item.enough == '0'}}">无门槛</text>
+              </view>
+              <view class="coupon-right">
+                <text>{{item.couponname}}</text>
+                <text wx:if="{{item.timelimit == 1}}">有效期：{{item.timestart}}-{{item.timeend}}</text>
+              </view>
+          </view>
+        </block>
+      </view>
+      <text bindtap="useNoCoupon">不使用优惠券</text>
+    </view>
+  </view>

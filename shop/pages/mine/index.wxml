@@ -31,7 +31,7 @@
       <view class='my-order-text' bindtap='readMore'>
         <text class='order-text'>我的订单</text>
         <view class="order-more" >查看全部 <image class="more-icon" src="../../images/more.png" mode="aspectFit" lazy-load="false" >
-          
+
         </image></view>
       </view>
       <view class='my-order-menu'>
@@ -55,14 +55,16 @@
     </view>
     <!--我的优惠劵、签到中心、地址管理、平台建议-->
     <view class="oprator-container">
-      <!-- <view class='oprator-card'>
+      <view class='oprator-card' bindtap="hrefToDiscount">
         <view>
           <image src='../../images/personal/coupon.png' style="height:40rpx;width:35rpx;" class='oprator-card-image'></image>
           <text  class='oprator-card-text'>我的优惠券</text>
         </view>
-        <text class='order-for-more'></text>
+        <image class="more-icon" src="../../images/more.png" mode="aspectFit" lazy-load="false" >
+
+        </image>
       </view>
-      <view class='oprator-card'>
+      <!-- <view class='oprator-card'>
         <view>
           <image src='../../images/personal/signIn.png' style="height:40rpx;width:35rpx;" class='oprator-card-image'></image>
           <text  class='oprator-card-text'>签到中心</text>
@@ -75,7 +77,7 @@
           <text  class='oprator-card-text'>地址管理</text>
         </view>
         <image class="more-icon" src="../../images/more.png" mode="aspectFit" lazy-load="false" >
-          
+
         </image>
       </view>
       <!-- <view class='oprator-card'>
@@ -86,5 +88,24 @@
         <text class='order-for-more'></text>
       </view> -->
     </view>
+  </view>
+</view>
+
+<view class="{{isIpx?'isIpx':''}} tabbar clearfix">
+  <view class="tabbar-block" bindtap="hrefToIndex">
+    <image src="/images/index.png" class="tabbar-img"/>
+    <text>首页</text>
+  </view>
+  <view class="tabbar-block" bindtap="hrefToSort">
+    <image src="/images/sort.png" class="tabbar-img"/>
+    <text>分类</text>
+  </view>
+  <view class="tabbar-block" bindtap="hrefToCart">
+    <image src="/images/shop.png" class="tabbar-img"/>
+    <text>购物车</text>
+  </view>
+  <view class="tabbar-block">
+    <image src="/images/mine_active.png" class="tabbar-img"/>
+    <text class="tabbar-active">我的</text>
   </view>
 </view>

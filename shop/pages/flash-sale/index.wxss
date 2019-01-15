@@ -5,8 +5,8 @@ page{
   height: 100%;
 }
 .navbar{
-  background: #fff;
-  padding-top:30rpx;
+  background: #000;
+  margin-top:30rpx;
   white-space: nowrap;
 }
 .navbar .item-time{
