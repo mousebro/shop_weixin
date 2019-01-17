@@ -1,6 +1,7 @@
 //index.js
 //获取应用实例
 const app = getApp()
+import formatTime from '../../utils/util.js'
 
 Page({
   data: {
@@ -16,6 +17,7 @@ Page({
   onShow:function(){
     this.getUserInfo()
   },
+  // 获取用户信息
   getUserInfo: function(e) {
     let _this = this
     let isLogin = wx.getStorageSync('isLogin')
@@ -47,9 +49,18 @@ Page({
           let userId = res.data.userInfo.userId
           let nickname = res.data.userInfo.nickname
           let avatar = res.data.userInfo.avatar
+          let superstatus = res.data.userInfo.superstatus // 获取用户会员情况（1是会员，2是非会员）
+          let countBeginTime = new Date(res.data.userInfo.superstarttime*1000)
+          let countEndTime = new Date(res.data.userInfo.superendtime*1000)
+          let beginTime = formatTime.formatDate(countBeginTime)  // 会员开始时间
+          let endTime = formatTime.formatDate(countEndTime)  // 会员开始时间
+          console.log(superstatus);
           _this.setData({
             nickname:nickname,
-            avatar:avatar
+            avatar:avatar,
+            superstatus:superstatus,
+            beginTime:beginTime,
+            endTime:endTime
           })
           wx.hideLoading()
         }
@@ -130,6 +141,12 @@ Page({
   hrefToIndex: function(){
     wx.redirectTo({
       url: '/pages/index/index'
+    })
+  },
+  // 跳转到购买会员页
+  hrefToSupermember:function(){
+    wx.navigateTo({
+      url: '/pages/supermember-buy/index',
     })
   },
 })

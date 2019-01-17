@@ -27,6 +27,7 @@ Page({
   onShow:function(){
 
   },
+  // 获取用户信息
   getUserInfo: function(){
     let _this = this
     wx.request({
@@ -148,8 +149,32 @@ Page({
               couponList[i].deduct = deduct
               couponList[i].enough = enough
             }
+            // let keys = Array.from(new Set(couponList.map(item => item.couponid)))
+            // var newList = keys.map(key => {
+            //   return {
+            //     couponid: key,
+            //     number: couponList.filter(item => item.couponid == key).reduce((pre, cur) => pre+1, 0)
+            //   }
+            // })
+            let reArr=[];
+            for (var i = 0; i < couponList.length; i++) {
+              let id = couponList[i].couponid
+              let flag=0;
+              for (var j = 0; j < reArr.length; j++) {
+                if(reArr[j].couponid == id){
+                  reArr[j].number += 1;
+                  flag = 1;
+                  continue;
+                }
+              }
+              if(flag == 0){
+                couponList[i].number=1
+                reArr.push(couponList[i]);
+              }
+            }
+            console.log(reArr);
             _this.setData({
-              couponList:couponList
+              couponList:reArr
             })
           }
           else{

@@ -3,6 +3,7 @@
   button{padding: 0;font-size: 36rpx;line-height: 50rpx;overflow: visible;background-color: #ffffff;}
   button:hover,button:active{background: none;}
   button::after{border: none;}
+  .wxParse-img{display: flex;}
   .shop-title{width: 90%;padding:0 5%;height:80rpx;line-height: 80rpx;box-shadow: 0rpx 4rpx 8rpx #e5e5e5;position:relative;z-index: 5;margin-top: 40rpx;}
   .shop-title text{display: block;width: 33.3%;float: left;text-align: center;font-size: 30rpx;}
   .shop-title-active{color: #ea4149;}

@@ -12,7 +12,8 @@ page{background:#f2f2f2;}
 .coupon-container .coupon{width:47%;height:130rpx;color:#fff;display: flex;justify-content: space-between;align-items: center;margin-bottom:10rpx;}
 .coupon-container .coupon>.price{color:#fff;text-align: center;width: 60%;}
 .coupon-container .coupon>.price>text:first-child{font-size:32rpx;}
-.coupon-container .coupon>.price>text:last-child{font-size:64rpx;}
+.coupon-container .coupon>.price>text:nth-child(2){font-size:64rpx;}
+.coupon-container .coupon>.price>text:nth-child(3){font-size:24rpx;background-color: #ffff00;color: #ea4149;border-radius: 20rpx;padding: 4rpx 10rpx;}
 .coupon-container .coupon>.sort{display: flex;flex-direction: column;width:40%;justify-content: center;}
 .coupon-container .coupon>.sort>text:first-child{font-size:26rpx;color:#fff;}
 .coupon-container .coupon>.sort>text:last-child{font-size:22rpx;color:#fff;}

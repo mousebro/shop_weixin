@@ -1,0 +1,3 @@
+/* pages/sign-in-center/index.wxss */
+.header-container{height:376rpx;display: flex;flex-direction: column;align-items: center;padding-top:36rpx;}
+.header-container>.image-text{height:78rpx;}

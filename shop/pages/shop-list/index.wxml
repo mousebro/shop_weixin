@@ -2,7 +2,7 @@
 <view>
   <view class="search" bindtap="hrefToSearch">
     <image src="/images/search.png"/>
-    <text>习酒窖藏1988</text>
+    <text>彩漂洗衣液柠檬清香</text>
   </view>
   <!--商品列表页 头部选项栏-->
   <view class="headerTabs" >

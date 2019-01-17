@@ -31,7 +31,7 @@
   <view wx:if="{{showSearch == 1}}" class="index-title">
     <view class="index-search" bindtap="hrefToSearch">
       <image src="/images/search.png"/>
-      <text>习酒窖藏1988</text>
+      <text>彩漂洗衣液柠檬清香</text>
     </view>
     <view class="index-sever" bindtap="listenerButton">
       <image src="/images/index/sever2.png"/>

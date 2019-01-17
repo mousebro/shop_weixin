@@ -2,47 +2,50 @@
 <!--限时秒杀列表-->
 <view style='height:100%;'>
 <!--导航条-->
-  <scroll-view scroll-x="true" class="navbar"  style="height:120rpx;width:100%;" >
-    <view wx:for="{{timeList}}" data-idx="{{index}}"  wx:key="index" data-idx="{{index}}" data-id="{{item.id}}" catchtap='handleChose' class="item-time {{index==idx?'item-active':''}}" data-tamp="{{item.tamp}}" data-falsh="{{item.isFlash}}">
+  <scroll-view scroll-x="true" scroll-into-view="{{toView}}" class="navbar" style="height:120rpx;width:100%;"  >
+    <view wx:for="{{timeList}}" data-idx="{{index}}" id="{{item.toViewId}}"  wx:key="index" data-time="{{item.time}}" data-status="{{item.status}}"  data-id="{{item.id}}"  catchtap='handleChose' class="item-time {{index==idx?'item-active':''}}">
       <view  class="item-time-container">
-        <text class="right-now">{{item.title}}</text>
+        <text class="right-now">{{item.title}}{{scrollTop}}</text>
         <text  class="times">{{item.timeStr}}</text>
+       
       </view>      
     </view>
   </scroll-view>
   <!--即将开始、正在进行 倒计时-->
   <view class='all-contain timing-end-container'>
-    <text wx:if="{{!isFlash}}">即将开始</text>
-    <text wx:if="{{isFlash}}">抢购中</text>
-    <view wx:if="{{!isFlash}}">
+    <text wx:if="{{isFlash == 1}}">即将开始</text>
+    <text wx:if="{{isFlash == 2}}">抢购中</text>
+    <text wx:if="{{isFlash == 3}}">已结束</text>
+    <view wx:if="{{isFlash == 1}}">
       <text>距开始 </text><text class='time-style'>{{time.hours}}</text>:<text class='time-style'>{{time.minutes}}</text>:<text class='time-style'>{{time.seconds}}</text>
     </view>
-    <view wx:if="{{isFlash}}">
+    <view wx:if="{{isFlash == 2}}">
       <text>距结束 </text><text class='time-style'>{{time.hours}}</text>:<text class='time-style'>{{time.minutes}}</text>:<text class='time-style'>{{time.seconds}}</text>
     </view>
+    
   </view>
-
   <!--抢购的商品列表-->
-  <scroll-view style='height:calc(100% - 240rpx);width:100%;' scroll-y>
+  <scroll-view style='height:calc(100% - 240rpx);width:100%;' scroll-y scroll-left="{{scrollLeft}}">
     <view class='productList'>
-      <view wx:for="{{6}}" wx:key="{{index}}" catchtap="hrefToDetail" data-idx="{{201}}">
+      <view wx:for="{{goodsList}}" wx:key="{{index}}" catchtap="hrefToDetail" data-idx="{{item.taskgoodsid}}">
         <!--左侧商品图片-->
         <view>
-          <image src="../../pic/product01.png"></image>
+          <image src="{{item.thumb}}"></image>
         </view>
         <!--右侧商品信息、商品价格 -->
         <view class='productSubscrib'>
-          <text>53°茅台王子酒aaaaaaaaa </text>
+          <text>{{item.title}}</text>
           <view>
-            <text>￥<text style="font-size:36rpx">199</text>.90</text>
-            <text>￥369.00</text>
-            <view wx:if="{{!isFlash}}">{{choseTime}}准时开抢</view>
-            <view wx:if="{{isFlash}}" style="display:flex;justify-content:flex-start">
-              <text class='shop-rate-text'>已经售{{37+index*10}}%</text><progress percent="{{37+index*10}}"  border-radius="20px" active='true' activeColor='#eb414a'  class='shop-rate-progress'/>
+            <text>￥<text style="font-size:36rpx">{{item.seckPriceArr[0]}}</text>.{{item.seckPriceArr[1]}}</text>
+            <text>￥{{item.marketprice}}</text>
+            <view wx:if="{{isFlash==1}}">{{choseTime}}准时开抢</view>
+            <view wx:if="{{isFlash==2}}" style="display:flex;justify-content:flex-start">
+              <text class='shop-rate-text'>已经售{{item.saleRate}}%</text><progress percent="{{item.saleRate}}"  border-radius="20px" active='true' activeColor='#eb414a'  class='shop-rate-progress'/>
             </view>
           </view>
         </view>
-        <view  class="flash-sale-btn {{isFlash==true?'isFlash':''}}" >去抢购</view>
+        <view wx:if="{{isFlash!=3}}" class="flash-sale-btn {{isFlash==2?'isFlash':''}}" >去抢购</view>
+        <view wx:if="{{isFlash == 3}}" class="flash-sale-btn }}">已结束</view>
       </view>
     </view>
   </scroll-view>

@@ -1,7 +1,6 @@
 //index.js
 //获取应用实例
 const app = getApp()
-
 Page({
   data: {
     totalPrice:0,
@@ -9,9 +8,12 @@ Page({
     realname:'点击添加地址',
     mobile:'',
     address:'',
-    showModal:false
+    showModal:false,
+    pageFrom:'goods',
+    timer:null
   },
   onShow: function(){
+    console.log('我是秒拍商品订单')
     let _this = this
     _this.setData({
       addressId:_this.data.addressId,
@@ -21,18 +23,32 @@ Page({
       imageUrl: app.globalData.imageUrl
     })
   },
-  onLoad: function(){
+  onUnload:function(){
+    console.log('隐藏页面')
+    clearInterval(this.data.timer)
+  },
+  onLoad: function(options){
     let _this = this
+    if(options.from=='secKill'){ //判断是否从商品秒杀页进入
+      _this.setData({
+        pageFrom:'secKill'
+      })
+    }else{
+      _this.getCouponList() //秒杀无优惠卷
+    }
     _this.getAddress()
-    _this.getCouponList()
     // let aaa = 'sdjio'
     // wx.setNavigationBarTitle({
     //   title: aaa
     // })
     let goodsList = wx.getStorageSync('orderShopList');
+    console.log(goodsList,'商品')
     let submitGoodsList = []  // 提交订单用商品对象列表
     let goodsIdList = [] // 获取运费用商品id列表
     let fare = 0
+    if(_this.data.pageFrom == 'secKill'){ //判断是否是从秒杀页面进入
+      fare = parseInt(goodsList[0].freight)
+    }
     let isVip = true
     let vipPrice = 0
     let totalPrice = _this.data.totalPrice
@@ -204,20 +220,98 @@ Page({
         url: '/pages/login/index'
       })
     }
+
+   //秒杀商品发送订单
+   if(_this.data.pageFrom == 'secKill'){
+     let data = JSON.stringify({
+      baseClientInfo: { longitude: 0, latitude: 0 ,appId: ''+app.globalData.appId+''},
+      taskgoodsid:_this.data.goodsList[0].goodsId,
+      addressid:addressId,
+      taskid:_this.data.goodsList[0].taskid,
+      roomid:_this.data.goodsList[0].roomid,
+      total:_this.data.goodsList[0].number
+    })
+    _this.setHttpRequst('Seckill','CreateOrder',data,(res)=>{
+     let timeSign = res.data.timeSign
+      data = JSON.parse(data)
+      data.timeSign = timeSign
+      data = JSON.stringify(data)
+     _this.data.timer = setInterval(function(){
+        _this.setHttpRequst('Seckill','CheckOrderPop',data,function(res){
+          clearInterval(_this.data.timer)
+          let orderId = res.data.orderId
+          _this.payfor(orderId)
+        },function(res){
+          wx.showModal({
+            title:'提示',
+            content:res.data.baseServerInfo.msg,
+            showCancel:false,
+            success:function(res){
+              
+            }
+          })
+        })
+      },3000)
+    },function(res){
+      console.log('createOrder')
+      wx.showModal({
+        title:'提示',
+        content:res.data.baseServerInfo.msg,
+        showCancel:false,
+        success:function(res){}
+      })
+    },function(res){
+      let time = Math.random()*4000 + 3000
+      // if(_this.data.secKillTimer){
+      //    setTimeout(() => {
+      //     _this.submit()
+      //   },time)
+      // }
+    })
+   }else{
+    //普通商品发送订单请求
     wx.showLoading({
       mask:true,
       title: '订单生成中...'
     })
-    console.log(_this.data.couponId);
+    let data = JSON.stringify({
+      baseClientInfo: { longitude: 0, latitude: 0 ,appId: ''+app.globalData.appId+''},
+      obj:submitGoodsList,
+      addressid:addressId,
+      couponid:_this.data.couponId
+    })
+   _this.setHttpRequst('Order','CreateOrder',data,function(res){ //成功回调
+    let orderId = res.data.id
+    _this.payfor(orderId)
+   },function(res){
+      wx.showModal({
+        title:'提示',
+        content:res.data.baseServerInfo.msg,
+        showCancel:false,
+        success:function(res){}
+      })
+   },function(res){  //失败回调
+      wx.showModal({
+        title:'提示',
+        content: res.data.baseServerInfo.msg,
+        showCancel:false,
+        success:function(res){
+          wx.navigateBack({
+            delta:1
+          })
+        }
+      })
+    })
+   }
+   
+  },
+  //发送http请求
+  setHttpRequst(Class,Method,Data,Succ,Fail,resFail){
+    let _this = this
     wx.request({
-      url: 'https://'+app.globalData.productUrl+'/api?resprotocol=json&reqprotocol=json&class=Seckill&method=CreateOrder',
+      url: `https://${app.globalData.productUrl}/api?resprotocol=json&reqprotocol=json&class=${Class}&method=${Method}`,
       method: 'post',
-      data: JSON.stringify({
-        baseClientInfo: { longitude: 0, latitude: 0 ,appId: ''+app.globalData.appId+''},
-        obj:submitGoodsList,
-        addressid:addressId,
-        couponid:_this.data.couponId
-      }),
+      data: Data,
       header: {
         'Content-Type': 'application/x-www-form-urlencoded',
         'cookie': 'PBCSID=' + wx.getStorageSync('sessionId') + ';PBCSTOKEN=' + wx.getStorageSync('token')
@@ -225,26 +319,19 @@ Page({
       success: (res) => {
         let code = res.data.baseServerInfo.code
         let msg = res.data.baseServerInfo.msg
-        wx.hideLoading()
-        if (code == 1) {
-          let orderId = res.data.id
-          _this.payfor(orderId)
-        }
-        else if (code == 1019) {
-          wx.navigateTo({
-            url: '/pages/login/index'
-          })
-        }
-        else{
-          wx.showModal({
-            title:'提示',
-            content:msg,
-            showCancel:false,
-            success:function(res){}
-          })
-        }
+          if (code == 1) {
+            Succ(res)
+          }else if (code == 1019) {
+            wx.navigateTo({
+              url: '/pages/login/index'
+            })
+          }
+          else {
+            Fail(res)
+          }
       },
       fail: (res) => {
+        resFail(res)
       }
     })
   },
@@ -344,4 +431,5 @@ Page({
       url: '/pages/my-order-detail/index?Id='+orderId+''
     });
   },
+
 })

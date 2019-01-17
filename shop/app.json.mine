@@ -26,9 +26,7 @@
     "pages/usecoupon/index",
     "pages/flash-sale/index",
     "pages/inside/index",
-    "pages/flash-order/index",
-    "pages/supermember-buy/index",
-    "pages/sign-in-center/index"
+    "pages/flash-order/index"
   ],
   "window": {
     "backgroundTextStyle": "light",

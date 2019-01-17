@@ -46,12 +46,6 @@
 					"query": ""
 				},
 				{
-					"id": 1,
-					"name": "flash-order",
-					"pathName": "pages/flash-order/index",
-					"query": ""
-				},
-				{
 					"id": -1,
 					"name": "login",
 					"pathName": "pages/login/index",
@@ -61,12 +55,18 @@
 					"id": 4,
 					"name": "flash",
 					"pathName": "pages/flash/index",
-					"query": "Id=210"
+					"query": ""
 				},
 				{
 					"id": 5,
 					"name": "flash-sale",
 					"pathName": "pages/flash-sale/index",
+					"query": ""
+				},
+				{
+					"id": 5,
+					"name": "sign-in",
+					"pathName": "pages/sign-in-center/index",
 					"query": ""
 				}
 			]

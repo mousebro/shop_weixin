@@ -20,6 +20,7 @@
                <view class="price">
                    <text>￥</text>
                    <text>{{item.deduct}}</text>
+                   <text>{{item.number}}张</text>
                </view>
                <view class="sort">
                     <text>直减劵</text>

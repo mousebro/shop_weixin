@@ -1,5 +1,4 @@
- <!--秒杀商品订单-->
-<view class="body">
+  <view class="body">
     <view class="modal1" wx:if="{{showModal}}">
       <view class="modal1-body">
         <block wx:for="{{couponList}}" wx:key="{{item.couponItemId}}">
@@ -64,7 +63,7 @@
         <text>￥{{fare/100}}</text>
       </view>
       <!-- 优惠券模块后面做 -->
-      <view wx:if="{{!choseCoupon & couponList.length != 0}}" class="countprice-less clearfix" bindtap="choseCoupon">
+      <view wx:if="{{!choseCoupon && couponList.length != 0 && pageFrom!='secKill'}}" class="countprice-less clearfix" bindtap="choseCoupon">
         <text>优惠券</text>
         <image src="/images/more.png"/>
         <view class="coupon-less-noselect">

@@ -1,0 +1,90 @@
+<view class="body">
+  <view class="super-title">
+    <view class="super-title-bg1">
+      <image src="/images/super/bg1.png"/>
+    </view>
+    <view wx:if="{{superstatus == 2}}" class="super-title-bg2">
+      <image src="/images/super/bg2.png"/>
+    </view>
+    <view wx:if="{{superstatus == 1}}" class="super-title-bg2">
+      <image src="/images/super/bg4.png"/>
+    </view>
+    <view class="super-title-bg3">
+      <image src="/images/super/bg3.png" mode="widthFix"/>
+    </view>
+    <view wx:if="{{superstatus == 1}}" class="super-title-info-vip">
+      <image src="{{avatar}}"/>
+      <text>{{nickname}}</text>
+      <image src="/images/super.png" mode="widthFix"/>
+      <text>{{beginTime}} - {{endTime}}</text>
+    </view>
+    <view wx:if="{{superstatus == 2}}" class="super-title-info">
+      <text>SUPER会员首发特惠</text>
+      <text>年卡限时特价{{realyearprice}}元</text>
+      <text>原价{{yearprice}}元</text>
+    </view>
+  </view>
+
+  <view class="super-body">
+    <view class="super-body-title clearfix">
+      <view class="super-body-title-block">
+        <image src="/images/super/tips1.png" />
+        <text>全场9.5折优惠</text>
+      </view>
+      <view class="super-body-title-block">
+        <image src="/images/super/tips2.png" />
+        <text>会员专属优惠券</text>
+      </view>
+      <view class="super-body-title-block">
+        <image src="/images/super/tips3.png" />
+        <text>会员积分双倍送</text>
+      </view>
+      <view class="super-body-title-block">
+        <image src="/images/super/tips4.png" />
+        <text>会员专属福利日</text>
+      </view>
+    </view>
+
+    <view class="super-body-info">
+      <view class="super-body-info-block">
+        <text>全场9.5折优惠</text>
+        <text>全场</text>
+        <text class="red">9.5折</text>
+        <text>优惠，可与优惠券、满减促销等同时使用</text>
+      </view>
+
+      <view class="super-body-info-block clearfix">
+        <text>会员专属优惠券</text>
+        <text>SUPER会员每月可领取专属折扣优惠券，折扣更优惠</text>
+        <image src="/images/super/coupon1.png" mode="widthFix"/>
+        <image src="/images/super/coupon1.png" mode="widthFix"/>
+      </view>
+
+      <view class="super-body-info-block">
+        <text>会员积分双倍送</text>
+        <text>SUPER会员在平台中可获得普通会员的</text>
+        <text class="red">双倍积分</text>
+      </view>
+
+      <view class="super-body-info-block">
+        <text>会员专属福利日</text>
+        <text>SUPER会员可购买专属商品，同时</text>
+        <text class="red">每周三积分3倍送</text>
+      </view>
+    </view>
+  </view>
+</view>
+
+<view class="super-buy clearfix">
+  <view class="super-buy-month" bindtap="buySupermember" data-type="1">
+    <text>￥</text>
+    <text>{{monthprice}}</text>
+    <text>购买月卡</text>
+  </view>
+  <view class="super-buy-year" bindtap="buySupermember" data-type="2">
+    <text>￥</text>
+    <text>{{realyearprice}}</text>
+    <text>购买年卡</text>
+    <image src="/images/super/buy-tips.png" mode="widthFix"/>
+  </view>
+</view>

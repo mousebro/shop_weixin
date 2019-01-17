@@ -6,23 +6,26 @@
       <image src="{{avatar}}" class='userinfo-avatar'></image>
       <view class="userinfo-container">
         <text class='userinfo-nickname'>{{nickname}}</text>
-        <text class='usermotto'>普通会员</text>
+        <text wx:if="{{superstatus == 2}}" class='usermotto'>普通会员</text>
+        <text wx:if="{{superstatus == 1}}" class='usermotto'>SUPER会员</text>
       </view>
     </view>
     <!--SUPER会员开通-->
-    <!-- <view class='container super-merber-container' wx:if="{{isSupper}}">
+    <view class='container super-merber-container' wx:if="{{isSupper}}">
       <view class='super-member'>
         <view class='super-member-scrib'>
           <view>
-            <image src="../../images/member.png" style='' style="height:38rpx;width:42rpx;vertical-align:middle"></image>
+            <image src="../../images/member.png" style='' style="height:30rpx;width:34rpx;vertical-align:middle"></image>
             <text class="super-text">SUPER会员</text>
-            <text class="super-right">开通既享6大特权</text>
+            <text wx:if="{{superstatus == 2}}" class="super-right">开通既享4大特权</text>
           </view>
-          <text class="super-right">试用会员限时免费开通，众多权益畅想30天</text>
+          <text wx:if="{{superstatus == 2}}" class="super-right">年卡限时特价ing，详情点击查看</text>
+          <text wx:if="{{superstatus == 1}}" class="super-right">{{beginTime}} - {{endTime}}</text>
         </view>
-        <view class="super-merber-btn">点击获取</view>
+        <view wx:if="{{superstatus == 2}}" class="super-merber-btn" bindtap="hrefToSupermember">点击获取</view>
+        <view wx:if="{{superstatus == 1}}" class="super-merber-btn" bindtap="hrefToSupermember">点击续费</view>
       </view>
-    </view> -->
+    </view>
   </view>
   <!--我的订单-->
   <view>
@@ -64,13 +67,15 @@
 
         </image>
       </view>
-      <!-- <view class='oprator-card'>
+      <view class='oprator-card'>
         <view>
           <image src='../../images/personal/signIn.png' style="height:40rpx;width:35rpx;" class='oprator-card-image'></image>
           <text  class='oprator-card-text'>签到中心</text>
         </view>
-        <text class='order-for-more'></text>
-      </view> -->
+        <image class="more-icon" src="../../images/more.png" mode="aspectFit" lazy-load="false" >
+
+        </image>
+      </view>
       <view class='oprator-card' bindtap="hrefToAddress">
         <view>
           <image src='../../images/personal/address.png' style="height:40rpx;width:35rpx;" class='oprator-card-image'></image>

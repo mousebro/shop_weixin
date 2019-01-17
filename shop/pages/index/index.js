@@ -620,7 +620,7 @@ Page({
   onShareAppMessage: function(res) {
     let _this = this
     return {
-      title: '名庄名酒',
+      title: '偶遇优选',
       path: '/pages/index/index',
       imageUrl:_this.data.bannerList[0].thumb
     }

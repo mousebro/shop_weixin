@@ -21,7 +21,7 @@ Page({
       imageUrl: app.globalData.imageUrl
     })
   },
-  onLoad: function(){
+  onLoad: function(options){
     let _this = this
     _this.getAddress()
     _this.getCouponList()

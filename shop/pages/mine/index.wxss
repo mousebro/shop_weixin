@@ -7,7 +7,7 @@ page{
   justify-content: flex-start;
   align-items: center;
   background: #333333;
-  padding:0 34rpx 35rpx;
+  padding:0 34rpx 135rpx;
 
 }
 .header-container{position: relative;}
@@ -34,11 +34,11 @@ page{
   font-size:28rpx;
 }
 /*SUPER会员开通*/
-.super-merber-container{position: absolute;bottom:-110rpx;left: 0;margin: auto;right: 0;width: 100%;height:70%;z-index: 100}
-.super-member{display: flex;padding:35rpx 20rpx;border-radius:15rpx; justify-content: space-between;width:90%;box-shadow: 0 2px 15rpx #ccc;background: linear-gradient(to right bottom,#ebd4a2 60%,#eed7ab 70%,#efdcb4)}
-.super-member-scrib .super-text{font-size:16px;color:#634717;font-weight: bold;display: inline-block;margin:0 10rpx;}
-.super-member-scrib .super-right{font-size:12px;color:#6d5527;}
-.super-merber-btn{font-size: 14px;display:inline-block;line-height: 36rpx; color:#634717;border:1px solid #634717;height: 36rpx;align-self: center;padding:10rpx 8rpx;width:155rpx;text-align: center;border-radius:30px;}
+.super-merber-container{position: absolute;bottom:-210rpx;left: 0;margin: auto;right: 0;width: 100%;z-index: 100}
+.super-member{display: flex;padding:35rpx 5%;border-radius:15rpx; justify-content: space-between;width:85%;box-shadow: 0 2px 15rpx #ccc;background: linear-gradient(to right bottom,#ebd4a2 60%,#eed7ab 70%,#efdcb4)}
+.super-member-scrib .super-text{font-size:18px;color:#634717;font-weight: bold;display: inline-block;margin:0 10rpx;}
+.super-member-scrib .super-right{font-size:12px;color:#6d5527;font-weight: bold;}
+.super-merber-btn{font-size: 24rpx;display:inline-block;line-height: 36rpx; color:#634717;border:1px solid #634717;align-self: center;padding:6rpx 12rpx;text-align: center;border-radius:30px;}
 
 /*隐藏scroll-view的滚动条*/
 ::-webkit-scrollbar{
@@ -47,20 +47,20 @@ height: 0;
 color: transparent;
 }
 /*我的订单*/
-.my-order-container{padding:30rpx 30rpx 50rpx;background: #fff;margin-bottom: 30rpx;}
+.my-order-container{padding:110rpx 30rpx 50rpx;background: #fff;margin-bottom: 30rpx;}
 .my-order-container .my-order-text{display: flex;justify-content: space-between;align-items: center;}
 .my-order-container .my-order-text .order-text{font-size: 32rpx;font-weight: bold;white-space: 2px;}
 .my-order-container .my-order-text .order-more{font-size: 24rpx;color:#555555;}
 .order-for-more{display: inline-block;border-right:1px solid #555555;border-top:2px solid #ccc;width:12rpx;height: 12rpx;transform: rotate(45deg)}
 
-.my-order-menu{display: flex;justify-content: space-around;margin-top: 50rpx;}
+.my-order-menu{display: flex;justify-content: space-around;margin-top: 30rpx;}
 .order-menu-icon{width: 25%;display: flex;flex-direction: column;align-items: center;}
 .order-icon-image{width:71rpx;height:76rpx; }
 .order-icon-text{font-size:12px;}
 
 /*我的优惠劵、签到中心、地址管理、平台建议*/
 .oprator-container{background: #fff;margin-bottom: 100rpx;}
-.oprator-container .oprator-card{display: flex;justify-content: space-between;align-items: center;padding:40rpx;padding-left:0;border-bottom:1px solid #ddd;margin-left: 40rpx;}
+.oprator-container .oprator-card{display: flex;justify-content: space-between;align-items: center;padding:30rpx 40rpx;padding-left:0;border-bottom:1px solid #ddd;margin-left: 40rpx;}
 .oprator-container .oprator-card:last-child{border-bottom: 0;}
 .oprator-container .oprator-card .oprator-card-text{font-size:32rpx;color:#222222;}
 .oprator-container .oprator-card .oprator-card-image{vertical-align: middle;margin-right:10rpx;}

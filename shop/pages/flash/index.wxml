@@ -55,9 +55,9 @@
       <!-- 商品价格 -->
       <view class="shop-detail-price">
         <text>￥</text>
-        <text>{{marketprice}}</text>
+        <text>{{seckillprice}}</text>
         <text></text>
-        <text wx:if="{{productprice != '0.00'}}" class="delLine">￥{{productprice}}</text>
+        <text wx:if="{{marketprice != '0.00'}}" class="delLine">￥{{marketprice}}</text>
       </view>
       <!-- 会员折扣 -->
       <view class="shop-detail-super">
@@ -66,7 +66,7 @@
       </view>
       <!--掌上秒拍倒计时-->
       <view class="seckill-countdown">
-        <text >掌上秒拍</text><text>剩余01小时02分13秒</text>
+        <text >掌上秒拍</text><text>剩余{{time.hours}}小时{{time.minutes}}分{{time.seconds}}秒</text>
       </view>
     </view>
     <!-- 评价 -->
