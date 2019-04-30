@@ -21,3 +21,64 @@ page{background-color: #f2f2f2;}
 /* 支付按钮 */
 .submit{margin:20rpx 30rpx;position: fixed;bottom: 0;background: linear-gradient(to right,#ea4149, #ff6849);text-align: center;width: calc(100% - 30px);height: 100rpx;line-height: 100rpx;}
 .submit text{font-size: 32rpx;color: #ffffff;}
+
+
+
+/* pages/discount/index.wxss */
+page{background: #f2f2f2;height: 100%;}
+.discount-all-container{height: 100%;}
+.fixed-header{position: fixed;top:0;width: 100%;z-index: 10;}
+.headerTabs{ padding:32rpx 0rpx;font-size: 30rpx;box-sizing: border-box;background: #fff;color:#222222;width: 100%;}
+.headerTabs>view{display: inline-block;width: 50%;height: 100%;text-align: center;}
+.headerTabs image{width: 18rpx;height: 22rpx;vertical-align: middle;margin-left: 10rpx;}
+.headerTabs view.isActive{position: relative;}
+.headerTabs view.isActive::after{position: absolute;display: block;content: '';border: 1px solid red;width: 90rpx;top:68rpx;left: 0;right: 0;margin: 0 auto}
+
+
+.fontRed{color:#ea4149 !important;}
+.fontGray{color:#555555 !important;}
+.fontBlack{color:#222222 !important;}
+
+
+/*无优惠券提示*/
+.no-coupons{height: calc(100% - 180rpx);display: flex;flex-direction: column;align-items: center;justify-content: center;}
+.no-coupons>.none-img{width:276rpx;height:322rpx;margin-bottom: 40rpx;}
+.no-coupons>.none-msg{font-size:30rpx;color:#818181;line-height: 40rpx;}
+
+/*优惠券部分*/
+.coupon-list{margin-top:105rpx;}
+.coupon-list>.coupon-item{width:calc(100% - 40rpx);min-height:230rpx;margin:0 auto;overflow: hidden;position: relative;}
+.coupon-list>.coupon-item>.coupon-msg{width:100%;height:76%;display: flex;justify-content: space-between;align-items: center;}
+.coupon-list>.coupon-item .coupon{width:115rpx;height:74rpx;margin-left:40rpx;}
+.coupon-list>.coupon-item .left-side{display: flex;justify-content: flex-start;height:80%;align-items: center;padding-top:20rpx;}
+.coupon-list>.coupon-item .left-side>view{font-size:30rpx;color:#222222;margin-left:30rpx;display: flex;flex-direction: column;justify-content: center;}
+.coupon-list>.coupon-item .left-side>view>view:first-child{font-weight: bold;}
+.coupon-list>.coupon-item .left-side>view>view:nth-child(2){font-size:22rpx;color:#ea4149}
+.coupon-list>.coupon-item .left-side>view>view:nth-child(2)>text:first-child{font-size:50rpx;}
+.limit-times{font-size:18rpx;color:#777777;display: inline-block;}
+.coupon-list>.coupon-item .right-side{height:123rpx;width: 29%;display: flex;justify-content: center;flex-direction: column;align-items: center;overflow: hidden;margin-right:10rpx;padding-top:10rpx;}
+.coupon-list>.coupon-item>.coupon-msg>.right-side>text{border-radius:30rpx;display:inline-block;font-size:30rpx;color:#fff;}
+.coupon-list>.coupon-item>.coupon-limit{position: relative;font-size:24rpx;color:#777777;padding-left:30rpx;width: calc(100% - 30rpx);padding-top:25rpx;}
+.right-side>view{width:60%;}
+.coupon-list>.coupon-item>.coupon-msg>.right-side>text.has-received{background:#c6c6c6;color:#ffffff;}
+.coupon-list>.coupon-item>.coupon-msg>.right-side>text.to-use{width:157rpx;height:55rpx;background:linear-gradient(to left,#dc4247 7%,#ec6649);text-align: center;line-height: 55rpx; }
+
+.used-coupon-msg{margin-left: 180rpx;}
+.used-coupon-msg>view>view{color:#fff !important;}
+.coupon-item>.none-msg-used{color:#fff !important;}
+.right-script{height: 48rpx;font-size:30rpx;background:#979797;width:100% !important;transform: rotate(45deg);text-align: center !important;line-height: 48rpx;color:#fff;margin-left:104rpx;margin-top:-40rpx;}
+
+.choseImg{width:60rpx;height:60rpx;}
+
+/*限制商品下拉框*/
+.image-More{width: 16rpx;height: 24rpx;position: absolute;right:30rpx;top:30rpx;}
+.limit-msg-base{background: #fff;width:calc(100% - 3rpx);white-space: normal;padding-bottom:30rpx;background: #fff;margin-left:-18rpx;padding-left:18rpx;border-top-left-radius: 30rpx;border-top-right-radius: 30rpx;margin-bottom:10rpx;}
+.limit-msg-base>.scroll-view{max-height: 120rpx;width: calc(100% - 60rpx);}
+.imageRotate{transform: rotate(90deg);transition: all .1s linear;}
+.imageRotateT{transform: rotate(0);transition: all .1s linear;}
+
+/**/
+.grey-backG{background: #cbcbcb !important;}
+/*优惠券不可用说明*/
+.reason-limit{margin-top:25rpx;font-size:24rpx;color:#777777;margin-bottom:10rpx;}
+.reason{margin-top:50rpx;font-size:24rpx;color:#777777;margin-bottom:10rpx;}

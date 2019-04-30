@@ -1,0 +1,178 @@
+  <!-- 蒙版 -->
+  <view class="mask"  wx:if="{{showModal == true}}"/>
+  <!-- 购物车弹窗 -->
+  <view class="modal"  wx:if="{{modal1 == true}}">
+    <view class="modal-shopDetail clearfix">
+      <image src="{{thumbList[0]}}"/>
+      <text>{{title}}</text>
+      <text>￥{{price}}</text>
+      <image bindtap="closeModal1" src="/images/close.png"/>
+    </view>
+    <view  class="sort-size" wx:if="{{goodsInfo.hasoption!=0}}" wx:for="{{spec}}" wx:key="{{index}}">
+      <view class="modal-shopCount-number sort-size-title">{{item.title}}</view>
+      <view class="sort-list">
+          <text wx:for="{{item.option}}" wx:for-item="opItem" wx:for-index="opIndex" wx:key="{{opItem.id}}" class="{{opItem.id == sortSize?'active':''}}" bindtap="choseSortSize" data-idx="{{opItem.id}}" data-thumb="{{opItem.thumb}}" data-marketprice="{{opItem.marketprice}}" data-productprice="{{opItem.productprice}}" data-specTitle="{{opItem.title}}">{{opItem.title}}</text>
+      </view>
+    </view>
+    <view class="modal-shopCount">
+       <text class="modal-shopCount-number">购买数量</text>
+   
+       <view class="modal-shopCount-box">
+           <text class="modal-shopCount-less {{buyNumber == buyNumMin ? 'hui': ''}}" bindtap="lessTap">-</text>
+           <view class="modal-shopCount-input">
+              <input type="number" value="{{buyNumber}}" disabled/>
+           </view>
+           <text class="modal-shopCount-plus {{buyNumber== buyNumMax ? 'hui': ''}}" bindtap="plusTap">+</text>
+       </view>
+    </view>
+    <!-- <view class="modal-shopCount">
+
+    </view> -->
+    <text class="modal-bottomButton" bindtap="addShopCar">加入购物车</text>
+  </view>
+  <!-- 立即购买弹窗 -->
+  <view class="modal"  wx:if="{{modal2 == true}}">
+    <view class="modal-shopDetail clearfix">
+      <image src="{{thumbList[0]}}"/>
+      <text>{{title}}</text>
+      <text>￥{{price}}</text>
+      <image bindtap="closeModal2" src="/images/close.png"/>
+    </view>
+    <view  class="sort-size" wx:if="{{goodsInfo.hasoption!=0}}" wx:for="{{spec}}" wx:key="{{index}}">
+      <view class="modal-shopCount-number sort-size-title">{{item.title}}</view>
+      <view class="sort-list">
+          <text wx:for="{{item.option}}" wx:for-item="opItem" wx:for-index="opIndex" wx:key="{{opItem.id}}" class="{{opItem.id == sortSize?'active':''}}" bindtap="choseSortSize" data-idx="{{opItem.id}}" data-thumb="{{opItem.thumb}}" data-marketprice="{{opItem.marketprice}}" data-productprice="{{opItem.productprice}}" data-specTitle="{{opItem.title}}">{{opItem.title}}</text>
+      </view>
+    </view>
+    <view class="modal-shopCount">
+       <text class="modal-shopCount-number">购买数量</text>
+       <view class="modal-shopCount-box">
+           <text class="modal-shopCount-less {{buyNumber == buyNumMin ? 'hui': ''}}" bindtap="lessTap">-</text>
+           <view class="modal-shopCount-input">
+              <input type="number" value="{{buyNumber}}" disabled/>
+           </view>
+           <text class="modal-shopCount-plus {{buyNumber== buyNumMax ? 'hui': ''}}" bindtap="plusTap">+</text>
+       </view>
+    </view>
+    <!-- <view class="modal-shopCount">
+
+    </view> -->
+    <text class="modal-bottomButton" bindtap="hrefToPay">立即购买</text>
+  </view>
+  <!-- 顶部栏位 -->
+    <!-- <text class="{{showActive == 'a1'?'shop-title-active':''}}" data-id="a1" bindtap="scrollPosition">商品</text>
+    <text class="{{showActive == 'a2'?'shop-title-active':''}}" data-id="a2" bindtap="scrollPosition">详情</text>
+    <text bindtap="hrefToCommentList">评价</text> -->
+    <image src="/images/backToIndex.png" class="swiper-index" mode="aspectFill" bindtap="herfToIndex"/>
+
+  <!-- 滚动区域 -->
+  <scroll-view class="scroll-body" scroll-y="true" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}" scroll-with-animation="true">
+    <!-- 商品轮播图 -->
+    <swiper class="swiper shop-swiper" id="a1" indicator-dots="true" circular="true" autoplay="true" interval="5000" duration="1000" indicator-color="#cbcbcb" indicator-active-color="#ea4149">
+      <block wx:for="{{thumbList}}" wx:key="{{item}}">
+        <swiper-item>
+          <image lazy-load="true" src="{{item}}" class="swiper-img"/>
+        </swiper-item>
+      </block>
+    </swiper>
+    <!-- 商品名称以及价格 -->
+    <view class="shop-detail">
+      <!-- 商品名称 -->
+      <view class="shop-detail-name">
+        <text>{{title}}</text>
+        <view class="shop-detail-share clearfix">
+          <image src="/images/share.png" class="swiper-img" mode="aspectFill"/>
+          <button bindtap="shareShop" hover-class="none">分享</button>
+        </view>
+
+      </view>
+      <!-- 商品价格 -->
+      <view class="shop-detail-price">
+        <view  class="inline-view {{labels.length>1?'block-view':''}}">
+          <text class="slogan" wx:for="{{labels}}" style="padding:0rpx 10rpx;color:#ea4149;font-size:28rpx;border:1px solid #ea4149;border-radius:8rpx;margin-right:6rpx;display: inline-block;">{{item.labelname}}</text>
+        </view>
+        <text class="price-icon">￥</text>
+        <text class="marketprice">{{marketprice}}</text>
+        <text></text>
+        <text wx:if="{{productprice != '0.00'}}" class="delLine">￥{{productprice}}</text>
+        <view class="shop-detail-custom clearfix">
+            <image src="/images/kefu.png" class="swiper-img" mode="aspectFill"/>
+            <button bindtap="listenerButton" hover-class="none">客服</button>
+        </view>
+      </view>
+
+      <!-- 会员折扣 -->
+      <!-- <view class="shop-detail-super">
+        <image src="/images/super.png" class="swiper-img" mode="widthFix"/>
+        <text>会员下单再享95折</text>
+      </view> -->
+    </view>
+    <!--购买记录轮播--> 
+    <swiper class="swiper shop-swiper shop-swiper-custom"  circular="true" autoplay="true" interval="4000" duration="800" indicator-color="#cbcbcb" indicator-active-color="#ea4149">
+        <block wx:for="{{carouselList}}" wx:key="{{index}}">
+            <swiper-item class="shop-swiper-item">
+            <view>
+                <image lazy-load="true" src="{{item.avatar}}" class="swiper-img-avatar"/>
+                <text>{{item.nickname}}{{item.bargainprice}}元下单成功</text>
+            </view>
+            </swiper-item>
+        </block>
+    </swiper>
+    <!-- 评价 -->
+    <view class="shop-assess" wx:for="{{commentList}}" wx:key="{{item.id}}" bindtap="hrefToCommentList" wx:if="{{false}}">
+      <view class="shop-assess-title">
+        <text>评价({{totalComment}})</text>
+        <text>查看全部</text>
+      </view>
+      <view class="shop-assess-info">
+        <image src="{{item.headimgurl}}"/>
+        <text>{{item.nickname}}</text>
+      </view>
+      <view class="shop-assess-detail clearfix">
+        <text>{{item.content}}</text>
+      </view>
+    </view>
+    <!-- 商品详情 -->
+    <view class="shop-parse" id="a2">
+      <text>商品详情</text>
+      <import src="../../wxParse/wxParse.wxml"/>
+      <view class="container">
+        <!-- 这一块是富文本 显示的内容区 -->
+        <template is="wxParse" data="{{wxParseData:content.nodes}}"/>
+      </view>
+    </view>
+  </scroll-view>
+  <!-- 底部固定栏 -->
+  <view class="{{isIpx?'isIpx':''}} shop-buy">
+    <form  bindsubmit="formSubmit"  report-submit> 
+      <view class="shop-buy-now" bindtap="hrefToPay">
+        <button class="bargain-btn" formType="submit" hover-class="none">0元抢购</button>
+      </view>
+    </form>
+  </view>
+  <!-- 底部客服弹窗 -->
+  <action-sheet hidden="{{actionSheetHidden}}" bindchange="listenerActionSheet" >
+    <block>
+      <action-sheet-item bindtap="call">拨打客服热线</action-sheet-item>
+      <action-sheet-item >
+        <button hover-class="none" open-type="contact" type="button" name="button" bindtap="close">客服消息入口</button>
+      </action-sheet-item>
+    </block>
+    <!--自动隐藏action-sheet-->
+    <action-sheet-cancel bindtap="close">取消</action-sheet-cancel>
+  </action-sheet>
+    <!-- 底部分享弹窗 -->
+  <action-sheet hidden="{{actionSort}}" class="sheet-container">
+      <block>
+        <action-sheet-item bindtap="shareShopImg" class="sheet-item">分享图片</action-sheet-item>
+        <action-sheet-item  class="sheet-item">
+          <button hover-class="none" open-type="share" type="button" name="button" bindtap="shareShopLine" class="sheet-button">分享链接</button>
+        </action-sheet-item>
+      </block>
+      <!--自动隐藏action-sheet-->
+      <action-sheet-cancel bindtap="closeShare" class="sheet-item">取消</action-sheet-cancel>
+    </action-sheet>
+    <view class="canvas" style="display: none;">
+      <canvas style="width: 1500rpx; height: 2668rpx;" canvas-id="firstCanvas"></canvas>
+    </view>
+

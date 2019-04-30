@@ -19,6 +19,10 @@ Page({
    */
   onLoad: function (options) {
     if(options.id!=0){this.getAddress(options.id)}
+    this.setData({
+      pageFrom:options.url || ''
+    })
+    app.userView('RecordExposurenum') //统计平台曝光度记录
   },
   //设置是否设置为默认地址
   switchChange(e){
@@ -91,6 +95,10 @@ Page({
         data: false
       })
     }
+    wx.showLoading({
+      icon:'loading',
+      title:'正在提交'
+    })
     wx.request({
       url: 'https://' + app.globalData.productUrl + '/api?resprotocol=json&reqprotocol=json&class=Address&method=AddOrEditAddress',
       method: 'post',
@@ -113,11 +121,21 @@ Page({
         let code = res.data.baseServerInfo.code
         let msg = res.data.baseServerInfo.msg
         if (code == 1) {
+          wx.hideLoading()
+          console.log(res)
             wx.showModal({
               title:'提示',
               content:msg,
               showCancel:false,
               success:()=>{
+                let pages = getCurrentPages()
+                let prevPage = pages[pages.length - 2];//上一页面
+                prevPage.setData({//直接给上移页面赋值
+                  addressId:res.data.id,
+                  realname:uname,
+                  mobile:phone,
+                  address:region[0]+region[1]+region[2]+address
+                })
                 wx.navigateBack({
                   delta:1
                 })
@@ -125,10 +143,12 @@ Page({
             })
         } else {
           console.log(res.msg)
+          wx.hideLoading()
         }
 
       },
       fail: (res) => {
+        wx.hideLoading()
       }
     })
   },

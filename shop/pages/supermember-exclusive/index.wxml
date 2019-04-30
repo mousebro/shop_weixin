@@ -1,0 +1,29 @@
+<!--会员专属商品列表-->
+<view style='height:100%;'>
+    <!--导航条-->
+<!--导航条-->
+    <scroll-view scroll-x="true" class="navbar"  style="height:50px;width:100%" scroll-left="{{scrollLeft}}">
+        <view wx:for="{{navbar}}" data-idx="{{index}}" data-categoryId="{{item.id}}" class="item {{currentTab==index ? 'active' : ''}}" wx:key="unique" bindtap='handleChose'>{{item.name}}</view>
+    </scroll-view>
+      <!--抢购的商品列表-->
+         <view class='productList'>
+          <view wx:for="{{productList}}" wx:key="{{index}}" catchtap="hrefToDetail" data-idx="{{item.id}}">
+            <!--左侧商品图片-->
+            <view>
+              <image src="{{item.thumb}}" mode='aspectFit'></image>
+            </view>
+            <!--右侧商品信息、商品价格 -->
+            <view class='productSubscrib'>
+              <text>{{item.title}}</text>
+              <view>
+                <text>会员专属</text>
+                <text>￥<text style="font-size:36rpx">{{item.newsuperprice[0]}}</text>.{{item.newsuperprice[1]}}</text>
+                <text>￥{{item.productprice}}</text>
+                <view  style="display:flex;justify-content:flex-start">
+                    {{item.sales}}人已购买
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+     </view>

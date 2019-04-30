@@ -3,6 +3,7 @@
 page{
   display: block;
   height: 100%;
+  background: #f2f2f2;
 }
 .navbar{
   background: #000;
@@ -41,7 +42,7 @@ height: 0;
 color: transparent;
 }
 /*抢购的商品列表*/
-.productList>view{display:flex;padding:40rpx 20rpx 40rpx 50rpx;background: #fff;margin-bottom: 20rpx;}
+.productList>view{display:flex;padding:40rpx 20rpx 40rpx 30rpx;background: #fff;margin-bottom: 20rpx;}
 .productList .productSubscrib{padding: 0 0 0 40rpx;width:50%;}
 .productList .productSubscrib>text{font-size:30rpx;}
 .productSubscrib>text:first-child{margin-bottom: 12rpx;display: inline-block;width: 100%;overflow: hidden;text-overflow:ellipsis;font-weight: 600;white-space: nowrap; }
@@ -52,7 +53,7 @@ color: transparent;
 /*已售商品进度条信息提示*/
 .shop-rate-text{margin-right:10rpx;color:#eb414a;font-size:24rpx;}
 .shop-rate-progress{width:50%;height:35rpx;}
-.productList>view>view>image{width: 150rpx;height: 160rpx;}
+.productList>view>view>image{width: 160rpx;height: 160rpx;}
 /*去抢购按钮*/
 .flash-sale-btn{align-self:flex-end;font-size:24rpx;color:#fff;background:#8f8f8f;display:inline-block;padding:5rpx 15rpx;border-radius:5rpx;margin-left:40rpx;margin-bottom:20rpx;}
 .productList>view .isFlash{color:#fff;background:#eb414a;}

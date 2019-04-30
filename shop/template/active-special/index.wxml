@@ -1,0 +1,51 @@
+<!--活动专场-->
+<template name="active-special">
+
+    <!--标题 红色主题-->
+    <view wx:if="{{specialObj.mould ==1}}" class="active-title-red">专场活动</view>
+    <!--标题 黑色主题-->
+    <view wx:if="{{specialObj.mould ==2}}" class="active-title-black">专场活动</view>
+    <!--1行1列-->
+    <view class="line-one">
+        <image class="item-img" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1555395109982&di=00e680591fee0c37cd3b6a4949efe212&imgtype=0&src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2Fa913a18abef981a6a404ed8f795cb7abe498218b1008b8-n1IrTG_fw658" mode="aspectFit" lazy-load="false" binderror="" bindload="" />
+        <view class="line-item {{specialObj.mould ==2?'back-item-bg':''}}">
+            <view>
+                <image wx:if="{{specialObj.mould ==1}}" class="msg-bg" src="/images/active/bg.png" mode="aspectFit" lazy-load="true"/>
+                <text class="title {{specialObj.mould ==2?'back-item-text':'msg-bg'}}">茅台专场</text>
+                <view  wx:if="{{specialObj.mould ==1}}" class="flag">GO</view>
+                <view wx:else class="title {{specialObj.mould ==2?'back-item-text flag1':''}}">
+                    <text> GO</text>
+                    <image class="arrow-img" src="../../images/active/arrow.png" mode="aspectFit" lazy-load="false" binderror="" bindload="" />
+                            
+                </view>
+            </view>
+        </view>
+    </view>
+    <!--1行2列-->
+    <view class="itemList-two">
+         <view class="line-one" wx:for="{{2}}" wx:key="unique" >
+            <image class="item-img" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1555395109982&di=00e680591fee0c37cd3b6a4949efe212&imgtype=0&src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2Fa913a18abef981a6a404ed8f795cb7abe498218b1008b8-n1IrTG_fw658" mode="aspectFit" lazy-load="false" binderror="" bindload="" />
+            <view class="line-item {{specialObj.mould ==2?'back-item-bg':''}}">
+                <view>
+                    <image wx:if="{{specialObj.mould ==1}}" class="msg-bg" src="/images/active/bg.png" mode="aspectFit" lazy-load="true"/>
+                    <text class="title {{specialObj.mould ==2?'back-item-text':'msg-bg'}}">茅台专场</text>
+                    <view  wx:if="{{specialObj.mould ==1}}" class="flag">GO</view>
+                    <view  wx:else class="title {{specialObj.mould ==2?'back-item-text flag1':''}}">
+                            <text> GO</text>
+                            <image class="arrow-img" src="../../images/active/arrow.png" mode="aspectFit" lazy-load="false" binderror="" bindload="" />
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <!--1行3列-->
+    <view class="itemList-th">
+        <view class="line-one" wx:for="{{3}}" wx:key="unique" >
+            <image class="item-img" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1555395109982&di=00e680591fee0c37cd3b6a4949efe212&imgtype=0&src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2Fa913a18abef981a6a404ed8f795cb7abe498218b1008b8-n1IrTG_fw658" mode="aspectFit" lazy-load="false" binderror="" bindload="" />
+            <view class="line-item {{specialObj.mould ==2?'back-item-bg':''}} ">
+                <image wx:if="{{specialObj.mould ==1}}" class="msg-bg" src="/images/active/bg3.png" mode="aspectFit" lazy-load="true"/>
+                <text class="title msg-bg {{specialObj.mould ==2?'back-item-text':''}}">茅台专场</text>
+            </view>
+        </view>
+    </view>
+</template>

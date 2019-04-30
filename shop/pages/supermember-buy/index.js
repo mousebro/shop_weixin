@@ -13,6 +13,7 @@ Page({
   onShow: function(){
   },
   onLoad: function(){
+    app.userView('RecordExposurenum') //统计平台曝光度记录
     let _this = this
     _this.getMemberBase()
     _this.getUserInfo()
@@ -66,7 +67,7 @@ Page({
           wx.navigateTo({
             url: '/pages/login/index'
           })
-          wx.setStorageSync('isLogin', false)
+          // wx.setStorageSync('isLogin', false)
         }
         else{
           wx.showModal({

@@ -1,3 +1,70 @@
 /* pages/sign-in-center/index.wxss */
-.header-container{height:376rpx;display: flex;flex-direction: column;align-items: center;padding-top:36rpx;}
-.header-container>.image-text{height:78rpx;}
+.header-container{height:290rpx;display: flex;flex-direction: column;align-items: center;padding-top:36rpx;position: absolute;width: 95%;margin:0 2.5%;top:40rpx;}
+.header-container>.image-text{height:78rpx;margin-bottom: 22rpx;}
+.header-container>text:nth-child(2){font-size:28rpx;color:#ffffff;margin-bottom: 22rpx;}
+.header-container>text:nth-child(3){font-size:34rpx;color:#ea4149;padding:8rpx 50rpx;background:#ffffff;border-radius:40rpx;}
+.header-container .point-container{display:flex;justify-content:space-around;align-items: flex-start;width:calc(100% - 60rpx);position: absolute;bottom:50rpx;padding:20rpx 40rpx;box-sizing: border-box;flex-direction: column;}
+.header-container .point-container>text{font-size:32rpx;color:#ffffff;}
+.header-container .point-container .creadit{font-size:60rpx;color:#ffffff;margin: 10rpx 0;}
+.header-container .point-container>view>image{width:28rpx;height:28rpx;vertical-align: middle;margin-right:10rpx;}
+.header-container .point-container>.rules-container{font-size:28rpx;color:#fff;background:#fa7340;padding:10rpx 30rpx;border-radius: 40rpx;display: inline-block;line-height: 28rpx;}
+/*签到按钮*/
+.sign-in-btn{height:226rpx;width:226rpx;border-radius:226rpx;background:#ffffff; position: absolute;top:-86rpx;z-index: 10;left:calc(50% - 113rpx)}
+.sign-in-btn>view:first-child{width:200rpx;height:200rpx;background:#feefec;border-radius:200rpx;position: absolute;top:0;left: 0;right: 0;bottom: 0;margin: auto;}
+.sign-in-btn>view:last-child{width: 180rpx;height:174rpx;border-radius:174rpx;background:linear-gradient(to top,#ea4149 10%,#ff6849);position: absolute;top:0;left: 0;right: 0;bottom: 0;margin: auto;}
+.sign-in-btn>view:last-child{display: flex;flex-direction: column;justify-content: center;align-items: center;}
+.sign-in-btn>view:last-child>view:first-child{font-size:36rpx;color:#ffffff;width:45%;text-align: center;padding:6rpx 10rpx;border-bottom:1px solid #e8e8e8;}
+.sign-in-btn>view:last-child>view:last-child{font-size:26rpx;color:#ffffff;margin-top:6rpx;}
+.sign-in-btn>.hasSignIn>image{width:50rpx;height:50rpx;}
+
+.nonborder{border-bottom: 0 !important;}
+/*兑换专区*/
+.exchange-area{position: absolute;top:370rpx;background:#ffffff;border-top-left-radius:10rpx;border-top-right-radius:10rpx;width:100%;padding:40rpx 20rpx 0 20rpx;box-sizing: border-box;}
+.exchange-area>.title{display: flex;justify-content:center;align-items: center;font-size:32rpx;margin:0 20rpx;color:#222222;}
+.exchange-area>.title>image{height: 32rpx;width: 32rpx;}
+.exchange-area>.title>text{display: inline-block;margin: 0 30rpx;color:#ea4149;font-size: 38rpx;}
+.exchange-area>.title>.title-icon{transform: rotateY(180deg)}
+/*优惠卷、折扣卷*/
+.coupon-container{display: flex;justify-content: space-between;width:100%;flex-wrap: wrap;}
+.coupon-container .card{width:50%;box-sizing: border-box;border-bottom: 1px solid #e8e8e8;}
+.coupon-container .card:nth-child(n){padding:40rpx 1% 40rpx 0}
+.coupon-container .card:nth-child(2n){padding:40rpx 0 40rpx 1%}
+.coupon-container .card>.coupon{width:100%;height:140rpx;color:#ff7200;display: flex;justify-content: space-between;}
+.coupon-container .card>.coupon>view:first-child{display: flex;width: 40%;flex-direction: column;justify-content: center;align-items: center;}
+.coupon-container .card>.coupon>view:first-child>view{font-size:22rpx;}
+.coupon-container .card>.coupon>view:first-child>view:first-child>text{font-size:54rpx;}
+
+.coupon-container .card>.coupon>view:first-child>view.discount-rare{font-size:54rpx;color:#ed4b49;}
+.coupon-container .card>.coupon>view:first-child>view.discount-rare>text{font-size:18rpx;color:#ed4b49;}
+.coupon-container .card>.coupon>view:first-child>view:nth-child(2)>view:first-child{font-size:36rpx;}
+.coupon-container .card>.coupon>view:first-child>view:nth-child(2)>view:last-child{font-size:36rpx;}
+.coupon-container .card>.coupon>view:nth-child(2){width:60%;display: flex;justify-content: center;flex-direction: column;align-items: center;}
+.coupon-container .card>.coupon>view:nth-child(2)>view:first-child{font-size:40rpx;padding-bottom:6rpx;}
+.coupon-container .card>.coupon>view:nth-child(2)>view:nth-child(2){font-size:20rpx;padding-top:12rpx;}
+.discount{color:#ea4149 !important;}
+.coupon-container .card>.goods-title{font-size:28rpx;color:#222222;margin:20rpx 0;}
+.coupon-container .card>.receive{font-size:22rpx;color:#555555;margin-bottom: 20rpx;}
+.coupon-container .card>view:last-child{display: flex;width: 100%;justify-content: space-between;align-items: center;}
+.coupon-container .card>view:last-child>view:first-child{font-size:22rpx;color:#555555;display: flex;align-items: center;}
+.coupon-container .card>view:last-child>view:first-child>text{font-size:38rpx;color:#ea4149;display: inline-block;margin-right:6rpx;}
+.coupon-container .card>view:last-child>view:last-child{font-size:24rpx;color:#fff;padding:10rpx 25rpx;background:linear-gradient(to right bottom,#ff6849 50%,#ea4149);border-radius:6rpx;}
+.coupon-container .card>view:last-child>view.has-get{font-size:24rpx;color:#fff;padding:10rpx 35rpx;background:#c9c9c9;border-radius:6rpx;}
+
+
+/*遮罩层*/
+.mask{width: 100%;height: 100%;position: fixed;top: 0;left: 0;background: #000000;z-index: 20;opacity: 0.7;}
+.modal1{position: fixed;z-index: 21;width: 100%;height: 100%;text-align: center;top:0;left:0;right:0;bottom:0;}
+.modal1 >view{width: 90%;position: absolute;top:0;left: 0;right:0;bottom: 0;margin: auto;height: 1170rpx;}
+.modal1 >view> text{position: relative;z-index: 25;display: block;margin-top: 100rpx;font-size: 32rpx;color: #222222;font-weight: bold;}
+.modal1 >view> text:before{content: '';position: absolute;width: 10%;height: 1rpx;background-color: #d6d6d6;top: 22rpx;left: 26%;}
+.modal1 >view> text:after{content: '';position: absolute;width: 10%;height: 1rpx;background-color: #d6d6d6;top: 22rpx;right: 26%;}
+.modal1 >view> image{position: absolute;width: 100%;top: 40rpx;left: 0;}
+.modalRules{position: absolute;width: 80%;left: 10%;top: 150rpx;z-index: 23;text-align: left;height: 970rpx;}
+.modalRules text{font-size: 24rpx;color: #777777;}
+.modalRules-scroll{width: 100%;height: 100%;}
+
+.close{position: absolute;z-index: 26;top: 70rpx;right: 70rpx;}
+.close image{width: 30rpx;height: 30rpx;}
+
+/*头部黑色部分*/
+.black-header{height: 150rpx;width: 100%;background: #282828;}

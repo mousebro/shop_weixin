@@ -47,6 +47,7 @@ Page({
     }
   },
   onLoad: function (options) {
+    app.userView('RecordExposurenum') //统计平台曝光度记录
     let _this = this
     this.getSystemTime()
     //对本地背景图片编译
@@ -68,7 +69,7 @@ Page({
     this.setData({
       shopId: shopId
     })
-
+    _this.getSuperMsg()//获取super会员折扣信息
   },
   /*倒计时*/
   countDown(start,end,i) {
@@ -183,31 +184,29 @@ Page({
         key: 'isLogin',
         data: false
       })
+    }else{
+      let goodsdetail = this.data.goodsDetail
+      let detail = {}
+      detail.singleprice = goodsdetail.singleprice
+      detail.groupsprice = goodsdetail.groupsprice
+      detail.title = goodsdetail.title
+      detail.freight = goodsdetail.freight
+      detail.thumbUrl = goodsdetail.thumbUrl[0]
+      detail.teamid = null
+      detail.buyNumber = number
+      detail.isCommon = 1
+      detail.id = goodsdetail.id
+      detail =JSON.stringify(detail)
+      wx.navigateTo({
+        url: '/pages/group-buy-order-detail/index?detail='+detail,
+      })
+      shopList.push({ id: id, goodsId: goodsId, pic: pic, name: name, number: number, price: price })
+      wx.setStorage({
+        key: "orderShopList",
+        data: shopList
+      })
     }
-    let goodsdetail = this.data.goodsDetail
-    let detail = {}
-    detail.singleprice = goodsdetail.singleprice
-    detail.groupsprice = goodsdetail.groupsprice
-    detail.title = goodsdetail.title
-    detail.freight = goodsdetail.freight
-    detail.thumbUrl = goodsdetail.thumbUrl[0]
-    detail.teamid = null
-    detail.buyNumber = number
-    detail.isCommon = 1
-    detail.id = goodsdetail.id
-    detail =JSON.stringify(detail)
-    wx.navigateTo({
-      url: '/pages/group-buy-order-detail/index?detail='+detail,
-    })
-    return;
-    shopList.push({ id: id, goodsId: goodsId, pic: pic, name: name, number: number, price: price })
-    wx.setStorage({
-      key: "orderShopList",
-      data: shopList
-    })
-    wx.navigateTo({
-      url: "/pages/pay/index"
-    });
+
   },
   // 商品数量增减
   lessTap: function () {
@@ -289,6 +288,10 @@ Page({
   // 获取商品详情
   getGoodsInfo: function () {
     let _this = this
+    wx.showLoading({
+      title:'拼命加载中~',
+      mask:true
+    })
     wx.request({
       url: 'https://' + app.globalData.productUrl + '/api?resprotocol=json&reqprotocol=json&class=ShopGroups&method=GetDetail',
       method: 'post',
@@ -300,13 +303,12 @@ Page({
         'Content-Type': 'application/x-www-form-urlencoded'
       },
       success: (res) => {
+        wx.hideLoading()
         let code = res.data.baseServerInfo.code
         let msg = res.data.baseServerInfo.msg
-        console.log(res.data,'商品详情')
         if (res.statusCode == 200) {
           if (code == 1) {
             let detail = res.data.goodsDetail
-            console.log('商品详情',detail)
             detail.priceArr = detail.groupsprice.split('.') //团购价
             detail.priceOld = detail.singleprice.split('.') //原价
             for (let i in res.data.goodsDetail.thumbUrl){
@@ -348,6 +350,7 @@ Page({
         }
       },
       fail: (res) => {
+        wx.hideLoading()
       }
     })
   },
@@ -378,14 +381,16 @@ Page({
   //关闭拼单列表悬浮框
   closeGroupList(){
     this.setData({
-      isShowList:!this.data.isShowList
+      isShowList:!this.data.isShowList,
+      showModal:false
     })
   },
   //点击查看全部显示拼单列表
   showGroupList(){
     this.setData({
       isShowList:!this.data.isShowList,
-      isShowItem:true
+      isShowItem:true,
+      showModal:true
     })
   },
   //点击单个拼团信息进行拼团操作
@@ -401,6 +406,7 @@ Page({
     _this.setData({
       isShowItem:!this.data.isShowItem,
       isShowList:true,
+      showModal:true
       //choseIndex:idx
     })
     let Data = JSON.stringify({
@@ -409,7 +415,6 @@ Page({
     })
     _this.setHttpRequst('ShopGroups','GetTeamDetail',Data,function(res){
       let team = res.data.team
-      console.log(team)
       //获取订单id跳转
       let start = _this.data.startTime
       let end = res.data.team.endtime
@@ -444,8 +449,8 @@ Page({
   },
   //点击参与拼团进行拼团行为
   joinGroups(e){
+    let _this = this
     let teamid = e.currentTarget.dataset.teamid
-    console.log(teamid)
     let isLogin = wx.getStorageSync('isLogin')
     if (!isLogin) {
       wx.navigateTo({
@@ -455,37 +460,38 @@ Page({
         key: 'isLogin',
         data: false
       })
-    }
-    let goodsdetail = this.data.goodsDetail
-    let detail = {}
-    detail.singleprice = goodsdetail.singleprice
-    detail.groupsprice = goodsdetail.groupsprice
-    detail.teamid = teamid
-    detail.title = goodsdetail.title
-    detail.freight = goodsdetail.freight
-    detail.thumbUrl = goodsdetail.thumbUrl[0]
-    detail.id = goodsdetail.id
-    detail =JSON.stringify(detail)
-    wx.navigateTo({
-      url: '/pages/group-buy-order-detail/index?detail='+detail,
-    })
-    return
-    if(!_this.data.addressId){ //如果没有地址Id去地址管理页获取地址Id
+    }else{
+      let goodsdetail = this.data.goodsDetail
+      let detail = {}
+      detail.singleprice = goodsdetail.singleprice
+      detail.groupsprice = goodsdetail.groupsprice
+      detail.teamid = teamid
+      detail.title = goodsdetail.title
+      detail.freight = goodsdetail.freight
+      detail.thumbUrl = goodsdetail.thumbUrl[0]
+      detail.id = goodsdetail.id
+      detail =JSON.stringify(detail)
       wx.navigateTo({
-        url: '/pages/address/index?url=group-buy',
+        url: '/pages/group-buy-order-detail/index?detail='+detail,
       })
-    }else{ //获取到地址Id后进行参与拼团的行为
-      let addressId = _this.data.addressId
-      let teamId = e.currentTarget.dataset.teamid
-      let Data = JSON.stringify({
-        baseClientInfo: { longitude: 0, latitude: 0, appId: '' + app.globalData.appId + '' },
-        teamid:teamId,
-        addressid:addressId
-      })
-      _this.setHttpRequst('ShopGroups','JoinGroups',Data,function(res){
-          _this.payfor()
-      })
+      if(!_this.data.addressId){ //如果没有地址Id去地址管理页获取地址Id
+        wx.navigateTo({
+          url: '/pages/address/index?url=group-buy',
+        })
+      }else{ //获取到地址Id后进行参与拼团的行为
+        let addressId = _this.data.addressId
+        let teamId = e.currentTarget.dataset.teamid
+        let Data = JSON.stringify({
+          baseClientInfo: { longitude: 0, latitude: 0, appId: '' + app.globalData.appId + '' },
+          teamid:teamId,
+          addressid:addressId
+        })
+        _this.setHttpRequst('ShopGroups','JoinGroups',Data,function(res){
+            _this.payfor()
+        })
+      }
     }
+
   },
   //点击发起拼单以团长的身份创建一个拼团
   startAgroup(e){
@@ -503,20 +509,22 @@ Page({
         key: 'isLogin',
         data: false
       })
+    }else{
+      let goodsdetail = this.data.goodsDetail
+      let detail = {}
+      detail.isTeamLeader = 1 //用于生成订单是判断是否为以团长身份成团
+      detail.singleprice = goodsdetail.singleprice
+      detail.groupsprice = goodsdetail.groupsprice
+      detail.title = goodsdetail.title
+      detail.freight = goodsdetail.freight
+      detail.thumbUrl = goodsdetail.thumbUrl[0]
+      detail.id = goodsdetail.id
+      detail =JSON.stringify(detail)
+      wx.navigateTo({
+        url: '/pages/group-buy-order-detail/index?detail='+detail,
+      })
     }
-    let goodsdetail = this.data.goodsDetail
-    let detail = {}
-    detail.isTeamLeader = 1 //用于生成订单是判断是否为以团长身份成团
-    detail.singleprice = goodsdetail.singleprice
-    detail.groupsprice = goodsdetail.groupsprice
-    detail.title = goodsdetail.title
-    detail.freight = goodsdetail.freight
-    detail.thumbUrl = goodsdetail.thumbUrl[0]
-    detail.id = goodsdetail.id
-    detail =JSON.stringify(detail)
-    wx.navigateTo({
-      url: '/pages/group-buy-order-detail/index?detail='+detail,
-    })
+
   },
   //关闭单个拼团悬浮框
   closePersonalGroup(){
@@ -525,6 +533,7 @@ Page({
     }
     this.setData({
       isShowItem:!this.data.isShowItem,
+      showModal:false
     })
   },
   //分享拼团商品
@@ -545,6 +554,19 @@ Page({
     _this.setHttpRequst('System','GetBaseInfo',Data,function(res){
       _this.setData({
         startTime:res.data.serverTimeStamp
+      })
+    })
+  },
+  //获取super会员设定列表（折扣）
+  getSuperMsg(){
+    let _this = this
+    let Data = JSON.stringify({
+      baseClientInfo: { longitude: 0, latitude: 0, appId: '' + app.globalData.appId + '' },
+    })
+    _this.setHttpRequst('Supermember','GetMemberbase',Data,function(res){
+      let discount = res.data.baseinfo.discount
+      _this.setData({
+        supDiscount:discount
       })
     })
   },
@@ -586,6 +608,7 @@ Page({
       }
     })
   },
+
   // 提交生成订单 -去支付
   payfor: function(orderid){
     let _this = this
@@ -680,45 +703,44 @@ Page({
 
   },
     // 获取评论列表
-    getCommentList: function(){
-    let _this = this
-    wx.request({
-      url: 'https://'+app.globalData.productUrl+'/api?resprotocol=json&reqprotocol=json&class=OrderComment&method=GetCommentList',
-      method: 'post',
-      data: JSON.stringify({
-        baseClientInfo: { longitude: 0, latitude: 0 ,appId: ''+app.globalData.appId+''},
-        page: 1,
-        pageLength: 1,
-        goodsid: _this.data.shopId,
-        type:2
-      }),
-      header: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      success: (res) => {
-        console.log(res)
-        let code = res.data.baseServerInfo.code
-        let msg = res.data.baseServerInfo.msg
-        if (code == 1) {
-          let commentList = res.data.commentList
-          let totalComment = res.data.totalNum
-          _this.setData({
-            commentList:commentList,
-            totalComment:totalComment
-          })
-        }
-        else{
-          wx.showModal({
-            title:'提示',
-            content:msg,
-            showCancel:false,
-            success:function(res){}
-          })
-        }
-      },
-      fail: (res) => {
+  getCommentList: function(){
+  let _this = this
+  wx.request({
+    url: 'https://'+app.globalData.productUrl+'/api?resprotocol=json&reqprotocol=json&class=OrderComment&method=GetCommentList',
+    method: 'post',
+    data: JSON.stringify({
+      baseClientInfo: { longitude: 0, latitude: 0 ,appId: ''+app.globalData.appId+''},
+      page: 1,
+      pageLength: 1,
+      goodsid: _this.data.shopId,
+      type:2
+    }),
+    header: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    success: (res) => {
+      let code = res.data.baseServerInfo.code
+      let msg = res.data.baseServerInfo.msg
+      if (code == 1) {
+        let commentList = res.data.commentList
+        let totalComment = res.data.totalNum
+        _this.setData({
+          commentList:commentList,
+          totalComment:totalComment
+        })
       }
-    })
+      else{
+        wx.showModal({
+          title:'提示',
+          content:msg,
+          showCancel:false,
+          success:function(res){}
+        })
+      }
+    },
+    fail: (res) => {
+    }
+  })
   },
   // 跳转到全部评论
   hrefToCommentList: function(){
@@ -733,4 +755,5 @@ Page({
       url: "/pages/index/index"
     });
   },
+
 })

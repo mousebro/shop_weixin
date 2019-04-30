@@ -18,6 +18,7 @@ Page({
     let _this = this
   },
   onLoad: function(options){
+    app.userView('RecordExposurenum') //统计平台曝光度记录
     let shopId = options.Id
     let _this = this
     this.setData({
@@ -127,7 +128,8 @@ Page({
       let taskid = _this.data.taskid
       let timeid = _this.data.timeid
       let freight = _this.data.freight
-      shopList.push({id:id,goodsId:goodsId,pic:pic,name:name,number:number,price:price,roomid:roomid,taskid:taskid,timeid:timeid,freight:freight})
+      let param = _this.data.param
+      shopList.push({id:id,goodsId:goodsId,pic:pic,name:name,number:number,price:price,roomid:roomid,taskid:taskid,timeid:timeid,freight:freight,param:param})
       wx.setStorage({
         key:"orderShopList",
         data:shopList
@@ -194,6 +196,7 @@ Page({
             let timeid = goodsInfo.timeid
             let taskid = goodsInfo.taskid
             let freight = goodsInfo.dispatchprice
+            let param = goodsInfo.param
             for (var i = 0; i < thumbUrl.length; i++) {
               let img = thumbUrl[i]
               let url = img.substring(0,4)
@@ -218,7 +221,8 @@ Page({
               roomid:roomid,
               timeid:timeid,
               taskid:taskid,
-              freight:freight
+              freight:freight,
+              param:param
             })
           }
           else{
@@ -295,7 +299,13 @@ Page({
           seconds: seconds,
         }
       })
+      if(hours==0 && minutes==0 && seconds==0){
+        clearInterval( _this.data.timer)
+        wx.navigateBack({
+          delta:1
+        })
+      } 
     }, 1000)
-    
+
   },
 })

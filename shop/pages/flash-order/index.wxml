@@ -1,5 +1,5 @@
   <view class="body">
-    <view class="modal1" wx:if="{{showModal}}">
+    <!-- <view class="modal1" wx:if="{{showModal}}">
       <view class="modal1-body">
         <block wx:for="{{couponList}}" wx:key="{{item.couponItemId}}">
           <view wx:if="{{item.backtype == 0}}" class="couponBlock clearfix" bindtap="useCashCoupon" data-id="{{item.couponItemId}}" data-price="{{item.deduct}}" data-usePrice="{{item.enough}}">
@@ -33,7 +33,7 @@
         </block>
       </view>
       <text bindtap="useNoCoupon">不使用优惠券</text>
-    </view>
+    </view> -->
     <!-- 订单地址昵称等信息 -->
     <view class="address" bindtap="changeAddress">
       <text>{{realname}}</text>
@@ -52,50 +52,68 @@
         </view>
       </block>
     </view>
+      <!-- 订单备注 -->
+      <view class="remark">
+        <textarea value="{{descript}}" maxlength="50" bindinput="bindRemark" placeholder="请输入订单备注" />
+      </view>
     <!-- 价格结算 -->
     <view class="countprice">
       <view class="countprice-plus clearfix">
         <text>商品金额</text>
-        <text>￥{{totalPrice/100}}</text>
+        <text>￥{{totalPrice}}</text>
       </view>
-      <view class="countprice-plus clearfix">
+      <view class="countprice-plus clearfix" >
         <text>运费</text>
-        <text>￥{{fare/100}}</text>
+        <text>￥{{fare}}</text>
+      </view>
+      <!--积分-->
+      <view wx:if="{{showIntegral >= 1000}}" class="countprice-integral clearfix" bindtap="useIntegral">
+        <text>可用{{newShowIntegral || showIntegral}}购物金抵用</text>
+        <text>{{newShowIntegral/100 || showIntegral/100}}</text>
+        <text>元</text>
+        <image wx:if="{{integral == 0}}" src="/images/gou.png"/>
+        <image wx:if="{{integral == 1}}" src="/images/gou-red.png"/>
+      </view>
+      <view wx:if="{{showIntegral < 1000}}" class="countprice-unIntegral clearfix">
+        <text>{{showIntegral}}购物金</text>
+        <text>未满1000购物金不可用</text>
       </view>
       <!-- 优惠券模块后面做 -->
-      <view wx:if="{{!choseCoupon && couponList.length != 0 && pageFrom!='secKill'}}" class="countprice-less clearfix" bindtap="choseCoupon">
+      <!-- <view wx:if="{{!choseCoupon && couponList.length != 0 && pageFrom!='secKill'}}" class="countprice-less clearfix" bindtap="choseCoupon">
         <text>优惠券</text>
         <image src="/images/more.png"/>
         <view class="coupon-less-noselect">
           <image src="/images/paySuccess/coupon.png"/>
           <text>{{couponList.length}}张可用</text>
         </view>
-      </view>
+      </view> -->
       <!-- <view wx:if="{{couponList.length == 0}}" class="countprice-less clearfix">
         <text>优惠券</text>
         <text>-￥0</text>
       </view> -->
-      <view wx:if="{{choseCoupon & couponType == 1}}" class="countprice-less clearfix" bindtap="choseCoupon">
+      <!-- <view wx:if="{{choseCoupon & couponType == 1}}" class="countprice-less clearfix" bindtap="choseCoupon">
         <text>优惠券</text>
         <text>-￥{{couponPrice}}</text>
       </view>
       <view wx:if="{{choseCoupon & couponType == 2}}" class="countprice-less clearfix" bindtap="choseCoupon">
         <text>优惠券</text>
         <text>{{couponDiscount}}折（-￥{{couponPrice}}）</text>
-      </view>
+      </view> -->
       <!-- <view wx:if="{{isVip}}" class="countprice-less clearfix">
         <image src="/images/super.png" class="swiper-img" mode="widthFix"/>
         <text class="vip-price">-￥{{vipPrice/100}}</text>
       </view> -->
       <view class="countprice-total">
         <text>实付金额</text>
-        <text>￥{{showPayPrice/100}}</text>
+        <text>￥{{showPayPrice}}</text>
       </view>
     </view>
     <!-- 支付订单 -->
-    <view class="submit" bindtap="submit">
-      <text>立即支付</text>
-    </view>
+    <form report-submit='{{true}}' bindsubmit="formSubmit">
+      <button class="submit" bindtap="submit" form-type="submit">
+        立即支付
+      </button>
+    </form>
   </view>
 
   <!-- 底部分享弹窗 -->

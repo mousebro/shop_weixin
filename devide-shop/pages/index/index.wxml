@@ -1,0 +1,31 @@
+<!--首页-->
+<view>
+  <!--头部-->
+  <view class="header">
+    <view class="header-container" >
+      <image class="avator" src="../../image/index/product01.png" mode="aspectFit" lazy-load="false" binderror="" bindload=""></image>
+      <view class="message-container" hover-class="none" hover-stop-propagation="false">
+        <view class="message">
+          <text class="name">张晓峰</text>
+          <text class="">青铜1</text>
+          <text style="padding:0 4rpx">1%佣金加成</text>
+        </view>
+        <view class='order-by'>
+          <image class="cup-img" src="../../image/index/cup.png" mode="aspectFit" lazy-load="false" binderror="" bindload="">
+          </image>
+          <text class="" >月排行</text><text>第</text><text>3</text><text>名</text>
+        </view>
+        <view class="ward-target" hover-class="none" hover-stop-propagation="false">
+          距XX奖励还差<text>￥300</text>佣金  ＞
+        </view>
+      </view>
+    </view>
+    <view class="profit-list">赚钱冲榜</view>
+    <view class="acount-container">
+      <view>
+        <view>6800</view>
+        <text>累计佣金</text>
+      </view>
+    </view>
+  </view>
+</view>

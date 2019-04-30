@@ -20,7 +20,7 @@
       <view class="commit-info-block-body clearfix">
         <text>{{item.content}}</text>
         <block wx:for="{{item.imgurl}}" wx:for-item="items">
-          <image src="{{imgurl}}{{items}}"/>
+          <image src="{{imgurl}}{{items}}" bindtap="watchImg" data-idx="{{index}}"/>
         </block>
       </view>
     </view>

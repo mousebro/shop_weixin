@@ -7,31 +7,40 @@
         <image src="../../images/orderDetail/waiting.png" class='img-complate' wx:if="{{orderInfo.status!=3}}"></image>
         <image src="../../images/orderDetail/complate.png" class='img-complate' wx:if="{{orderInfo.status==3}}"></image>
         <text class="text-complate" wx:if="{{orderInfo.status == 0}}">待付款</text>
+        <text class="text-complate" wx:if="{{orderInfo.status == 1 && orderType ==3 }}">待发货</text>
         <text class="text-complate" wx:if="{{orderInfo.status == 1 && orderType ==1 }}">待发货</text>
+        <text class="text-complate" wx:if="{{orderInfo.status == 1 && orderType ==4 }}">待发货</text>
         <text class="text-complate" wx:if="{{orderInfo.status == 1 && orderType ==2 && isteam==0 }}">待发货</text>
         <text class="text-complate" wx:if="{{orderInfo.status == 1 && orderType ==2 && isteam==1 && isSuccess==1}}">待发货</text>
         <text class="text-complate" wx:if="{{orderInfo.status == 1 && orderType ==2 && isteam==1 && isSuccess==0}}">待分享</text>
         <text class="text-complate" wx:if="{{orderInfo.status == 2}}">待收货</text>
         <text class="text-complate" wx:if="{{orderInfo.status == 3}}">已完成</text>
       </view>
-      <text wx:if="{{orderInfo.status == 0}}" style="font-size:26rpx;color:#fff;line-height:60rpx;height:60rpx;">剩余： {{time.hours}}小时{{time.minutes}}分钟</text>
+      <text wx:if="{{orderInfo.status == 0 && orderType!=3}}" style="font-size:26rpx;color:#fff;line-height:60rpx;height:60rpx;">剩余： {{time.hours}}小时{{time.minutes}}分钟</text>
+      <text wx:if="{{orderInfo.status == 0 && orderType==3}}" style="font-size:26rpx;color:#fff;line-height:60rpx;height:60rpx;">剩余： {{time.minutes}}分钟{{time.seconds}}秒</text>
     </view>
   <!--物流信息-->
   <view class='logistics-container'>
-      <view class="logistics-message" wx:if="{{orderInfo.status == 3}}">
+      <!-- <view class="logistics-message" wx:if="{{orderInfo.status == 3}}">
         <image src="../../images/orderDetail/logistics.png" class='img-complate'></image>
         <view class="logistics-text">
             <text>{{freightMsg}}</text>
             <text class='logistics-time'>{{orderInfo.newfinishtime}}</text>
           </view>
           <image src="../../images/orderDetail/into.png" class='img-into' ></image>
-      </view>
-      <view class="logistics-message" wx:if="{{orderInfo.status == 2}}">
-          <image src="../../images/orderDetail/logistics.png" class='img-complate'></image>
-          <view class="logistics-text">
-              <text>您的订单已发货，可通过物流编号查询进度</text>
-              <text class='logistics-time'>{{orderInfo.expresscom}}： {{orderInfo.expresssn}}</text>
-            </view>
+      </view> -->
+      <view class="logistics-message" wx:if="{{orderInfo.status == 2 || orderInfo.status == 3}}" data-expresscom="{{orderInfo.expresscom}}" data-expresssn="{{orderInfo.expresssn}}" data-id="{{orderInfo.id}}" bindtap="hrefToExpress">
+        <image src="../../images/orderDetail/logistics.png" class='img-complate'></image>
+        <view class="logistics-text express-message">
+            <text wx:if="{{orderInfo.expresscom == '汇通快运' || orderInfo.expresscom == '顺丰'}}">暂不支持该快递公司单号查询，请复制单号自行查询</text>
+            <text wx:if="{{orderInfo.expresscom != '汇通快运' & orderInfo.expresscom != '顺丰' & express.length > 0}}">{{express[0].AcceptStation}}</text>
+            <text wx:if="{{orderInfo.expresscom != '汇通快运' & orderInfo.expresscom != '顺丰' & express.length == 0}}">暂无物流信息</text>
+            <text class='logistics-time'>{{orderInfo.expresscom}}： {{orderInfo.expresssn}}</text>
+        </view>
+        <view class="express-href">
+          <image mode="widthFix" src="../../images/more.png"></image>
+        </view>
+        <text class="copy" data-expresssn="{{orderInfo.expresssn}}" catchtap="copy">复制</text>
       </view>
       <view class='logistics-message logistics-message-address' wx:if="{{orderInfo.status == 1 || orderInfo.status == 0}}">
         <image src='../../images/orderDetail/address.png' class='address-img img-complate'></image>
@@ -45,13 +54,15 @@
   <!--商品列表部分-->
   <view class='product-list'>
     <view wx:for="{{orderInfo.orderGoodsList}}" wx:key="{{item.id}}">
-      <view class='product-item'>
+      <view class='product-item' bindtap="hrefToShopDetail" data-id="{{item.id}}">
         <view class='product-msg' style="width:70%;">
           <image src="{{item.thumb}}" class='product-img' mode="aspectFit"></image>
-          <text class='product-text'>{{item.title}}</text>
+          <text class='product-text'>{{item.title}}<text wx:if="{{item.optionname}}">【{{item.optionname}}】</text></text>
         </view>
         <view >
-          <text class="product-price">￥{{item.marketprice}}</text>
+          <text class="product-price" wx:if="{{orderType!=3 && orderType !=4}}">￥{{item.marketprice}}</text>
+          <text class="product-price" wx:if="{{orderType==3}}">￥{{item.seckillprice}}</text>
+          <text class="product-price" wx:if="{{orderType==4}}">￥{{item.bargainprice}}</text>
           <text class="product-count {{index==4?'clear-border':''}}">x{{item.total}}</text>
           <view size="mini" plain='true' class="custom-button custom-button-cancel" wx:if="{{orderInfo.status==3 && item.isgoodscomment==2}}" data-picture="{{item.thumb}}"  bindtap="hrefCommit"  data-orderid="{{orderInfo.id}}" data-orderType="{{orderType}}" data-goodid="{{item.id}}">去评价</view>
         </view>
@@ -59,7 +70,21 @@
 
     </view>
   </view>
-
+  <!--备注-->
+  <view class='item-container order-msg-container order-remark' wx:if="{{orderInfo.remark}}">
+    <view class='order-msg-item' >
+      <text class='order-msg-title' >用户备注:</text>
+      <text decode="true">{{orderInfo.remark}}</text>
+    </view>
+  </view>
+  <!--平台回复-->
+  <view class='item-container order-msg-container order-remark' wx:if="{{orderInfo.response}}">
+      <view class='order-msg-item'  bindtap="openResponse">
+        <text class='order-msg-title' >平台回复:</text>
+        <text decode="true" class="{{openResponse==1?'responseMsg':'responseMsg2'}}">{{orderInfo.response}}</text>
+        <image wx:if="{{orderInfo.response.length > 32}}" src="../../images/more.png" mode="aspectFit" class="more-img {{openResponse==1?'':'more-img-rotate'}}" ></image>
+      </view>
+    </view>
   <!--订单编号、下单时间、支付时间-->
   <view class='item-container order-msg-container'>
     <view class='order-msg-item'>
@@ -92,36 +117,43 @@
         <text>商品总额</text>
         <text >￥{{orderInfo.goodsprice}}</text>
       </view>
-      <view class='price-item' hidden="{{ !orderInfo.dispatchprice}}" >
+      <!-- <view class='price-item' wx:if="{{orderInfo.discountprice}}">
+        <image src='../../images/orderDetail/super.png' class='price-item-img'></image>
+        <text >-￥{{orderInfo.discountprice}}</text>
+      </view> -->
+      <view class='price-item' hidden="{{!orderInfo.dispatchprice}}" >
         <text>运费</text>
         <text >￥{{orderInfo.dispatchprice}}</text>
       </view>
       <!--优惠卷 后期会添加-->
-      <view class='price-item' wx:if="{{orderType!=2}}">
+      <view class='price-item' wx:if="{{orderType!=2 && orderType!=3}}">
         <text>优惠券</text>
         <text >-￥{{orderInfo.couponprice}}</text>
       </view>
-      <!-- <view class='price-item' hidden='{{!isSuper}}'>
-        <image src='../../images/orderDetail/super.png' class='price-item-img'></image>
-        <text >-￥{{orderInfo.discountprice }}</text>
-      </view> -->
+      <!--积分折扣-->
+      <view class='price-item' wx:if="{{orderInfo.deductprice}}">
+        <text>购物金</text>
+        <text >-￥{{orderInfo.deductprice}}</text>
+      </view>
     </view>
     <view class='price-pay-msg'>
       实付款：
       <text class="price-pay-count">￥{{orderInfo.price}}</text>
     </view>
   </view>
+  <form bindsubmit="formSubmit" report-submit='{{true}}'>
   <view class='custom-service'>
       <!-- <button size="mini" plain='true' class="custom-button" type="warn" bindtap="hrefCommit" wx:if="{{orderInfo.status==3}}" data-orderid="{{orderInfo.id}}">去评价</button> -->
-      <view size="mini" class="custom-button custom-button-pay"  bindtap="payfor" wx:if="{{orderInfo.status==0}}" data-orderid="{{orderInfo.id}}" >去付款</view>
+      <view size="mini" class="custom-button custom-button-pay" hover-class='none'  bindtap="payfor" wx:if="{{orderInfo.status==0}}" data-orderid="{{orderInfo.id}}" >去付款</view>
       <button size="mini" class="custom-button custom-button-pay" hover-class='btn-hover-class' bindtap="shareHandle" wx:if="{{orderInfo.status == 1 && orderType ==2 && isteam==1 && isSuccess==0}}" data-orderid="{{orderInfo.id}}" data-teamid="{{orderInfo.teamid}}" open-type="share" >去分享</button>
-      <view size="mini" plain='true' class="custom-button custom-button-cancel"  bindtap="hrefCancel"  wx:if="{{orderInfo.status==0}}" data-orderid="{{orderInfo.id}}">取消订单</view>
-      <button size="mini" class="custom-button custom-button-pay" hover-class='btn-hover-class' bindtap="comfirmHandle" wx:if="{{orderInfo.status == 2}}" data-orderid="{{orderInfo.id}}" data-teamid="{{orderInfo.teamid}}" >确认收货</button>
+      <button size="mini" plain='true' class="custom-button custom-button-cancel" hover-class='none' bindtap="hrefCancel"  wx:if="{{orderInfo.status==0}}" data-orderid="{{orderInfo.id}}" form-type="submit">取消订单</button>
+      <button size="mini" class="custom-button custom-button-pay" hover-class='btn-hover-class' bindtap="comfirmHandle" wx:if="{{orderInfo.status == 2}}" data-orderid="{{orderInfo.id}}" data-teamid="{{orderInfo.teamid}}" data-type="{{orderType}}"  form-type="submit">确认收货</button>
     <view class='custom-icon' bindtap='listenerButton'>
        <image src='../../images/message.png' class="custom-img"></image>
        <text >联系客服</text>
     </view>
   </view>
+  </form>
 </view>
 
 <!-- 底部客服弹窗 -->

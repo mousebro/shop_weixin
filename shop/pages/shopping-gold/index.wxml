@@ -1,0 +1,187 @@
+
+<view class="header-container">
+    <view class="points-msg">
+      <view bindtap="hrefToIntegralDetail">
+        <text>当前购物金</text>
+        <view>
+          <view>{{credit1}}</view>
+          <view>详情</view>
+        </view>
+      </view>
+      <view>
+        <text bindtap="showSignInRule">活动规则</text>
+        <text bindtap="hrefToRankList">排行榜</text>
+      </view>
+    </view>
+    <view class="sign-progress">
+      <view wx:key="unique" wx:for="{{signRuleList}}" class="progress-leader">
+          <view class="icon" wx:if="{{item.issign == 0 && index<6 }}">
+              <text>{{item.getgold}}</text>
+            </view>
+            
+        <view class="icon_active"  wx:if="{{item.issign == 1 && index<6}}">
+          <text>{{item.getgold}}</text>
+        </view>
+        <view class="days {{item.issign == 1 || isendday ==1?'days_issign':''}}"  wx:if="{{index<6}}">{{index+1}}天</view>
+      </view>
+      <view class="gift-seven"  data-promise="{{signRuleList[7].issign}}">
+          <image class="present" src="../../images/gold/present.png" mode="aspectFit"></image>
+          <view class="{{item.issign == 1?'days_issign':''}}" >7天抽惊喜</view>
+      </view>
+    </view>
+    <!--翻牌记录-->
+    <view class="receive-carousel">
+        <swiper class="swiper-view" circular vertical="true" duration="2000" autoplay>
+          <swiper-item wx:for="{{showAwardList}}" wx:key="{{item.nickname}}" class="msg-container">
+              <image class="avatar" src="{{item.avatar}}" mode="aspectFit" />
+              <view wx:if="{{item.type == 3}}" class="msg" >
+                恭喜{{item.newNickname}} 发红包成功获得<text>{{item.score}}</text>购物金
+              </view>
+              <view wx:if="{{item.type == 6}}" class="msg" >
+                恭喜{{item.newNickname}} 邀请新人成功获得<text>{{item.score}}</text>购物金
+              </view>
+            </swiper-item>
+        </swiper>
+    </view>
+  </view>
+  <!-- 幸运任务卡牌弹窗 -->
+  <view class="modal2"  wx:if="{{modal2 == true}}">
+    <view class="modal2-body">
+      <image src="https://allnet-shop-cdn.91uda.com/images/1/2019/03/INnHHm7mhtZh3CH7NMTC3NtF43NZt4.png" mode="widthFix"></image>
+      <image src="../../images/close.png" mode="widthFix" bindtap="hideModal"></image>
+      <!-- 卡牌翻转 -->
+ <view class="tcard1" style="transform: rotateY({{cardBlock1}});display:{{tcard1}}">
+        <view class="trans-card" style="display:{{showCard1}}" bindtap="cardturn" data-id="1">
+          <view>
+              <image src="../../images/gold/card.png" style="width:100%;" mode="widthFix"/>
+          </view>
+        </view>
+        <view style='display:{{showCardBack1}}'>
+          <view>
+              <image src="../../images/gold/card.png" style="width:100%;" mode="widthFix"/>
+          </view>
+        </view>
+      </view>
+     <view class="tcard2" style="transform: rotateY({{cardBlock2}});display:{{tcard2}}">
+        <view class="trans-card" style="display:{{showCard2}}" bindtap="cardturn" data-id="2">
+          <view>
+              <image src="../../images/gold/card.png" style="width:100%;" mode="widthFix"/>
+          </view>
+        </view>
+        <view style='display:{{showCardBack2}}'>
+          <view>
+              <image src="../../images/gold/card.png" style="width:100%;" mode="widthFix"/>
+          </view>
+        </view>
+      </view>
+        <view class="tcard3" style="transform: rotateY({{cardBlock3}});display:{{tcard3}}">
+        <view class="trans-card" style="display:{{showCard3}}" bindtap="cardturn" data-id="3">
+          <view>
+              <image src="../../images/gold/card.png" style="width:100%;" mode="widthFix"/>
+          </view>
+        </view>
+        <view style='display:{{showCardBack3}}'>
+          <view>
+              <image src="../../images/gold/card.png" style="width:100%;" mode="widthFix"/>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="mask "  wx:if="{{modal2 == true}}"></view>
+<!--发红包赚购物金-->
+<view class="red-pocket-container">
+    <image bindtap="hrefToRedEnvelope" class="red-pocket-img" src="https://allnet-shop-cdn.91uda.com/images/1/2019/03/wzQLY00vqYTzCwtEVc5yicWwhbIQ5K.png" mode="aspectFit"/>
+</view>
+  <!--任务-->
+  <scroll-view class="task-scroll-view" scroll-y="false" >
+      <view class="task-list">
+        <view class="task-item">
+          <view class="yaoqing-container">
+            <image class="yaoqing" src="../../images/gold/yaoqing.png" mode="aspectFit" />
+            <view>
+              <text>邀请新人</text>
+              <view>
+                <view>+{{newUserAward}}</view>
+                <view>购物金</view>
+              </view>
+            </view>
+          </view>
+          <view>
+              <button class="task-btn" style="display: inline;border:0;" open-type="share">去邀请</button>
+          </view>
+        </view>
+        <view class="task-item">
+            <view class="yaoqing-container">
+              <image class="yaoqing" src="../../images/gold/xiaofei.png" mode="aspectFit" />
+              <view>
+                <text>购物消费</text>
+                <view>
+                  <view></view>
+                  <view>获等比支付金额</view>
+                </view>
+              </view>
+            </view>
+            <view>
+                <text class="task-btn" bindtap="hrefToIndex">去购物</text>
+            </view>
+          </view>
+      </view>
+  </scroll-view>
+  <view class="mask " wx:if="{{showMask && signInSuccess}}"></view>
+  <view wx:if="{{showToast && signInSuccess}}" class="mask-task-bg"style="background:transparent url(https://allnet-shop-cdn.91uda.com/images/1/2019/03/O4qQnjJwfwzEe58xLlQ8XEYWPqe5ox.png) no-repeat;background-size:100% 100%;">
+    <image class="cancle-btn" src="../../images/close.png" mode="aspectFit"  bindtap="hideModal"/>
+     <view class="chose-card">
+       <view wx:if="{{signInSuccess && isTurnCard}}">恭喜你！</view>
+       <view wx:if="{{signInSuccess && !isTurnCard}}">签到成功！</view>
+       <view wx:if="{{signInSuccess}}">获得<text class="count">{{signcredit}}</text>购物金</view>
+       <view wx:if="{{!signInSuccess}}" class="failMsg">{{failMsg}}</view>
+     </view>
+  </view>
+
+<!--任务栏-->
+<view class="{{isIpx?'isIpx':''}} tabbar clearfix">
+    <view class="tabbar-block" bindtap="hrefToIndex">
+      <image src="/images/index.png" class="tabbar-img"/>
+      <text>首页</text>
+    </view>
+    <view class="tabbar-block" bindtap="hrefToSort">
+      <image src="/images/sort.png" class="tabbar-img"/>
+      <text>分类</text>
+    </view>
+    <view class="tabbar-block" >
+      <image src="/images/money_active.png" class="tabbar-img"/>
+      <text class="tabbar-active">购物金</text>
+    </view>
+    <view class="tabbar-block" bindtap="hrefToMine">
+      <image src="/images/mine.png" class="tabbar-img"/>
+      <text >我的</text>
+    </view>
+  </view>
+<!--规则弹窗-->
+  <view class="modal1" wx:if="{{modal1 == true}}">
+    <view>
+        <text>活动规则</text>
+        <image src="../../images/sign-in-center/rules.png" mode="widthFix"></image>
+        <view class="modalRules">
+            <scroll-view class="modalRules-scroll"  scroll-y="true" >
+
+                <text>{{introductioncontent}}</text>
+            </scroll-view>
+
+        </view>
+        <view class="close" bindtap="hideModal">
+            <image src="../../images/close.png"></image>
+        </view>
+    </view>
+</view>
+<view class="mask" wx:if="{{modal1}}"></view>
+  <!--发红包任务成功弹窗-->
+  <view class="mask awardRecord" wx:if="{{awardRecord!= 0 && showRecord}}"></view>
+  <view   wx:if="{{awardRecord!= 0 && showRecord}}" class="mask-task-bg awardRecord"style="background:transparent url(https://allnet-shop-cdn.91uda.com/images/1/2019/03/O4qQnjJwfwzEe58xLlQ8XEYWPqe5ox.png) no-repeat;background-size:100% 100%;">
+    <image class="cancle-btn" src="../../images/close.png" mode="aspectFit"  bindtap="hideRecord"/>
+     <view class="chose-card">
+        <view>邀请新人成功！</view>
+       <view >获得<text class="count">{{awardRecord}}</text>购物金</view>
+     </view>
+  </view>

@@ -3,19 +3,38 @@
 <view class='search-container'>
   <view class='search-box' >
     <image src="../../images/search.png"  class='search-icon'></image>
-    <input type='text' auto-focus placeholder='请输入商品名' class='search-input' confirm-type='search' bindconfirm="bindKeyInput"></input>
+    <input type='text' auto-focus value="{{searchWord!=''?searchWord:''}}" placeholder="{{placeholderWord}}" class='search-input' confirm-type='search' bindconfirm="bindKeyInput"></input>
   </view>
   <!--如果没有搜索到相关产品，进行相对应的提示信息-->
   <view wx:if="{{isNoCatchData}}">
     <text class="noshop">抱歉！没有搜索到相关商品</text>
   </view>
+  <view wx:if="{{showHotWord}}" class="hotWord {{selectList.length>0?'hotLine':''}}">
+    <view wx:if="{{hotWords.length>0}}" class=" history-title">大家都在搜</view>
+    <view  class="hotWord-List">
+      <text wx:for="{{hotWords}}" wx:key="index"  bindtap="bindKeyInput" data-value="{{item}}">{{item}}</text>
+    </view>
+  </view>
+  <view wx:if="{{selectList.length>0 && showHotWord}}"  class="hotWord">
+    <view class="history-msg">
+      <text class="history-title">搜索历史</text>
+      <view bindtap="deleteHistorySelect">
+        清空搜索历史
+        <image class="" src="../../images/delete.png" mode="aspectFit" lazy-load="false" binderror="" bindload="" />
+      </view>
+        
+    </view>
+    <view  class="hotWord-List history-list">
+      <text wx:for="{{selectList}}" wx:key="index"  bindtap="bindKeyInput" data-value="{{item}}">{{item}}</text>
+    </view>
+  </view>
   <!--展示搜回来的产品列表-->
-  <scroll-view scroll-y style="height:1000rpx;" wx:if="{{productList}}">
+  <scroll-view scroll-y class="shop-scroll-view" wx:if="{{productList.length>0}}">
     <view class='productList'>
       <view wx:for="{{productList}}" wx:key="{{item.id}}" bindtap="hrefToDetail" data-id="{{item.id}}">
         <!--左侧商品图片-->
         <view>
-          <image src="{{item.thumb}}"></image>
+          <image src="{{item.thumb}}" lazy-load bindload="inputsrc" data-src="{{item.thumb}}"></image>
         </view>
         <!--右侧商品信息、商品价格 -->
         <view class='productSubscrib'>

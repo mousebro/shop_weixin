@@ -2,5 +2,14 @@
 <import src="../template-cart/template-cart.wxml"/>
 
 <view class="container">
+     <view class="addTips" wx:if="{{showAddTips}}" bindtap="closeAddtips">
+          <text>点击“添加到我的小程序”，便捷购好物</text>
+          <text>|</text>
+          <text>X</text>
+          </view>
+          <view class="addTips-three" wx:if="{{showAddTips}}">
+          <view class="addTips-three-block">
+          </view>
+     </view>
      <template is="{{goodsList.list.length > 0 ? 'cart-goods-list' : 'no-goods'}}" data="{{...goodsList}}"></template>
 </view>

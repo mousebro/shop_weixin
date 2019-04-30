@@ -1,21 +1,30 @@
 page{background-color: #f2f2f2;}
-.body{padding-bottom: 200rpx;}
+.body{padding-bottom: 100rpx;}
 .clearfix:after {content: ".";display: block;height: 0;clear: both;visibility: hidden;}
 /* 头部地址栏 */
 .address{width: 90%;margin-top: 20rpx;background-color: #ffffff;padding: 30rpx 5%;position: relative;}
 .address text:nth-child(1){font-size: 30rpx;color: #222222;display: inline-block;font-weight: bold;}
 .address text:nth-child(2){font-size: 30rpx;color: #222222;display: inline-block;font-weight: bold;margin-left: 20rpx;}
 .address text:nth-child(3){font-size: 24rpx;color: #555555;display: block;margin: 20rpx 0 0;width: 100%;}
-.address image{display: block;position: absolute;width: 20rpx;height: 30rpx;top: 40rpx;right: 5%;}
+.address image{display: block;position: absolute;width: 15rpx;height: 25rpx;bottom: 40rpx;right: 5%;}
 /* 商品部分 */
 .shop{width: 100%;background-color: #ffffff;}
 .shop-block{width: 90%;margin-top: 20rpx;background-color: #ffffff;margin-left: 5%;padding: 30rpx 0;position: relative;border-bottom: 1px solid #e8e8e8;}
 .shop-block:nth-last-child(1){border: none;}
 .shop-block image{width: 150rpx;height: 150rpx;display: block;float: left;}
-.shop-block text:nth-child(2){display: block;float: left;width: 50%;margin-left: 20rpx;margin-top: 20rpx;font-size: 32rpx;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;}
+/* .shop-block text:nth-child(2){display: block;float: left;width: 50%;margin-left: 20rpx;margin-top: 20rpx;font-size: 32rpx;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;}
 .shop-block text:nth-child(3){display: block;float: left;width: 50%;margin-left: 20rpx;margin-top: 30rpx;font-size: 26rpx;color: #ea4149;font-weight: bold;}
-.shop-block text:nth-child(4){position: absolute;bottom: 50rpx;right: 0;color: #555555;font-size: 26rpx;}
+.shop-block text:nth-child(4){position: absolute;bottom: 50rpx;right: 0;color: #555555;font-size: 26rpx;} */
+.shop-block > .product-name-spec{width: calc(100% - 160rpx);float: right;margin-left:10rpx;height: 150rpx;display: flex;flex-direction: column;justify-content: space-between;}
+.shop-block > .product-name-spec>text{font-size: 32rpx;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;width:80%;display:inline-block;}
+.shop-block > .product-name-spec>view{font-size: 24rpx;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;color:#222222;margin:10rpx 0;}
+.shop-block > .product-name-spec > .product-price-number > text:nth-child(1){font-size: 26rpx;color: #ea4149;font-weight: bold;}
+.shop-block > .product-name-spec > .product-price-number > text:nth-child(2){font-size: 26rpx;color: #222222;float:right;display: inline-block;}
+/* 订单备注 */
+.remark{width: 90%;margin-top: 20rpx;background-color: #ffffff;padding: 30rpx 5%;position: relative;}
+.remark textarea{text-align: left;font-size: 28rpx;height: 120rpx;line-height: 40rpx;}
 /* 计算价格部分 */
+
 .countprice{width: 90%;margin-top: 20rpx;background-color: #ffffff;padding: 30rpx 5% 0;}
 .countprice-plus{width: 100%;}
 .countprice-plus text{display: block;width: 50%;float: left;font-size: 28rpx;line-height: 70rpx;color: #222222;}
@@ -25,13 +34,34 @@ page{background-color: #f2f2f2;}
 .countprice-less > text{display: block;width: 50%;float: left;font-size: 28rpx;line-height: 70rpx;}
 .countprice-less > text:nth-child(1){text-align: left;color: #222222;}
 .countprice-less > text:nth-child(2){text-align: right;color: #ea4149;}
-.countprice-less > image{width: 120rpx;float: left;margin-top: 20rpx}
+.countprice-less > image{width: 60px;float: left;margin-top: 20rpx}
 .countprice-less > image:nth-child(2){width: 14rpx;height: 20rpx;float: right;margin-left: 20rpx;margin-top: 24rpx;}
 .vip-price{width: calc(100% - 60px) !important;}
 .countprice-total{width: 100%;text-align: right;border-top: 1px solid #e8e8e8;margin-top: 20rpx;padding: 20rpx 0;}
 .countprice-total text{display: inline-block;}
 .countprice-total text:nth-child(1){font-size:28rpx;color: #222222;margin-right: 20rpx;}
 .countprice-total text:nth-child(2){font-size:34rpx;color: #ea4149;font-weight: bold;}
+/* 会员价格计算 */
+.countprice-super{width: 100%;position: relative;}
+.countprice-super text{display: inline-block;float:left;font-size: 28rpx;line-height: 70rpx;color: #222222;}
+.countprice-super text:nth-child(1){text-align: left;}
+.countprice-super text:nth-child(2){color: #e3434f;}
+.countprice-super image{position: absolute;right: 0;top:22rpx;width: 14rpx;height: 22rpx;}
+/* 积分价格计算 */
+.countprice-integral{width: 100%;position: relative;}
+.countprice-integral text{display: inline-block;float: left;font-size: 28rpx;line-height: 70rpx;color: #222222;}
+.countprice-integral text:nth-child(1){text-align: left;}
+.countprice-integral text:nth-child(2){color: #e3434f;}
+.countprice-integral image.comfirm-icon{position: absolute;right: 0;top:22rpx;width: 40rpx;height: 40rpx;}
+
+.countprice-unIntegral{width: 100%;position: relative;height: 70rpx;line-height: 70rpx;}
+.countprice-unIntegral text{max-width:50%;min-width: 20%;float: left;display: block;font-size: 28rpx;}
+.countprice-unIntegral text:nth-child(1){color: #222222;text-align: left;}
+.countprice-unIntegral text:nth-child(2){color: #777777;text-align: right;}
+.unableUseIntegral>text:nth-child(1){width:35%;}
+.unableUseIntegral>text:nth-child(2){float:right;max-width:50%;min-width: 20%;}
+.unableUseIntegral>.question-icon{vertical-align: baseline;float: right;}
+.question-icon{width: 35rpx;height: 35rpx;margin:0 10rpx;vertical-align: bottom;margin-top:17rpx;}
 /* 计价优惠券部分 */
 .coupon-less-noselect{height: 50rpx;line-height: 44rpx;margin-top: 10rpx;float: right;background: linear-gradient(to right,#ff7315, #ff3e19);border-radius: 10rpx;padding: 0 10rpx;}
 .coupon-less-noselect image{width: 26rpx;height: 20rpx;margin-right: 10rpx;}
@@ -55,4 +85,42 @@ page{background-color: #f2f2f2;}
 .modal1-body{padding-bottom: 140rpx;}
 /* 支付按钮 */
 .submit{margin:20rpx 30rpx;position: fixed;bottom: 0;background: linear-gradient(to right,#ea4149, #ff6849);text-align: center;width: calc(100% - 30px);height: 100rpx;line-height: 100rpx;}
-.submit text{font-size: 32rpx;color: #ffffff;}
+.submit {font-size: 32rpx;color: #ffffff;border-radius:0;}
+
+/*0元购支付按钮*/
+.bargain-btn-container{width: 100%;height: 100rpx;position: fixed;bottom: 0;padding-left: 0%;background-color: #ffffff;}
+.btn-container{display: flex;justify-content: space-between;width: 100%;height: 100%;}
+.btn-container .btn-help-container{width: 50%;height: 100%;}
+.btn-container .btn-help-container{background:#222222;color:#ffffff;font-size:32rpx;position: relative; width:100%;}
+.btn-container .btn-help-container>.btn-help:first-child{background:#222222;color:#ffffff;height: 100rpx;width: 100%;display: flex;align-items: center;justify-content: center;font-size:32rpx;}
+.noFreight-msg{
+    animation: free_download 1s linear alternate infinite;-webkit-animation: free_download 1s linear alternate infinite;z-index:100;
+    position: fixed;left:10%;bottom:85rpx;padding:5rpx 14rpx;background:linear-gradient(to right,#ea4149, #ff6849);color:#fff;border-top-right-radius: 12rpx;border-bottom-left-radius: 12rpx;font-size:24rpx;}
+@-webkit-keyframes free_download{0%{-webkit-transform:scale(1);}100%{-webkit-transform:scale(1.1);}}
+@keyframes free_download{0%{transform:scale(1);}100%{transform:scale(1.1);}}
+
+.btn-container>button:last-child{width: 50%;height: 100%;background:linear-gradient(to right,#ea4149, #ff6849);color:#ffffff;font-size:32rpx;display: flex;align-items: center;justify-content: center; border-radius: 0;position:absolute;right:0;}
+
+.btn{width: 100%; height: 100rpx; margin: 0; padding: 0; border-radius: 0; position: absolute; background: transparent; top: 1; left: 0; z-index: 9;}
+button::after{ border:none;}
+.aa{width: 100%; height: 100rpx; background: transparent; position: relative; top: 0; left: 0; z-index: 10;}
+
+.mask{width: 100%;height: 100%;position: fixed;top: 0;left: 0;background: #000000;z-index: 20;opacity: 0.6;}
+.add-address{width:72%;height: 200rpx;padding:80rpx 40rpx;border-radius: 20rpx;position: fixed;top:0;right:0;bottom:0;left:0;margin: auto;background: #fff;z-index: 21;}
+.add-address>.address-cancle{width: 80rpx;height:80rpx;position: absolute;right: -35rpx;top:-35rpx;}
+.add-address>view{display: flex;flex-direction: column;justify-content: space-between;align-items: center;font-size:36rpx;color:#222222;height: 100%;}
+.add-address .address-btn{background:linear-gradient(to right,#ea4149,#ff6849);color:#fff;padding:15rpx 120rpx;border-radius: 80rpx;}
+
+/*购物金规则弹窗*/
+.showRuleToast{position: fixed;z-index: 21;width: 100%;height: 100%;text-align: center;top:0;left:0;right:0;bottom:0;}
+.showRuleToast >view{width: 90%;position: absolute;top:0;left: 0;right:0;bottom: 0;margin: auto;height: 1170rpx;}
+.showRuleToast >view> text{position: relative;z-index: 25;display: block;margin-top: 100rpx;font-size: 32rpx;color: #222222;font-weight: bold;}
+.showRuleToast >view> text:before{content: '';position: absolute;width: 10%;height: 1rpx;background-color: #d6d6d6;top: 22rpx;left: 26%;}
+.showRuleToast >view> text:after{content: '';position: absolute;width: 10%;height: 1rpx;background-color: #d6d6d6;top: 22rpx;right: 26%;}
+.showRuleToast >view> image{position: absolute;width: 100%;top: 40rpx;left: 0;}
+.modalRules{position: absolute;width: 100%;top: 150rpx;z-index: 23;text-align: left;height: 970rpx;box-sizing: border-box;}
+.modalRules text{font-size: 24rpx;color: #777777;}
+.modalRules-scroll{width: 90%;height: 100%;padding:0 5%;}
+.allcontainer::-webkit-scrollbar{ width: 0;height: 0; color: transparent;}
+.close{position: absolute;z-index: 26;top: 70rpx;right: 70rpx;}
+.close image{width: 30rpx;height: 30rpx;}

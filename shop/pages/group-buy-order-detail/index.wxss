@@ -25,12 +25,39 @@ page{background-color: #f2f2f2;}
 .countprice-less text{display: block;width: 50%;float: left;font-size: 28rpx;line-height: 70rpx;}
 .countprice-less text:nth-child(1){text-align: left;color: #222222;}
 .countprice-less text:nth-child(2){text-align: right;color: #ea4149;}
-.countprice-less image{width: 120rpx;float: left;margin-top: 20rpx}
+.countprice-less image{width: 60rpx;float: left;margin-top: 20rpx}
 .vip-price{width: calc(100% - 60px) !important;}
 .countprice-total{width: 100%;text-align: right;border-top: 1px solid #e8e8e8;margin-top: 20rpx;padding: 20rpx 0;}
 .countprice-total text{display: inline-block;}
 .countprice-total text:nth-child(1){font-size:28rpx;color: #222222;margin-right: 20rpx;}
 .countprice-total text:nth-child(2){font-size:34rpx;color: #ea4149;font-weight: bold;}
 /* 支付按钮 */
-.submit{margin:20rpx 30rpx;position: fixed;bottom: 0;background: linear-gradient(to right,#ea4149, #ff6849);text-align: center;width: calc(100% - 30px);height: 100rpx;line-height: 100rpx;}
-.submit text{font-size: 32rpx;color: #ffffff;}
+.submit{margin:20rpx 30rpx;position: fixed;bottom: 0;background: linear-gradient(to right,#ea4149, #ff6849);text-align: center;width: calc(100% - 30px);height: 100rpx;line-height: 100rpx;border-radius:0;}
+.submit {font-size: 32rpx;color: #ffffff;}
+
+/* 积分价格计算 */
+.countprice-integral{width: 100%;position: relative;}
+.countprice-integral text{display: inline-block;float: left;font-size: 28rpx;line-height: 70rpx;color: #222222;}
+.countprice-integral text:nth-child(1){text-align: left;}
+.countprice-integral text:nth-child(2){color: #e3434f;}
+.countprice-integral image{position: absolute;right: 0;top:22rpx;width: 40rpx;height: 40rpx;}
+
+.countprice-unIntegral{width: 100%;position: relative;}
+.countprice-unIntegral text{width: 50%;float: left;display: block;font-size: 28rpx;}
+.countprice-unIntegral text:nth-child(1){color: #222222;text-align: left;}
+.countprice-unIntegral text:nth-child(2){color: #777777;text-align: right;}
+/* 会员价格计算 */
+.countprice-super{width: 100%;position: relative;}
+.countprice-super text{display: inline-block;float: left;font-size: 28rpx;line-height: 70rpx;color: #222222;}
+.countprice-super text:nth-child(1){text-align: left;}
+.countprice-super text:nth-child(2){color: #e3434f;}
+.countprice-super image{position: absolute;right: 0;top:22rpx;width: 14rpx;height: 22rpx;}
+/* 订单备注 */
+.remark{width: 90%;margin-top: 20rpx;background-color: #ffffff;padding: 30rpx 5%;position: relative;}
+.remark textarea{text-align: left;font-size: 28rpx;height: 120rpx;line-height: 40rpx;}
+
+.mask{width: 100%;height: 100%;position: fixed;top: 0;left: 0;background: #000000;z-index: 20;opacity: 0.6;}
+.add-address{width:72%;height: 200rpx;padding:80rpx 40rpx;border-radius: 20rpx;position: fixed;top:0;right:0;bottom:0;left:0;margin: auto;background: #fff;z-index: 21;}
+.add-address>.address-cancle{width: 80rpx;height:80rpx;position: absolute;right: -35rpx;top:-35rpx;}
+.add-address>view{display: flex;flex-direction: column;justify-content: space-between;align-items: center;font-size:36rpx;color:#222222;height: 100%;}
+.add-address .address-btn{background:linear-gradient(to right,#ea4149,#ff6849);color:#fff;padding:15rpx 120rpx;border-radius: 80rpx;}

@@ -1,7 +1,7 @@
 <view class="body">
   <view class="super-title">
     <view class="super-title-bg1">
-      <image src="/images/super/bg1.png"/>
+      <image src="http://allnet-shop-cdn.91uda.com/images/1/2019/03/Z505edQiH6LHq2Lq55hne465iQ536h.png"/>
     </view>
     <view wx:if="{{superstatus == 2}}" class="super-title-bg2">
       <image src="/images/super/bg2.png"/>
@@ -57,7 +57,7 @@
         <text>会员专属优惠券</text>
         <text>SUPER会员每月可领取专属折扣优惠券，折扣更优惠</text>
         <image src="/images/super/coupon1.png" mode="widthFix"/>
-        <image src="/images/super/coupon1.png" mode="widthFix"/>
+        <image src="/images/super/coupon2.png" mode="widthFix"/>
       </view>
 
       <view class="super-body-info-block">

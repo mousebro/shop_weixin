@@ -1,0 +1,93 @@
+<template name="active-goods">
+    <!--标题 红色主题-->
+    <view wx:if="{{goodsObj.mould ==1}}" class="active-title-red">热卖爆款</view>
+    <!--标题 黑色主题-->
+    <view wx:if="{{goodsObj.mould ==2}}" class="active-title-black">热卖爆款</view>
+    <!--1排1列-->
+    <!--商品在左-->
+    <view wx:if="{{1}}" class="goods-container {{goodsObj.mould==2?'black-container-bg':''}}">
+        <view class="container-inside">
+            <view class="goods-info">
+               <image class="goods-img" src="https://allnet-shop-cdn.91uda.com/images/1/2019/01/LZ4MzImVvTIPCvA544qJgDp4VtmZDS.jpg" mode="aspectFit" lazy-load="true" binderror="" bindload="" />
+                <view class="goods-msg">
+                    <view class="desc">清新淡雅 花香悠长清新淡雅 花香悠长清新淡雅 花香悠长</view>
+                    <view class="title-container">
+                            <text class="title">茅台王子酒茅台王子酒茅台王子酒茅台王子酒茅台王子酒茅台王子酒茅台王子酒茅台王子酒</text>
+                    </view>
+                    <view class="type">风格：花香浓郁型</view>
+                    <view class="price">
+                        <text>活动价:</text>
+                        <text>166</text>
+                        <text> 元</text>
+                        <text>￥868.0</text>
+                    </view>
+                    <view class="buy-btn {{goodsObj.mould==2?'black-container-btn':''}}">立即抢购</view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <!--商品在右-->
+    <view wx:if="{{1}}" class="goods-container {{goodsObj.mould==2?'black-container-bg':''}}">
+        <view class="container-inside">
+            <view class="goods-info">
+                <view class="goods-msg goods-msg-left">
+                    <view class="desc">清新淡雅 花香悠长清新淡雅 花香悠长清新淡雅 花香悠长</view>
+                    <view class="title-container">
+                            <text class="title">茅台王子酒茅台王子酒茅台王子酒茅台王子酒茅台王子酒茅台王子酒茅台王子酒茅台王子酒</text>
+                    </view>
+                    <view class="type">风格：花香浓郁型</view>
+                    <view class="price">
+                        <text>活动价:</text>
+                        <text>166</text>
+                        <text> 元</text>
+                        <text>￥868.0</text>
+                    </view>
+                    <view class="buy-btn {{goodsObj.mould==2?'black-container-btn':''}}">立即抢购</view>
+                </view>
+                <image class="goods-img" src="https://allnet-shop-cdn.91uda.com/images/1/2019/01/LZ4MzImVvTIPCvA544qJgDp4VtmZDS.jpg" mode="aspectFit" lazy-load="true" binderror="" bindload="" />
+            </view>
+        </view>
+    </view>
+    <!--1行2列-->
+    <view wx:if="{{1}}"  class="goods-container-th" >
+        <view class="goods-item {{goodsObj.mould==2?'black-container-bg':''}}" wx:for="{{2}}" wx:key="unique" >
+            <view class="item-container">
+                <image class="goods-img" src="https://allnet-shop-cdn.91uda.com/images/1/2019/01/LZ4MzImVvTIPCvA544qJgDp4VtmZDS.jpg" mode="aspectFit" lazy-load="true" binderror="" bindload="" />
+                <view class="title-container">
+                        <text class="title">茅台王子酒茅台王子酒茅台王子酒茅台王子酒茅台王子酒茅台王子酒茅台王子酒茅台王子酒</text>
+                </view>
+                <view class="price-c">
+                    <view class="left-side">
+                        <text>￥</text>
+                        <text>268.0</text>
+                        <text>￥868.0</text>
+                    </view>
+                    <view class="right-side">
+                            <view class="buy-btn {{goodsObj.mould==2?'black-container-btn':''}}">立即抢购</view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <!--1行3列-->
+    <view class="goods-container-th goods-container3" >
+        <view class="goods-item {{goodsObj.mould==2?'black-container-bg':''}}" wx:for="{{3}}" wx:key="unique" >
+            <view class="item-container">
+                <image class="goods-img" src="https://allnet-shop-cdn.91uda.com/images/1/2019/01/LZ4MzImVvTIPCvA544qJgDp4VtmZDS.jpg" mode="aspectFit" lazy-load="false" binderror="" bindload="" />
+                <view class="title-container">
+                        <text class="title">茅台王子酒茅台王子酒茅台王子酒茅台王子酒茅台王子酒茅台王子酒茅台王子酒茅台王子酒</text>
+                </view>
+                <view class="price-c">
+                    <view class="left-side">
+                        <text>￥</text>
+                        <text>268.0</text>
+                        <text>￥868.0</text>
+                    </view>
+                    <view class="right-side">
+                            <view class="buy-btn {{goodsObj.mould==2?'black-container-btn':''}}">立即抢购</view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+</template>

@@ -1,7 +1,6 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/sort/index",
     "pages/shop-cart/index",
     "pages/mine/index",
     "pages/shop-detail/index",
@@ -28,7 +27,26 @@
     "pages/inside/index",
     "pages/flash-order/index",
     "pages/supermember-buy/index",
-    "pages/sign-in-center/index"
+    "pages/supermember-exclusive/index",
+    "pages/new-index/index",
+    "pages/bargain-list/index",
+    "pages/bargain-details/index",
+    "pages/bargain-comfirm/index",
+    "pages/bargain-pay-success/index",
+    "pages/canvas-share/index",
+    "pages/receive-coupon-center/index",
+    "pages/sign-in-center/index",
+    "pages/article-collection/index",
+    "pages/article-info/index",
+    "pages/shopping-gold/index",
+    "pages/ranking-list/index",
+    "pages/red-envelope/index",
+    "pages/red-envelope-receive/index",
+    "pages/integral-detail/index",
+    "pages/advice/index",
+    "pages/active/index",
+    "pages/present-card/index",
+    "pages/express/index"
   ],
   "window": {
     "backgroundTextStyle": "light",

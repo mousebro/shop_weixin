@@ -1,0 +1,108 @@
+<view class="header-container" >
+    <image class="header-image" src="https://allnet-shop-cdn.91uda.com/images/1/2019/03/oh2LIirGzce3sZIGGssz0Eghz0hiyr.png" mode="aspectFill" lazy-load="false" binderror="" bindload="" />
+    <view class="rule-container" bindtap="showRule">
+        规则
+        <image class="next-img" src="../../images/gold/next.png" mode="aspectFit" lazy-load="false" />
+    </view>
+    <view class="header-mgs">
+        <view>发红包邀请<text>{{needAskCount}}</text>位好友注册</view>
+        <view>得<text>{{award}}</text>购物金</view>
+    </view>
+</view>
+<view class="red-envelope-container">
+    <view  class="coupon" style="background:transparent url({{timeProgress}}) no-repeat;background-size:100% 100%;width:440rpx;height:71rpx;">
+        <text wx:if="{{withoutTask || isAward || fail}}" class="time-progress">时限{{limitHour}}小时，消耗{{consumeScore}}购物金</text>
+        <text wx:if="{{!failTask & userList.length < needAskCount}}" class="time-progress">还剩{{showTime}}任务失败</text>
+        <text wx:if="{{!isAward & userList.length >= needAskCount}}" class="time-progress">已达成任务</text>
+        <!-- <text wx:if="{{failTask}}" class="time-progress">任务失败，请重新发起</text> -->
+    </view>
+    <view class="card">
+        <!--红包记录-->
+        <view class="receive-carousel">
+            <swiper class="swiper-view" vertical="true" duration="2000" autoplay circular>
+                <swiper-item wx:for="{{showAwardList}}" wx:key="{{item.nickname}}" class="msg-container">
+                    <image class="avatar" src="{{item.avatar}}" mode="aspectFit" />
+                    <view class="msg" >
+                        恭喜{{item.newNickName}} 发红包成功获得<text>{{item.award}}</text>购物金
+                    </view>
+                </swiper-item>
+            </swiper>
+        </view>
+        <view wx:if="{{userList.length < needAskCount}}" class="no-receive">
+            还差<text>{{needAskCount - userList.length}}</text>人领取获得购物金
+        </view>
+        <view class="ecvelope-record">
+            <view class="received" style="background:transparent url({{enveReceive}}) no-repeat;background-size:100% 100%;" wx:for="{{userList}}" wx:key="{{item.nickname}}">
+                <image class="avatar" src="{{item.avatar}}" mode="aspectFit" />
+                <view class="integral">{{item.score}}</view>
+            </view>
+            <view class="no_receive" style="background:transparent url({{enveNoReceive}}) no-repeat;background-size:100% 100%;" wx:for="{{needAskCount - userList.length}}" wx:key="{{needAskCount - userList.length}}"></view>
+        </view>
+    </view>
+    <view wx:if="{{withoutTask || isAward || fail}}" class="envelope-btn" style="background:transparent url({{btnImg}}) no-repeat;background-size:100% 100%;" bindtap="provideRedPacket">
+       发红包
+    </view>
+    <button wx:if="{{!withoutTask & userList.length < needAskCount & !fail}}" class="envelope-btn envelope-btn2" open-type="share" style="background:transparent url({{btnImg}}) no-repeat;background-size:100% 100%;">
+       邀请好友领红包
+    </button>
+    <view wx:if="{{userList.length >= needAskCount & !isAward}}" class="envelope-btn" style="background:transparent url({{btnImg}}) no-repeat;background-size:100% 100%;" bindtap="getUserAward">
+       领取奖励
+    </view>
+</view>
+<view class="mask" wx:if="{{showMask}}"></view>
+<view class="mask-task-bg" wx:if="{{startTask}}" style="background:transparent url(https://allnet-shop-cdn.91uda.com/images/1/2019/03/N3Lwzts6GD37gSl1rPta3LAsa7Uman.png) no-repeat;background-size:100% 308rpx;">
+    <view class="toast-msg toast-msg2">
+        <view>开启红包成功</view>
+        <!-- <view>转发邀请好友获得<text class="count">{{award}}</text>购物金</view> -->
+    </view>
+    <view class="scroll-list scroll-list2">
+        <image class="cancle-btn" src="../../images/close.png" mode="aspectFit"  bindtap="hideModal"/>
+        <view class="chose-card">
+          <button class="envelope-btn envelope-btn2" open-type="share" style="background:transparent url({{btnImg}}) no-repeat;background-size:100% 100%;">
+             邀请好友领红包
+          </button>
+        </view>
+    </view>
+</view>
+
+<view wx:if="{{showSuccess}}" class="mask-task-bg"style="background:transparent url(https://allnet-shop-cdn.91uda.com/images/1/2019/03/N3Lwzts6GD37gSl1rPta3LAsa7Uman.png) no-repeat;background-size:100% 308rpx;">
+    <view class="toast-msg">
+        <view wx:if="{{1}}">发红包成功！</view>
+        <view wx:if="{{1}}">获得<text class="count">{{award}}</text>购物金</view>
+    </view>
+    <view class="scroll-list">
+        <image class="cancle-btn" src="../../images/close.png" mode="aspectFit"  bindtap="hideModal"/>
+        <view class="chose-card">
+            <scroll-view class="scroll-container" scroll-y="true">
+                <view class="scroll-item" wx:for="{{userList}}" wx:key="{{item.nickname}}">
+                    <image class="avatar" src="{{item.avatar}}" mode="aspectFit" />
+                    <view class="msg" >
+                        +<text>{{item.score}}</text>购物金
+                    </view>
+                </view>
+            </scroll-view>
+        </view>
+    </view>
+</view>
+<view wx:if="{{failToast}}" class="mask-task-bg task-fail" style="background:transparent url(https://allnet-shop-cdn.91uda.com/images/1/2019/03/N3Lwzts6GD37gSl1rPta3LAsa7Uman.png) no-repeat;background-size:100% 308rpx;">
+    <image class="cry" src="../../images/gold/ku.png" mode="aspectFit" />
+    <image class="cancle-btn" src="../../images/close.png" mode="aspectFit"  bindtap="hideModal"/>
+    <view>
+        红包任务失败！
+    </view>
+</view>
+<!--规则弹窗-->
+<view class="modal1" wx:if="{{modal1 == true}}">
+    <view>
+        <text>红包规则</text>
+        <image src="../../images/sign-in-center/rules.png" mode="widthFix"></image>
+        <view class="modalRules">
+            <scroll-view class="modalRules-scroll"  scroll-y="true" >
+                <text>{{content}}</text>
+            </scroll-view>
+        </view>
+        <view class="close" bindtap="hideModal">
+            <image src="../../images/close.png"></image>
+        </view>
+    </view>
+</view>

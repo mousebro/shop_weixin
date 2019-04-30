@@ -1,8 +1,92 @@
 <!--pages/sign-in-center/index.wxml-->
 <view class="sign-in-center-container">
-    <view class="header-container" style="background:#f2f2f2 url({{headImg}}) no-repeat;background-size:100% 100%;" bindtap="getCoupon">
-        <image class="image-text" src="../../images/sign-in-center/text.png" mode="aspectFit" lazy-load="false"></image>
-        <text>成为SUPER会员可获得3倍积分</text>
+    <view class="mask" wx:if="{{showModal == true}}"></view>
+    
+    <view class="modal1" wx:if="{{modal1 == true}}">
+            <view>
+                <text>购物金攻略</text>
+                <image src="../../images/sign-in-center/rules.png" mode="widthFix"></image>
+                <view class="modalRules">
+                    <scroll-view class="modalRules-scroll"  scroll-y="true" >
+                        <text>{{introductioncontent}}</text>
+                    </scroll-view>
+                      
+                </view>
+                <view class="close" bindtap="hideModal">
+                    <image src="../../images/sign-in-center/close.png"></image>
+                </view>
+            </view>
+        </view>
+    <view class="black-header"></view>
+    <view class="header-container" style="background:transparent url(https://allnet-shop-cdn.91uda.com/images/1/2019/03/gsk148rEzKf4I5eQ1fXRIffjr588JK.png) no-repeat;background-size:100% 100%;" >
+       
+        <!-- <text>成为SUPER会员可获得2倍积分</text>
+        <text wx:if="{{superstatus!=1}}" bindtap="gotoSuper">去开通</text>
+        <text wx:else bindtap="gotoSuper">去续费</text> -->
+        <view class="point-container">
+            <text>当前购物金</text>
+            <view class="creadit"> {{credit1}}</view>
+            <view bindtap="showModal" class="rules-container">
+                <image class="" src="../../images/sign-in-center/question.png" mode="aspectFit|aspectFill|widthFix"></image>
+                <text>购物金攻略</text>
+            </view>
+        </view>
+    </view>
+    <!--兑换专区-->
+    <view class="exchange-area">
+    <!-- <view class="sign-in-btn">
+            <view></view>
+            <view wx:if="{{issign==1}}" bindtap="signIn">
+                <view>签到</view>
+                <view>+10购物金</view>
+            </view>
+            <view wx:else class="hasSignIn" bindtap="signIn">
+                <image class="" src="../../images/sign-in-center/hasSignIn.png" mode="aspectFit" lazy-load="false" binderror="" bindload="" />
+                <view>已签到</view>
+            </view>
+        </view> -->
+        <view class="title">
+            <image class="" src="../../images/sign-in-center/1.png" mode="aspectFit" />
+            <text >购物金换好礼</text>
+            <image class="title-icon" src="../../images/sign-in-center/1.png" mode="aspectFit" />
+        </view>
+        <view class="coupon-container">
+            <view class="card {{cLength==2||cLength==1||cLength==(index+1)&&index!=0?'nonborder':''}}" wx:for="{{couponList}}" wx:key="{{index}}" >
+                <view class="coupon" wx:if="{{item.backtype == 1}}"style="background:#fff url({{discountImg}}) no-repeat;background-size:100% 100%;">
+                    <view>
+                        <view class="discount-rare">{{item.discount}}<text>折</text></view>
+                        <view style="color:#ed4b49;">满{{item.enough}}可用</view>
+                    </view>
+                    <view>
+                        <view class="discount">折扣劵</view>
+                        <view class="discount-limit" style="color:#ea4149;" wx:if="{{item.limitgoodcateidsname}}">限{{item.limitgoodcateidsname}}</view>
+                        <view class="discount-limit" style="color:#ea4149;" wx:elif="{{item.limitgoodcateidsname}}">限{{item.limitgoodcateidsname}}</view>
+                        <view class="discount-limit" style="color:#ea4149;" wx:elif="{{item.limitmembertype}}">{{item.limitmembertype}}可用</view>
+                    </view>
+                </view>
+                <view class="coupon" wx:if="{{item.backtype == 0}}" style="background:#fff url({{couponImg}}) no-repeat;background-size:100% 100%;">
+                    <view>
+                        <view>￥<text>{{item.deduct}}</text></view>
+                        <view>满{{item.enough}}可用</view>
+                    </view>
+                    <view>
+                        <view>优惠卷</view>
+                        <view wx:if="{{item.limitgoodcateidsname}}">限{{item.limitgoodcateidsname}}</view>
+                        <view wx:elif="{{item.limitgoodcateidsname}}">限{{item.limitgoodcateidsname}}</view>
+                        <view wx:elif="{{item.limitmembertype}}">{{item.limitmembertype}}可用</view>
+                    </view>
+                </view>
+                <view class="goods-title"> 
+                    {{item.couponname}}
+                </view>
+                <!-- <view class="receive">
+                    已有3674人领取
+                </view> -->
+                <view>
+                    <view><text>{{item.credit}}</text>购物金</view>
+                    <view data-id="{{item.couponid}}" bindtap="GetIntegeralCoupon">立即兑换</view>
+                </view>
+            </view>
+        </view>
     </view>
 </view>
-

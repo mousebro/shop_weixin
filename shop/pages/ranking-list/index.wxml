@@ -1,0 +1,67 @@
+<!--pages/ranking-list/index.wxml-->
+<view>
+    <view class="header">
+        <view class="header-container" >
+            <image class="avator" src="{{avatar}}" mode="aspectFit" lazy-load="false" binderror="" bindload=""></image>
+            <view class="message-container" hover-class="none" hover-stop-propagation="false">
+            <view class="message">
+                <text class="name">{{nickname}}</text>
+            </view>
+            <view class='order-by' >
+                <image class="cup-img" src="../../images/index/cup.png" mode="aspectFit" lazy-load="false" binderror="" bindload="">
+                </image>
+                <text class="" >月排行</text><text>第</text><text>{{myRank}}</text><text>名</text>
+            </view>
+            </view>
+        </view>
+        <view class="profit-list" bindtap="showToast">购物金攻略</view>
+    </view>
+    <view class="session-content">
+        <view class="title">
+            <text>本月购物金排行榜前十</text>
+            <text>每24小时更新</text>
+        </view>
+        <view class="list">
+            <view class="item" wx:for="{{topList}}" wx:key="{{index}}">
+                <view class="left-side">
+                    <text class="{{item.rank>3?'font-gray':'' }}">{{item.rank}}</text>
+                    <view class="avatar-content" >
+                        <image class="champion" src="../../images/index/champion.png" mode="aspectFit" wx:if="{{item.rank==1}}"></image>
+                        <image class="avatar" src="{{item.avatar}}" mode="aspectFit" lazy-load="false" binderror="" bindload=""></image>
+                    </view>
+                    <text class="name">{{item.nickname}}</text>
+                </view>
+                <view class="right-side">
+                    <view class="msg">
+                        <text></text><text>{{item.sum}}</text><text></text>
+                    </view>
+                </view>
+            </view>
+            <view class="noMsg"  wx:if="{{topList.length == 0}}" >
+                <view>
+                    <image class="noMsg-img" src="../../images/noMsg.png" mode="aspectFit" lazy-load="false" binderror="" bindload="" />
+                    <view class="toast-msg">等待排行榜更新~</view>
+                </view>
+            </view>
+              
+        </view>
+    </view>
+</view>
+<!--规则弹窗-->
+<view class="mask" wx:if="{{showMask}}"></view>
+<view class="modal1" wx:if="{{modal1 == true}}">
+    <view>
+        <text>购物金攻略</text>
+        <image src="../../images/sign-in-center/rules.png" mode="widthFix"></image>
+        <view class="modalRules">
+            <scroll-view class="modalRules-scroll"  scroll-y="true" >
+                
+                <text>{{introductioncontent}}</text>
+            </scroll-view>
+              
+        </view>
+        <view class="close" bindtap="hideModal">
+            <image src="../../images/close.png"></image>
+        </view>
+    </view>
+</view>

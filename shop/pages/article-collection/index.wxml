@@ -1,0 +1,55 @@
+<view class='case-page'>
+    <!-- <view class="header-tabbar">
+        <view  bindtap="changeTabBarA">
+            <text >商品</text>
+            <text class="activeBar {{getTabBar == false?'activeBarMoveL':'activeBarMoveR'}}" ></text>
+        </view>
+        <view bindtap="changeTabBarB">
+            <text >视频</text>
+            
+        </view>
+    </view> -->
+    <view wx:if="{{0}}"  class='list-masonry'>
+      <view class='item-masonry' wx:for="{{articleList}}" wx:key="{{item.id}}" data-id="{{item.id}}" bindtap="hrefToDetail">
+        <image src='{{item.firstImg}}' mode='widthFix' class="imageFirst"></image>
+         <image class="video-icon" src='../../images/newIndex/video.png' mode='aspectFit' wx:if="{{item.articleType == 2}}"></image>
+        <view class="title-container">
+            <text class="title">{{item.title}}</text>
+            <view>
+              <view class="avatar-container">
+                <image class="avatar-img" src="{{item.avatar}}" mode="aspectFit"  />
+                <text>{{item.nickname}}</text> 
+              </view>
+              <view class="zan-container">
+                <image class="avatar-img" src="../../images/newIndex/hasZan.png" mode="aspectFit"  />
+                <text>{{item.likeCount}}</text> 
+              </view>
+            </view>
+        </view>
+      </view>
+    </view>
+    <view class='productList'>
+        <view wx:for="{{productList}}" wx:key="{{item.id}}" data-idx="{{item.id}}" bindtap="hreftoShopDetail">
+          <!--左侧商品图片-->
+          <view>
+            <image src="{{item.thumb}}" mode="aspectFit"></image>
+          </view>
+          <!--右侧商品信息、商品价格 -->
+          <view class='productSubscrib'>
+            <view>{{item.title}}</view>
+            <view>
+              <!-- <view  class="inline-view {{item.labels.length>1?'block-view':''}}">
+                <text class="slogan"  wx:for="{{item.labels}}" wx:key="{{index}}" wx:for-item="labelItem" >{{labelItem.labelname}}</text>
+              </view> -->
+              <text class="marketprice priceB">￥</text>
+              <text class="marketprice priceA">{{item.marckPArr[0]}}</text>
+              <text class="marketprice">.{{item.marckPArr[1]}}</text>
+              <text class="productprice">￥{{item.productprice}}</text>
+            </view>
+          </view>
+        </view>
+    </view>
+    <view class="none-msg" wx:if="{{productList.length==0}}">
+      <image class="nostosk" src="../../images/noStosk.png" mode="aspectFit" lazy-load="false" binderror="" bindload="" />
+    </view>
+</view>

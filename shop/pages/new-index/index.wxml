@@ -1,0 +1,50 @@
+<view class='case-page'>
+  <scroll-view scroll-x="true" class="navbar"  scroll-left="{{0}}" wx:if="{{catagoryList.length > 1}}">
+      <view wx:for="{{catagoryList}}"  class="item {{index==choseTap?'active':''}}" wx:key="unique" data-idx="{{index}}" data-id="{{item.id}}" bindtap="changeTap">
+        {{item.name}}
+      </view>
+  </scroll-view>
+  <view class='list-masonry'>
+      <view class='item-masonry' wx:for="{{articleList}}" wx:key="{{item.id}}" data-id="{{item.id}}" bindtap="hrefToDetail">
+        <image src='{{item.firstImg}}' mode='widthFix' class="imageFirst"></image>
+         <image class="video-icon" src='../../images/newIndex/video.png' mode='aspectFit' wx:if="{{item.articleType == 2}}"></image>
+        <view class="title-container">
+            <text class="title">{{item.title}}</text>
+            <view>
+              <view class="avatar-container">
+                <image class="avatar-img" src="{{item.avatar}}" mode="aspectFit"  />
+                <text>{{item.nickname}}</text>
+              </view>
+              <view class="zan-container">
+                <image class="avatar-img" src="../../images/newIndex/hasZan.png" mode="aspectFit"  />
+                <text>{{item.likeCount}}</text>
+              </view>
+            </view>
+        </view>
+      </view>
+  </view>
+  <view class="hasnoneTips" wx:if="{{hasnone}}">
+    <text>没有更多内容了</text>
+  </view>
+  <view class="{{isIpx?'isIpx':''}} tabbar clearfix">
+      <view class="tabbar-block">
+        <image src="/images/index_active.png" class="tabbar-img"/>
+        <text class="tabbar-active">首页</text>
+      </view>
+      <view class="tabbar-block" bindtap="hrefIndex">
+        <image src="/images/index2.png" class="tabbar-img"/>
+        <text>商城</text>
+      </view>
+      <view class="tabbar-block" bindtap="hrefToGold">
+        <image src="/images/money.png" class="tabbar-img"/>
+        <text>购物金</text>
+      </view>
+      <view class="tabbar-block" bindtap="hrefToMine">
+        <image src="/images/mine.png" class="tabbar-img"/>
+        <text>我的</text>
+      </view>
+    </view>
+
+    <!--0元购入口-->
+    <!-- <image wx:if="{{showZero}}" class="bargain-logo" src="../../images/zeroLogo.png" mode="aspectFit" lazy-load="false" bindtap="hrefToBargainList"/> -->
+</view>

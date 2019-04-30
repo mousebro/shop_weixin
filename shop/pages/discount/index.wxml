@@ -1,36 +1,76 @@
 <!--pages/discount/index.wxml-->
 <view class="discount-all-container" >
-<!--商品列表页 头部选项栏-->
-    <view class="fixed-header">
-        <view class="headerTabs" >
-            <view class="{{isChose==1?'isActive':''}}" bindtap='handleTap' data-idx="1">未使用</view>
-            <view class="{{isChose==2?'isActive':''}}" bindtap='handleTap' data-idx="2">已使用</view>
-            <view class="{{isChose==3?'isActive':''}}" bindtap='handleTap' data-idx="3">已过期</view>
+        <view class="header-container">
+                <!--兑换框-->
+                <view class="search-container">
+                        <view class='search-box' >
+                            <input type='text' value="{{searchWord!=''?searchWord:''}}" placeholder="请输入兑换码" class='search-input' confirm-type='search' bindblur="bindKeyInput" bindfocus="changeBtnStyle"></input>
+                        </view>
+                        <view class="exchange-btn {{inputFocus==true?'focus-Btn':''}}" bindtap="redeemPresent">兑换</view>
+                    </view>
+                    <!--导航栏-->
+                    <view class="fixed-header">
+                        <view class="headerTabs" >
+                            <view class="{{isChose==1?'isActive':''}}" bindtap='handleTap' data-idx="1">未使用</view>
+                            <view class="{{isChose==2?'isActive':''}}" bindtap='handleTap' data-idx="2">已使用</view>
+                            <view class="{{isChose==3?'isActive':''}}" bindtap='handleTap' data-idx="3">已过期</view>
+                        </view>
+                    </view>
+            </view>
+
+    <view class="coupon-list">
+        <view class="coupon-item" wx:for="{{couponList}}" wx:key="{{index}}" style="background:#f2f2f2 url({{imgUrl}}) no-repeat;background-size:100% 230rpx;" >
+            <view class="coupon-msg">
+                <view class="left-side {{isChose != 1?'used-coupon-msg':''}}">
+                    <image wx:if="{{isChose == 1}}" class="coupon" src="../../images/receive-coupon-center/coupon.png" mode="aspectFit" lazy-load="false" binderror="" bindload="">
+                    </image>
+                    <view>
+                        <view>{{item.couponname }}</view>
+                        <view  wx:if="{{item.backtype == 0}}">￥<text  decode="true">{{item.deduct}}&nbsp;</text><text wx:if="{{item.enough == '0'}}">无门槛直减</text><text wx:else>满{{item.enough}}可用</text></view>
+                        <view wx:else><text>{{item.discount}}</text> 折 <text wx:if="{{item.enough == '0'}}"> 无门槛直减</text><text wx:else>满{{item.enough}}可用</text></view>
+                        <view class="limit-times">有效期：{{item.startTime}} - {{item.endTime}}</view>
+                    </view>
+                </view>
+                <view   class="right-side" bindtap="getCoupon" data-couponid="{{item.couponid}}" data-isget="{{item.isget}}">
+                    <!--需要有优惠券张数领取限制-->
+                   <text wx:if="{{isChose == 1}}" class="to-use"bindtap="hrefToPageDetail" data-limitgoodcateids="{{item.limitgoodcateids}}" data-limitgoodids="{{item.limitgoodids}}" data-limitgoodtype="{{item.limitgoodtype}}" data-limitgoodcatetype="{{item.limitgoodcatetype}}">立即使用</text>
+                    <!--角标-->
+                    <view wx:if="{{isChose == 2}}" class="right-script" >
+                        已使用
+                    </view>
+                    <view wx:if="{{isChose == 3}}" class="right-script" >
+                        已过期
+                    </view>
+                </view>
+            </view>
+            <view class="coupon-limit {{isChose != 1?'none-msg-used':''}} " catchtap="openLimitMesg" data-idx="{{index}}" >
+                <view class="limit-msg-container " wx:if="{{!item.limitMsg}}">
+                    <text wx:if="{{item.limitmembertype=='super会员'}}"> 仅限{{item.limitmembertype}}</text>
+                    <text wx:if="{{item.limitcategory.length !=0}}" wx:for="{{item.limitcategory}}" wx:for-item="cateItem"> 
+                        <text>仅限{{cateItem.name}}; </text>
+                    </text>
+    
+                    <text wx:if="{{item.limitgoods.length !=0}}" wx:for="{{goodItem}}" wx:for-item="goodItem"> 
+                        仅限{{goodItem.name }} 
+                    </text>
+                </view>
+                <image class="image-More {{item.limitMsg==1?'imageRotate':'imageRotateT'}}" src="../../images/more.png" mode="aspectFit" lazy-load="false" binderror="" bindload="" />
+                <view wx:if="{{item.limitMsg}}" style="width:99%;white-space: normal;padding-bottom:30rpx;max-height: 150rpx;" class="limit-msg-base {{isChose!=1?'grey-backG':''}} {{item.limitMsg==1?'limit-msg-container':''}} ">
+                    <scroll-view class="scroll-view" scroll-y >
+                        <text wx:if="{{item.limitcategory.length !=0}}" wx:for="{{item.limitcategory}}" wx:for-item="cateItem"> 
+                            <text>仅限{{cateItem.name}}; </text>
+                        </text>
+                        <text wx:if="{{item.limitgoods.length !=0}}" wx:for="{{goodItem}}" wx:for-item="goodItem"> 
+                                仅限{{goodItem.name }} 
+                        </text>
+                    </scroll-view>
+                </view>  
+            </view>
+
         </view>
     </view>
-    <view class="discount-session" hover-class="none" hover-stop-propagation="false" >
-        <view  wx:for="{{couponList}}" wx:key="{{index}}" class="discount-item-unuse" style="background:#fff url({{imgUrl}}) no-repeat;background-size:100%" >
-            <view class="price">
-                <view class="{{isChose==1?'fontRed':''}}">
-                <!--再根据具体优惠券类型进行展示-->
-                    <view wx:if="{{item.backtype==0}}" ><text >￥</text><text >{{item.newDeduct[0]}}</text></view>
-                    <view wx:if="{{item.backtype==1}}"><text class="discount">{{item.discount}}</text><text class="count">折</text></view>
-                </view>
-                <text class="{{isChose==1?'fontGray':''}}">满{{item.enough}}可用</text>
-            </view>
-            <view class="title">
-                <!--再根据具体优惠券类型进行展示-->
-                <text  wx:if="{{isChose!=1}}" class="" selectable="false" space="false" decode="false" class="{{isChose==1?'fontBlack':''}}">
-                    {{item.couponname}}
-                </text>
-                <text wx:if="{{isChose==1}}" class="" selectable="false" space="false" decode="false" class="{{isChose==1?'fontBlack':''}}">
-                    {{item.couponname}}
-                </text>
-                <text class="{{isChose==1?'fontGray':''}}">有效期：{{item.startTime}} - {{item.endTime}}</text>
-            </view>
-        </view>
-        <view style="text-align:center;height:400rpx;line-height:400rpx;" wx:if="{{couponList.length==0}}">
-                暂无优惠券
-        </view>
+    <view class="no-coupons" wx:if="{{couponList.length == 0}}">
+        <image class="none-img" src="../../images/discount/none.png" mode="aspectFit" lazy-load="false" binderror="" bindload="" />
+         <view class="none-msg ">无可用优惠券</view>
     </view>
 </view>

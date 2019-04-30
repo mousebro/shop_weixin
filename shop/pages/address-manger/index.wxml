@@ -20,7 +20,7 @@
     value="{{region}}"
       bindchange="bindRegionChange" >
       <view  class="address-msg">
-       <text wx:if="{{region!=''}}" style="font-size:28rpx;"> {{region[0]}}，{{region[1]}}，{{region[2]}}</text>
+       <text wx:if="{{region!=''}}" style="font-size:28rpx;" class="address-text"> {{region[0]}}，{{region[1]}}，{{region[2]}}</text>
         <image src='../../images/address/more.png'  class='more-pic'></image>
       </view>
     </picker>

@@ -33,7 +33,21 @@ Page({
     });
   },
   onLoad: function () {
+
+    app.userView('RecordExposurenum') //统计平台曝光度记录
     this.initEleWidth();
+    let _this = this
+    let showAddTips = wx.getStorageSync('showAddTips') //提示
+    if (showAddTips === '') {
+      _this.setData({
+        showAddTips:true
+      })
+    }
+    else {
+      _this.setData({
+        showAddTips:false
+      })
+    }
   },
   onShow: function(){
       // var shopList = [];
@@ -73,7 +87,6 @@ Page({
         let code = res.data.baseServerInfo.code
         let msg = res.data.baseServerInfo.msg
         if (code == 1) {
-          console.log(res);
           let shopList = []
           let toolShopList = res.data.cartList
           for (var i = 0; i < toolShopList.length; i++) {
@@ -82,12 +95,18 @@ Page({
             let total = toolShopList[i].total // 商品数量
             let goodsTitle = toolShopList[i].goodsTitle // 商品名称
             let thumb = toolShopList[i].thumb // 商品缩略图
+            let cateTotal = [] //商品所属分类
+            let spec = toolShopList[i].spec //商品规格
+            let specTitle = toolShopList[i].optionname //商品规格
+            cateTotal.push(toolShopList[i].ccate)
+            cateTotal.push(toolShopList[i].pcate)
+            cateTotal.push(toolShopList[i].tcate)
             let url = thumb.substring(0,4)
             if (url != 'http') {
               toolShopList[i].thumb = app.globalData.imageUrl+thumb
             }
             let price = toolShopList[i].marketprice // 商品单价
-            shopList.push({id:shopId,goodsId:goodsId,name:goodsTitle,number:total,pic:toolShopList[i].thumb,price:price})
+            shopList.push({id:shopId,goodsId:goodsId,name:goodsTitle,number:total,pic:toolShopList[i].thumb,price:price,cateTotal:cateTotal,spec:spec,specTitle:specTitle})
           }
           this.data.goodsList.list = shopList;
           this.setGoodsList(this.getSaveHide(),this.totalPrice(),this.allSelect(),this.noSelect(),shopList);
@@ -167,12 +186,37 @@ Page({
     list.splice(index,1);
     var delGoodsId = e.currentTarget.dataset.id
     delGoodsIdList.push(delGoodsId)
-    console.log(delGoodsIdList);
     this.setData({
       delGoodsIdList:delGoodsIdList
     })
     this.delGoods()
     this.setGoodsList(this.getSaveHide(),this.totalPrice(),this.allSelect(),this.noSelect(),list);
+  },
+  // 点击减号删除商品
+  delShop:function(e){
+    let _this = this
+    wx.showModal({
+      title: '提示',
+      content: '确认移除该商品？',
+      success(res) {
+        if (res.confirm) {
+          var index = e.currentTarget.dataset.index;
+          var list = _this.data.goodsList.list;
+          var delGoodsIdList = []
+          list.splice(index,1);
+          var delGoodsId = e.currentTarget.dataset.id
+          delGoodsIdList.push(delGoodsId)
+          _this.setData({
+            delGoodsIdList:delGoodsIdList
+          })
+          _this.delGoods()
+          _this.setGoodsList(_this.getSaveHide(),_this.totalPrice(),_this.allSelect(),_this.noSelect(),list);
+        }
+        else if (res.cancel) {
+
+        }
+      }
+    })
   },
   // 服务器删除购物车商品
   delGoods: function(){
@@ -527,7 +571,7 @@ Page({
   //跳转到分类
   hrefToSort: function(){
     wx.reLaunch({
-      url: '/pages/sort/index'
+      url: '/pages/shop-list/index'
     })
   },
   //跳转到个人中心
@@ -535,5 +579,13 @@ Page({
     wx.reLaunch({
       url: '/pages/mine/index'
     })
+  },
+  // 关闭添加小程序提示
+  closeAddtips:function(){
+    let _this = this
+    _this.setData({
+      showAddTips:false
+    })
+    wx.setStorageSync('showAddTips', false)
   },
 })

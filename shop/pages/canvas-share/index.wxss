@@ -1,0 +1,21 @@
+/* pages/canvas-share/index.wxss */
+.body{width: 100%;height: 100vh;background-color: #000000;position: relative;}
+.bgcolor{position: absolute;top: 20rpx;left: 3%;width: 94%;height: calc(100vh - 80px);background: linear-gradient(to bottom,#ec6649, #db4247);z-index: 20}
+.shopInfo{position: absolute;top: 40rpx;left: 6%;width: 88%;height: calc(100vh - 100px);background-color: #ffffff;z-index: 21}
+.shopinfo-img{width: 90%;margin-left: 5%;}
+.shopinfo-img image{width: 100%;}
+.shopinfo-detail{width: 90%;margin-left: 5%;text-align: left;margin-top: 20rpx;}
+.shopinfo-detail text:nth-child(1){display: block;width: 100%;font-size: 36rpx;overflow: hidden;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 3;}
+.shopinfo-detail text:nth-child(2){display: block;width: 100%;font-size: 28rpx;color: #777777;height: 60rpx;line-height: 60rpx;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;}
+.shopinfo-detail text:nth-child(3){font-size: 36rpx;color: #ea4149;font-weight: bold;}
+.shopinfo-detail text:nth-child(4){font-size: 26rpx;color: #777777;font-weight: bold;margin-left: 20rpx;text-decoration:line-through;}
+.button{position:fixed;bottom: 0;left: 0;width: 100%;height: 120rpx;line-height: 120rpx;background-color: #343434;text-align: center;}
+.button text{color: #ffffff;font-size: 36rpx;font-weight: bold;}
+.avtiveBtn{background: linear-gradient(to right bottom,#ec6649, #db4247);}
+.doneBtn{background: #343434;}
+.canvas{position: absolute;top: -2000px;}
+.shopinfo-brcode{text-align:center}
+.shopinfo-brcode image{width: 200rpx;height: 200rpx;margin-top: 20rpx;}
+#shareCanvas{width:400px;height:400px;}
+
+page{background: #f2f2f2;}

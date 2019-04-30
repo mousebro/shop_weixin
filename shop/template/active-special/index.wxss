@@ -1,0 +1,29 @@
+/*1行1列*/
+.line-one{width:702rpx;height:301rpx;border-radius: 26rpx;background: #fff;margin:0 auto;margin-bottom:30rpx;overflow: hidden;position: relative;}
+.line-one>.item-img{width:100%;height:calc(100% - 54rpx);}
+.line-one>.line-item{height:54rpx;width:100%;position: absolute;bottom:0;left:0;background:#f3e0b5;}
+.line-one>.line-item .msg-bg{width:277rpx;height:46rpx;position: absolute;top:0;right:0;left:0;bottom:0;margin:auto;z-index: 10;}
+.line-one>.line-item .title{text-align: center;color:#fff;letter-spacing: 17rpx;font-size:36rpx;padding-left:17rpx;display: inline-block;height:46rpx;line-height: 46rpx;}
+.line-one>.line-item .flag{width:66rpx;height:46rpx;border-radius:23rpx;background:#cf141a;color:#fff;position: absolute;top:5rpx;right:140rpx;font-size:30rpx;text-align: center;line-height:46rpx;}
+.line-item>view{display: flex;justify-content:center;align-items: center;width: 100%;height: 100%;}
+/*1行2列*/
+.itemList-two{width:calc(100% - 40rpx);margin:0 auto;display: flex;justify-content: space-between;flex-wrap: wrap;overflow: hidden;}
+.itemList-two>.line-one{width:347rpx;height:300rpx;}
+.itemList-two>.line-one>.line-item .msg-bg{width:220rpx;height:42rpx;left:-80rpx;display: inline-block;z-index: 10;}
+.itemList-two>.line-one>.line-item .title{font-size:32rpx;letter-spacing: 0;line-height: 42rpx;}
+.itemList-two>.line-one>.line-item .flag{right:40rpx;font-size:30rpx;width:56rpx;height:36rpx;line-height: 36rpx;top:10rpx;}
+
+/*1行3列*/
+.itemList-th{width:calc(100% - 40rpx);margin:0 auto;display: flex;justify-content: space-between;flex-wrap: wrap;}
+.itemList-th>.line-one{width:223rpx;height:300rpx;}
+.itemList-th>.line-one>.line-item .msg-bg{width:177rpx;height:36rpx;z-index: 10;}
+.itemList-th>.line-one>.line-item .title{font-size:28rpx;letter-spacing: 0;line-height: 36rpx;padding:0;text-align: center;display: inline-block;width: 100%;}
+.itemList-th>.line-one>.line-item .flag{right:40rpx;font-size:30rpx;width:56rpx;height:36rpx;line-height: 36rpx;top:10rpx;}
+
+/*黑色专题做的样式调整*/
+.back-item-bg{background: #3f2908 !important;}
+.back-item-text{font-weight: bold;background: linear-gradient(to bottom, #f8da8e 40%, #c2974b 60%, #efc77e) !important;-webkit-background-clip: text !important;color: transparent !important;}
+.flag-go{font-weight: bold;background: linear-gradient(to bottom, #f8da8e 40%, #c2974b 60%, #efc77e) !important;-webkit-background-clip: text !important;color: transparent !important;display: flex;align-items: center;}
+.arrow-img{width:14rpx;height:24rpx;margin-left:5rpx;}
+.flag1{letter-spacing: 0 !important;font-size:30rpx !important;}
+

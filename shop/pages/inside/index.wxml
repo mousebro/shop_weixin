@@ -1,7 +1,7 @@
 <view class="wine-bg">
-  <image src="https://allnet-shop-cdn.91uda.com/images/active/al_bg.png" mode="widthFix"></image>
+  <image src="https://allnet-shop-cdn.91uda.com/images/active/oyyxinside.jpg" mode="widthFix"></image>
 </view>
-<view class="wind-body {{isIpx?'IpxTop':''}} {{deviceHeight > 750 & !isIpx?'IpxTop2':''}}">
+<!-- <view class="wind-body {{isIpx?'IpxTop':''}} {{deviceHeight > 750 & !isIpx?'IpxTop2':''}}">
   <image src="https://allnet-shop-cdn.91uda.com/images/active/al1.png" data-id="273" mode="widthFix" bindtap="hrefToDetail"></image>
   <image src="https://allnet-shop-cdn.91uda.com/images/active/al2.png" data-id="274" mode="widthFix" bindtap="hrefToDetail"></image>
   <image src="https://allnet-shop-cdn.91uda.com/images/active/al8.png" data-id="269" mode="widthFix" bindtap="hrefToDetail"></image>
@@ -9,4 +9,4 @@
   <image src="https://allnet-shop-cdn.91uda.com/images/active/al5.png" data-id="271" mode="widthFix" bindtap="hrefToDetail"></image>
   <image src="https://allnet-shop-cdn.91uda.com/images/active/al6.png" data-id="272" mode="widthFix" bindtap="hrefToDetail"></image>
   <image src="https://allnet-shop-cdn.91uda.com/images/active/al7.png" data-id="275" mode="widthFix" bindtap="hrefToDetail"></image>
-</view>
+</view> -->

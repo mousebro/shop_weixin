@@ -1,0 +1,144 @@
+<!--pages/present-card/index.wxml 礼品页-->
+<view class="header-container">
+    <!--兑换框-->
+    <view class="search-container">
+            <view class='search-box' >
+                <input type='text' value="{{searchWord!=''?searchWord:''}}" placeholder="请输入兑换码" class='search-input' confirm-type='search' bindblur="bindKeyInput" bindfocus="changeBtnStyle"></input>
+            </view>
+            <view class="exchange-btn {{inputFocus==true?'focus-Btn':''}}" bindtap="redeemPresent">兑换</view>
+        </view>
+        <!--导航栏-->
+        <view class="fixed-header">
+            <view class="headerTabs" >
+                <view class="{{isChose==1?'isActive':''}}" bindtap='handleTap' data-idx="1">未使用</view>
+                <view class="{{isChose==2?'isActive':''}}" bindtap='handleTap' data-idx="2">已使用</view>
+                <view class="{{isChose==3?'isActive':''}}" bindtap='handleTap' data-idx="3">已过期</view>
+            </view>
+        </view>
+</view>
+<!--礼品卡列表-->
+<view class="card-list">
+    <view class="card {{isChose!=1?'card-used':''}}" wx:for="{{presentList}}" wx:key="unique">
+
+        <view class="card-title-contaier">
+            <view class="left-side">
+                    <view class="title">{{item.presentname}}</view>
+                    <view class="code">礼品码：{{item.code}}</view>
+            </view>
+            <view class="right-side">
+                <view wx:if="{{isChose==2}}" class="used-flag flag">已使用</view>
+                <view wx:if="{{isChose==3}}" class="overtime-flag flag">已过期</view>
+            </view>
+        </view>
+        <view class="card-detail-container">
+            <view class="level-one">
+                <view class="limit-time">有效期：{{item.newStartTime}} - {{item.newEndTime}}</view>
+                <view class="price">
+                    <text>￥</text>
+                    <text>{{item.priceArr[0]}}</text>
+                    <text>{{item.priceArr[1]}}</text>
+                </view>
+            </view>
+            <view class="msg">
+                <scroll-view class="scroll-view-contain" scroll-y>
+                    <view class='item-container order-msg-container order-remark'>
+                            <view class='order-msg-item'  bindtap="openResponse" data-op="{{item.openResponse}}" data-idx="{{index}}">
+                                <text class='order-msg-title' >说 明:</text>
+                                <text decode="true" class="{{item.openResponse==1?'responseMsg':'responseMsg2'}}">{{item.content}}</text>
+                                <image wx:if="{{item.content.length> 40}}" src="../../images/more.png" mode="aspectFit" class="more-img {{item.openResponse==1?'':'more-img-rotate'}}" ></image>
+                            </view>
+                        </view>
+                </scroll-view>
+            </view>
+        </view>
+    </view>
+</view>
+
+<!--无可用卡券-->
+<view class="no-coupons" wx:if="{{presentList.length == 0}}">
+    <image class="none-img" src="../../images/discount/none.png" mode="aspectFit" lazy-load="false" binderror="" bindload="" />
+        <view class="none-msg ">没有更多卡券了~</view>
+</view>
+
+<!--兑换礼品卡成功弹窗-->
+<view class="mask" wx:if="{{showMask}}" bindtap="closeMask"></view>
+<view class="success-toast" wx:if="{{showMask}}">
+    <image class="bg-toast" src="https://allnet-shop-cdn.91uda.com/images/1/2019/04/L67cCCc2C6h7VcCIEqldQbviDx662V.png" mode="aspectFit" lazy-load="false" binderror="" bindload="" />
+    <image bindtap="closeMask" class="close-btn" src="../../images/toClose.png" mode="aspectFit" lazy-load="false" />
+    <view class='success-title'>兑换成功</view>
+    <view class="card-contain">
+        <scroll-view class="scroll-view" scroll-y>
+                <!--礼品券-->
+                <view class="card {{isChose!=1?'card-used':''}}" wx:for="{{presentListSucc}}" wx:key="unique">
+
+                        <view class="card-title-contaier">
+                            <view class="left-side">
+                                    <view class="title">{{item.presentname}}</view>
+                                    <view class="code">礼品码：{{item.code}}</view>
+                            </view>
+                        </view>
+                        <view class="card-detail-container">
+                            <view class="level-one">
+                                <view class="limit-time">有效期：{{item.newStartTime}} - {{item.newEndTime}}</view>
+                                <view class="price">
+                                    <text>￥</text>
+                                    <text>{{item.priceArr[0]}}</text>
+                                    <text>{{item.priceArr[1]}}</text>
+                                </view>
+                            </view>
+                            <view class="msg">
+                                <scroll-view class="scroll-view-contain" scroll-y>
+                                    <view class='item-container order-msg-container order-remark'>
+                                            <view class='order-msg-item'  bindtap="openResponse" data-op="{{item.openResponse}}" data-idx="{{index}}">
+                                                <text class='order-msg-title' >说 明:</text>
+                                                <text decode="true" class="{{item.openResponse==1?'responseMsg':'responseMsg2'}}">{{item.content}}</text>
+                                                <image wx:if="{{item.content.length> 40}}" src="../../images/more.png" mode="aspectFit" class="more-img {{item.openResponse==1?'':'more-img-rotate'}}" ></image>
+                                            </view>
+                                        </view>
+                                </scroll-view>
+                            </view>
+                        </view>
+                </view>
+                <!--优惠券-->
+                <view class="coupon-item" wx:for="{{couponListSucc}}" wx:key="{{index}}" style="background:transparent url({{imgUrl}}) no-repeat;background-size:100% 230rpx;" >
+                    <view class="coupon-msg">
+                        <view class="left-side {{isChose != 1?'used-coupon-msg':''}}">
+                            <image wx:if="{{isChose == 1}}" class="coupon" src="../../images/receive-coupon-center/coupon.png" mode="aspectFit" lazy-load="false" binderror="" bindload="">
+                            </image>
+                            <view>
+                                <view>{{item.couponname }}</view>
+                                <view  wx:if="{{item.backtype == 0}}">￥<text  decode="true">{{item.deduct}}&nbsp;</text><text wx:if="{{item.enough == '0'}}">无门槛直减</text><text wx:else>满{{item.enough}}可用</text></view>
+                                <view wx:else><text>{{item.discount}}</text> 折 <text wx:if="{{item.enough == '0'}}"> 无门槛直减</text><text wx:else>满{{item.enough}}可用</text></view>
+                                <view class="limit-times">有效期：{{item.startTime}} - {{item.endTime}}</view>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="coupon-limit {{isChose != 1?'none-msg-used':''}} " catchtap="openLimitMesg" data-idx="{{index}}" >
+                        <view class="limit-msg-container " wx:if="{{!item.limitMsg}}">
+                            <text wx:if="{{item.limitmembertype=='super会员'}}"> 仅限{{item.limitmembertype}}</text>
+                            <text wx:if="{{item.limitcategory.length !=0}}" wx:for="{{item.limitcategory}}" wx:for-item="cateItem"> 
+                                <text>仅限{{cateItem.name}}; </text>
+                            </text>
+            
+                            <text wx:if="{{item.limitgoods.length !=0}}" wx:for="{{goodItem}}" wx:for-item="goodItem"> 
+                                仅限{{goodItem.name }} 
+                            </text>
+                        </view>
+                        <image class="image-More {{item.limitMsg==1?'imageRotate':'imageRotateT'}}" src="../../images/more.png" mode="aspectFit" lazy-load="false" binderror="" bindload="" />
+                        <view wx:if="{{item.limitMsg}}" style="width:99%;white-space: normal;padding-bottom:30rpx;max-height: 150rpx;" class="limit-msg-base {{isChose!=1?'grey-backG':''}} {{item.limitMsg==1?'limit-msg-container':''}} ">
+                            <scroll-view class="scroll-view" scroll-y >
+                                <text wx:if="{{item.limitcategory.length !=0}}" wx:for="{{item.limitcategory}}" wx:for-item="cateItem"> 
+                                    <text>仅限{{cateItem.name}}; </text>
+                                </text>
+                                <text wx:if="{{item.limitgoods.length !=0}}" wx:for="{{goodItem}}" wx:for-item="goodItem"> 
+                                        仅限{{goodItem.name }} 
+                                </text>
+                            </scroll-view>
+                        </view>  
+                    </view>
+        
+                </view>
+        </scroll-view>
+          
+    </view>
+</view>

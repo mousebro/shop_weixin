@@ -1,0 +1,24 @@
+/* pages/bargain-pay-success/index.wxss */
+/*支付成功图标*/
+page{background:#f2f2f2;}
+.pay{display: flex;justify-content: flex-start;flex-direction: column;align-items: center;background: #fff;margin-top:20rpx;}
+.pay>.success-img{width:220rpx;height:220rpx;}
+.pay>.success-msg{font-size:34rpx;font-weight:500;margin-bottom:40rpx;}
+.pay>.btn-container{width:75%;display: flex;justify-content: space-between;}
+.pay>.btn-container>text{font-size:30rpx;padding:18rpx 75rpx;border:1px solid #ea4149;font-weight:500;border-radius:10rpx;color:#ea4149;}
+.pay>.btn-container>text:last-child{color:#222222;border:1px solid #222222;}
+.pay>.btn-more{display: flex;justify-content: center;width:75%;text-align: center;background:linear-gradient(to right,#ea4149 30%,#fe6748);line-height:40rpx;font-size:30rpx;color:#fff;margin:30rpx 0 60rpx 0;border-radius: 10rpx;height: 80rpx;align-items: center;line-height:0rpx;}
+
+/*推荐商品*/
+.shop-list{width:100%;padding:20rpx 0;}
+.shop-list  > text{text-align: center;position: relative;display: block;width: 100%;margin: 10rpx 0;font-size: 32rpx}
+.shop-list  > text::before{content: '';position: absolute;left: 150rpx;top: 24rpx;width: 100rpx;height: 2rpx;background-color: #c3c3c3;}
+.shop-list  > text::after{content: '';position: absolute;right: 150rpx;top: 24rpx;width: 100rpx;height: 2rpx;background-color: #c3c3c3;}
+.shop-list-block{width: 45%;margin: 10rpx 0;padding: 20rpx 2%;float: left;background-color: #ffffff;border-radius: 8rpx;}
+.shop-list>.shop-list-block:nth-child(even){margin-right:1%;}
+.shop-list>.shop-list-block:nth-child(odd){margin-left:1%;}
+.shop-list-block image{width: 100%;height: 300rpx;}
+.shop-list-block .list-block-title{display: block;text-align: left;height: 40rpx;line-height: 40rpx;}
+.shop-list-block .list-block-title{font-size: 28rpx;color: #777777;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;}
+.shop-list-block .list-block-marketprice{font-size: 28rpx;color: #ea4149;}
+.shop-list-block .list-block-delprice{font-size: 20rpx;color: #777777;text-decoration:line-through;margin-left:10rpx;}

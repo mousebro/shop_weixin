@@ -32,7 +32,6 @@
       <text>￥{{goodsDetail.groupsprice}}</text>
       <image bindtap="closeModal2" src="/images/close.png"/>
     </view>
-
     <!-- <view class="modal-shopCount">
        <text class="modal-shopCount-number">购买数量</text>
        <view class="modal-shopCount-box">
@@ -56,6 +55,44 @@
     <image src="/images/backToIndex.png" class="swiper-index" mode="aspectFill" bindtap="herfToIndex"/>
   </view>
   <!-- 滚动区域 -->
+   <!--拼团详情正在拼团列表 悬浮框-->   
+  <view class="group-buy-list-container {{isShowList == true?'hidden-msak':''}}" >
+      <image src="../../images/group-buy/close.png" class="close-btn" bindtap='closeGroupList'></image>
+      <view class='list-header' style="padding:20rpx;">正在拼单</view>
+      <scroll-view style="height:calc(100% - 240rpx);width:90%;margin:auto;" scroll-y >
+        <view bindtap="goToGroupBuy" wx:for="{{teamList}}" wx:key="{{index}}"  data-teamid="{{item.teamid}}" data-goodsid="{{item.goodsid}}" data-index="{{index}}" class="group-list-item"  wx:if="{{index<10}}"> <!--只显示10条拼单数据-->
+          <view  class="avator-name-container">
+            <image src="{{item.avatar}}" class='avator'></image>
+            <view>
+              <view>
+                <text class="name">{{item.nickname}}</text>还差<text style="color:#ea4148">{{item.groupnum - item.nownum}}</text>人
+              </view>
+               <view>剩余 {{timeList[index].hours}}:{{timeList[index].minutes}}:{{timeList[index].secondeds}}</view>
+            </view>
+          </view>
+          <view  class="go-group-Btn">去拼单</view>
+        </view>
+      </scroll-view>
+  </view>
+  <view class="group-buy-list-container list-one-container {{isShowItem == true?'hidden-msak':''}}  {{goodsDetail.groupnum>3?'list-one-container-heigher':''}}"  style="padding-top:0;">
+      <image src="../../images/group-buy/close.png" class="close-btn" bindtap='closePersonalGroup'></image>
+      <view class='list-header list-one-header'  >参与{{teamList[choseIndex].nickname}}的拼团</view>
+      <view class="list-one-session">
+          <view class="list-item"  >
+          仅剩<text class="list-item-count" >{{oneTeamDetail.leftnum}}</text>个名额，{{oneGroupTime.hours}}:{{oneGroupTime.minutes}}:{{oneGroupTime.secondeds}}后结束
+          </view>
+            <view class="list-item-avator-container {{oneTeamDetail.member.length == 4?'list-item-avator-container-flex':''}}">
+              <view class="team-avatar" wx:for="{{oneTeamDetail.member}}" wx:key="{{index}}" data-id="{{item.id}}">
+                <image src="{{item.avatar}}" class='avator'></image>
+                <text wx:if="{{item.source == 1}}" class="team-leader">团长</text>
+              </view>
+              <view class=""  wx:for="{{oneTeamDetail.leftnum}}" wx:key="{{index}}">
+                <image src="../../images/group-buy/noBody.png" class='avator'></image>
+              </view>
+            </view>
+            <view class="list-one-btn"  bindtap="joinGroups" data-teamid="{{oneTeamDetail.id}}">参与拼单</view>
+      </view>
+  </view>
     <scroll-view class="scroll-body" scroll-y="true" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}" scroll-with-animation="true">
     <!-- 商品轮播图 -->
     <view style="position:relative;">
@@ -82,7 +119,8 @@
           <view>成团</view>
         </view>
         <view class="countDown-group-price">
-          <text>￥</text><text>{{goodsDetail.priceArr[0]}}.</text><text>{{goodsDetail.priceArr[1]}}</text><text>￥{{goodsDetail.singleprice}}</text>
+            <!-- <text class="slogan" style="padding:0rpx 10rpx;color:#ea4149;font-size:28rpx;border:1px solid #ea4149;border-radius:8rpx;margin-right:6rpx;display: inline-block;vertical-align: 15%;">新春特惠</text> -->
+          <text class="price-icon">￥</text><text class="priceArr-a">{{goodsDetail.priceArr[0]}}.</text><text class="priceArr-b">{{goodsDetail.priceArr[1]}}</text><text class="singleprice">￥{{goodsDetail.singleprice}}</text>
           <view>已拼<text>{{goodsDetail.sales}}</text>件</view>
         </view>
         <!--团购倒计时暂时不做-->
@@ -92,13 +130,13 @@
         </view> -->
       </view>
       <!-- 商品名称 -->
-      <!-- <view class="shop-detail-price">
+      <view class="shop-detail-price">
         <text>{{goodsDetail.title}}</text>
-      </view> -->
+      </view>
       <!-- 会员折扣 -->
       <!-- <view class="shop-detail-super">
         <image src="/images/super.png"  mode="widthFix"/>
-        <text>会员下单再享98折，可省18.00元</text>
+        <text>会员下单再享{{supDiscount}}折</text>
       </view> -->
     </view>
     <!--优惠券-->
@@ -134,49 +172,14 @@
           </view>
       </view>
     </view>
-    <!--拼团详情正在拼团列表 悬浮框-->
-    <view class="mask  {{isShowList == true?'hidden-msak':''}}" >
-      <view class='group-buy-list-container' >
-          <image src="../../images/group-buy/close.png" class="close-btn" bindtap='closeGroupList'></image>
-          <view class='list-header' style="padding:20rpx;">正在拼单</view>
-          <scroll-view style="height:calc(100% - 240rpx);width:90%;margin:auto;" scroll-y >
-            <view bindtap="goToGroupBuy" wx:for="{{teamList}}" wx:key="{{index}}"  data-teamid="{{item.teamid}}" data-goodsid="{{item.goodsid}}" data-index="{{index}}" class="group-list-item"  wx:if="{{index<10}}"> <!--只显示10条拼单数据-->
-              <view  class="avator-name-container">
-                <image src="{{item.avatar}}" class='avator'></image>
-                <view>
-                  <view>
-                    <text class="name">{{item.nickname}}</text>还差<text style="color:#ea4148">{{item.groupnum - item.nownum}}</text>人
-                  </view>
-                   <view>剩余 {{timeList[index].hours}}:{{timeList[index].minutes}}:{{timeList[index].secondeds}}</view>
-                </view>
-              </view>
-              <view  class="go-group-Btn">去拼单</view>
-            </view>
-          </scroll-view>
-      </view>
-    </view>
+
+    <!-- <view class="masked" > -->
+
+    <!-- </view> -->
     <!--单个拼团信息-->
-    <view class="mask {{isShowItem == true?'hidden-msak':''}}" >
-      <view class="group-buy-list-container list-one-container  {{goodsDetail.groupnum>3?'list-one-container-heigher':''}}"  style="padding-top:0;">
-          <image src="../../images/group-buy/close.png" class="close-btn" bindtap='closePersonalGroup'></image>
-          <view class='list-header list-one-header'  >参与{{teamList[choseIndex].nickname}}的拼团</view>
-          <view class="list-one-session">
-              <view class="list-item"  >
-              仅剩<text class="list-item-count" >{{oneTeamDetail.leftnum}}</text>个名额，{{oneGroupTime.hours}}:{{oneGroupTime.minutes}}:{{oneGroupTime.secondeds}}后结束
-              </view>
-                <view class="list-item-avator-container {{oneTeamDetail.member.length == 4?'list-item-avator-container-flex':''}}">
-                  <view class="team-avatar" wx:for="{{oneTeamDetail.member}}" wx:key="{{index}}" data-id="{{item.id}}">
-                    <image src="{{item.avatar}}" class='avator'></image>
-                    <text wx:if="{{item.source == 1}}" class="team-leader">团长</text>
-                  </view>
-                  <view class=""  wx:for="{{oneTeamDetail.leftnum}}" wx:key="{{index}}">
-                    <image src="../../images/group-buy/noBody.png" class='avator'></image>
-                  </view>
-                </view>
-                <view class="list-one-btn"  bindtap="joinGroups" data-teamid="{{oneTeamDetail.id}}">参与拼单</view>
-          </view>
-      </view>
-    </view>
+    <!-- <view class="masked {{isShowItem == true?'hidden-msak':''}}" > -->
+
+    <!-- </view> -->
   <!-- 评价 -->
   <view class="shop-assess" wx:for="{{commentList}}" wx:key="{{item.id}}" bindtap="hrefToCommentList">
     <view class="shop-assess-title">
@@ -230,7 +233,7 @@
     <block>
       <action-sheet-item bindtap="call">拨打客服热线</action-sheet-item>
       <action-sheet-item >
-        <button open-type="contact" type="button" name="button" bindtap="close">客服消息入口</button>
+        <button hover-class="none" open-type="contact" type="button" name="button" bindtap="close">客服消息入口</button>
       </action-sheet-item>
     </block>
     <!--自动隐藏action-sheet-->

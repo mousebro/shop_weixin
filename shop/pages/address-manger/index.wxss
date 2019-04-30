@@ -12,7 +12,9 @@ page{background: #f2f2f2;height:calc(100% - 20rpx)}
 
 /*所在地区*/
 .address-belong{display:flex;justify-content:space-between;border-bottom:1px solid #f2f2f2;line-height:100rpx;align-items:center;margin-left: 30rpx;padding-right:30rpx;}
-.address-msg{width:500rpx;height:100rpx;display:flex;justify-content:flex-end;align-items:center;}
+.address-msg{width:480rpx;height:100rpx;display:flex;justify-content:space-between;align-items:center;}
 .more-pic{height:25rpx;width:15rpx;margin-left:20rpx}
 /*新建收货地址按钮*/
 .add-address-btn{position: absolute;bottom:0;width: 95%;margin:20rpx;background:linear-gradient(to right bottom,#eb414a 10%,#fe6748);color:#fff;}
+
+.address-text{display:inline-block;width:90%;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;}

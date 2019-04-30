@@ -9,7 +9,9 @@
 /*待付款商品列表*/
 .product-list{padding:20rpx 0 0;}
 .product-item{display: flex;justify-content: space-between;align-items: center;padding:20rpx 40rpx;}
-.product-item .product-item-img{width:94rpx;height:100rpx;vertical-align: middle;margin-right: 35rpx;}
+.product-item .product-item-img{width:100rpx;height:100rpx;vertical-align: middle;margin-right: 35rpx;}
+.product-list>.product-item:not(:last-child)>view{display: flex;width:90%;flex-direction:flex-start;}
+.image-container{box-sizing:border-box;}
 .product-item .product-item-text,.product-item-count{font-size:30rpx;}
 .product-item-total{display: flex;justify-content: space-between;align-items: center;border-bottom: 1px solid #f2f2f2;}
 /*如果商品列表条数小于两条隐藏省略号*/

@@ -25,11 +25,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    app.userView('RecordExposurenum') //统计平台曝光度记录
     let _this = this
     _this.getTimeList()
-    //请求时间列表及项目
-    //this.getTimeList()
-    //this.getTime(1545750000000)将头部时间转换为如10:00格式
   },
   onUnload(){
   },
@@ -37,7 +35,15 @@ Page({
     //需要拿到正在进行秒拍活动的时间以及当前的服务器时间
     let _this = this
     //设置正在进行秒杀活动的倒计时
-    _this.countDown(_this.data.startTime, _this.data.timeList[_this.data.idx+1].time)
+  
+    if(!_this.data.timeList[_this.data.idx])return
+    // console.log("fdsafd")
+    if(_this.data.isFlash == 2 && _this.data.timeList[_this.data.idx+1].time){
+      _this.countDown(_this.data.startTime, parseInt(_this.data.startTime)+1)
+    }else{
+      _this.countDown(_this.data.startTime, _this.data.timeList[_this.data.idx+1].time)
+    }
+    
   },
   //头部导航点击行为
   handleChose(e){
@@ -83,6 +89,7 @@ Page({
         if(timeList[i].status == 1){
           timeList[i].title = '即将开始'
         }else if(timeList[i].status == 2){
+          console.log(timeList[i].time,'开始时间')
           timeList[i].title = '正在进行'
           _this.setData({
             idx:parseInt(i), //默认选中正在进行的秒拍的时间
@@ -96,16 +103,20 @@ Page({
         }else if(timeList[i].status == 3){
           timeList[i].title = '已结束'
           if((parseInt(i)+1)<timeList.length && timeList[parseInt(i)+1].status == 1){
-            activeItem = timeList[i].toViewId
+            timeList[parseInt(i)+1].toViewId = 'item'+timeList[parseInt(i)+1].id
+            timeList[parseInt(i)+1].timeStr = timeList[parseInt(i)+1].time+':00' //转成5:00的时间格式
+            activeItem =timeList[parseInt(i)+1].toViewId
+            timeList[parseInt(i)+1].title = '即将开始'
+            _this.setData({
+              idx:parseInt(i)+1, //默认选中正在进行的秒拍的时间
+              startTime:timeList[parseInt(i)+1].time,
+              isFlash:1,
+              timeid:timeList[parseInt(i)+1].id,
+              nowPage:1,
+              choseTime:timeList[parseInt(i)+1].timeStr
+            })
           }
-          _this.setData({
-            idx:parseInt(i), //默认选中正在进行的秒拍的时间
-            startTime:timeList[i].time,
-            isFlash:3,
-            timeid:timeList[i].id,
-            nowPage:1,
-            choseTime:timeList[i].timeStr
-          })
+
         }
         
       }
@@ -124,6 +135,8 @@ Page({
   hrefToDetail(e){
     let idx = e.currentTarget.dataset.idx
     let isFlash = this.data.isFlash
+    let saleRate = e.currentTarget.dataset.salerate
+    console.log(e.currentTarget.dataset)
     if(isFlash!=2){
       if(isFlash == 3){
         wx.showModal({
@@ -143,10 +156,21 @@ Page({
         })
       }
       return
+    }else if(saleRate==100){
+      wx.showModal({
+        title:'提示',
+        content:"该秒杀已结束",
+        showCancel:false,
+        success:()=>{
+        }
+      })
+      return
+    }else if(saleRate!=100){
+      wx.navigateTo({
+        url: '/pages/flash/index?Id='+idx+'&start='+this.data.newStart+'&end='+this.data.newEnd,
+      })
     }
-    wx.navigateTo({
-      url: '/pages/flash/index?Id='+idx+'&start='+this.data.newStart+'&end='+this.data.newEnd,
-    })
+
   },
   //进行时间转换 头部5:00
   getTime(time){
@@ -164,6 +188,7 @@ Page({
     let newStart = _this.data.nowTimeStamp*1000-(date.getHours()-start)*3600*1000 - date.getMinutes()*60*1000-date.getSeconds()*1000
     let newEnd = (end-start)*3600*1000 + newStart
     newStart =  _this.data.nowTimeStamp*1000
+    console.log('时间倒计时',newEnd,newStart)
    _this.data.timer = setInterval(() => {
     newStart += 1000
     let count = newEnd - newStart
@@ -174,6 +199,11 @@ Page({
     if(hours == 0 && minutes == 0 && seconds == 0){
       clearInterval(_this.data.timer)
       _this.getTimeList()
+    }
+    if(_this.data.isFlash==2 && hours==0 && minutes<=50){
+      _this.setData({
+        isFlash:3
+      })
     }
       _this.setData({
         time: {
@@ -220,7 +250,8 @@ Page({
         seckPriceArr = item.seckillprice.split(".")
       }
       item.seckPriceArr = seckPriceArr
-
+      console.log(item)
+      console.log("sales",item.sales,item.total)
       let saleRate =parseInt(parseInt(item.sales)/parseInt(item.total)*100)
       item.saleRate = saleRate
     }
@@ -238,7 +269,7 @@ Page({
       data: Data,
       header: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        'cookie': 'PBCSID=' + wx.getStorageSync('sessionId') + ';PBCSTOKEN=' + wx.getStorageSync('token')
+        //'cookie': 'PBCSID=' + wx.getStorageSync('sessionId') + ';PBCSTOKEN=' + wx.getStorageSync('token')
       },
       success: (res) => {
         let code = res.data.baseServerInfo.code

@@ -27,10 +27,10 @@
   <!--抢购的商品列表-->
   <scroll-view style='height:calc(100% - 240rpx);width:100%;' scroll-y scroll-left="{{scrollLeft}}">
     <view class='productList'>
-      <view wx:for="{{goodsList}}" wx:key="{{index}}" catchtap="hrefToDetail" data-idx="{{item.taskgoodsid}}">
+      <view wx:for="{{goodsList}}" wx:key="{{index}}" catchtap="hrefToDetail" data-idx="{{item.taskgoodsid}}" data-saleRate="{{item.saleRate}}">
         <!--左侧商品图片-->
         <view>
-          <image src="{{item.thumb}}"></image>
+          <image src="{{item.thumb}}" mode='aspectFit'></image>
         </view>
         <!--右侧商品信息、商品价格 -->
         <view class='productSubscrib'>
@@ -40,11 +40,13 @@
             <text>￥{{item.marketprice}}</text>
             <view wx:if="{{isFlash==1}}">{{choseTime}}准时开抢</view>
             <view wx:if="{{isFlash==2}}" style="display:flex;justify-content:flex-start">
-              <text class='shop-rate-text'>已经售{{item.saleRate}}%</text><progress percent="{{item.saleRate}}"  border-radius="20px" active='true' activeColor='#eb414a'  class='shop-rate-progress'/>
+              <text class='shop-rate-text'>已售{{item.saleRate}}%</text><progress percent="{{item.saleRate}}"  border-radius="20px" active='true' activeColor='#eb414a'  class='shop-rate-progress'/>
             </view>
           </view>
         </view>
-        <view wx:if="{{isFlash!=3}}" class="flash-sale-btn {{isFlash==2?'isFlash':''}}" >去抢购</view>
+        <view wx:if="{{isFlash==2 && item.saleRate==100}}" class="flash-sale-btn}}" >已抢完</view>
+        <view wx:if="{{isFlash==2 && item.saleRate!=100}}" class="flash-sale-btn {{isFlash==2?'isFlash':''}}" >去抢购</view>
+        <view wx:if="{{isFlash==1}}" class="flash-sale-btn">未开始</view>
         <view wx:if="{{isFlash == 3}}" class="flash-sale-btn }}">已结束</view>
       </view>
     </view>

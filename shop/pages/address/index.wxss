@@ -6,13 +6,12 @@ page{background:#fff;height:calc(100% - 20rpx)}
 /*单个地址信息*/
 .address-item{display: flex;justify-content: space-between;font-size:28rpx;padding:40rpx 20rpx 40rpx 0;border-bottom: 1px solid #f2f2f2;margin-left: 30rpx;}
 .address-item-left{width: 80%;}
-.address-name-phone{margin-bottom: 20rpx;}
+.address-name-phone{margin-bottom: 20rpx;display: flex;align-items: center;}
 .address-name{margin-right: 120rpx;font-weight: 700;}
 .address-phone{margin-right: 5rpx;font-weight: 700;}
-.address-default{display: inline-block;padding:4rpx 15rpx;background:linear-gradient(to right bottom,#eb414a 10%,#fe6748);color:#fff;border-radius: 20rpx;font-size:24rpx; }
+.address-default{display: inline-block;padding:4rpx 10rpx;background:linear-gradient(to right bottom,#eb414a 10%,#fe6748);color:#fff;border-radius: 18rpx;font-size:18rpx;line-height:18rpx; }
 .address-detail{white-space: nowrap;overflow: hidden;text-overflow: ellipsis;display: block;width: 90%;color:#545454;}
 .address-item-right{display: flex;flex-direction: column;justify-content: flex-end;}
 .address-detele-img{width:50rpx;height:50rpx;margin-left: 20rpx;color:#000;}
-.address-detele-img:active{background: #ccc;}
 /*新建收货地址按钮*/
 .add-address-btn{position: fixed;bottom:0;width: 95%;margin:20rpx;background:linear-gradient(to right bottom,#eb414a 10%,#fe6748);color:#fff;}

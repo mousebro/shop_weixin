@@ -8,15 +8,16 @@
         </text>
         <view class="card-handle" hover-class="none" hover-stop-propagation="false">
             <view class="price" hover-class="none" hover-stop-propagation="false">
-                <text>￥</text>
-                <text>{{item.priceArr[0]}}</text>
-                <text>.{{item.priceArr[1]}}</text>
+                <!-- <text class="slogan" style="padding:0rpx 10rpx;color:#ea4149;font-size:28rpx;border:1px solid #ea4149;border-radius:8rpx;margin-right:10rpx;display: inline-block;vertical-align: 15%;">新春特惠</text> -->
+                <text class="icon">￥</text>
+                <text class="price-a">{{item.priceArr[0]}}</text>
+                <text class="price-b">.{{item.priceArr[1]}}</text>
             </view>
             <view class="avator-contain" hover-class="none" hover-stop-propagation="false">
                 <view>
-                    <image class="avator" src="{{item.headimg[0].avatar}}" mode="aspectFit" lazy-load="false" binderror="" bindload="">
+                    <image class="avator" src="{{item.headimg[0].avatar}}" mode="aspectFit" lazy-load="true" binderror="" bindload="">
                     </image>
-                    <image class="avator" src="{{item.headimg[1].avatar}}" mode="aspectFit" lazy-load="false" binderror="" bindload="">
+                    <image class="avator" src="{{item.headimg[1].avatar}}" mode="aspectFit" lazy-load="true" binderror="" bindload="">
                     </image>
                 </view>
                 <view class="btn-container" hover-class="none" hover-stop-propagation="false">

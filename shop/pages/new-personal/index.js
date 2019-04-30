@@ -10,6 +10,7 @@ Page({
     isSendTicket: false
   },
   onLoad: function () {
+    app.userView('RecordExposurenum') //统计平台曝光度记录
     let _this = this
     _this.getUserInfo()
     _this.getShopList()
@@ -146,8 +147,10 @@ Page({
             for (let i = 0; i < couponList.length; i++) {
               let deduct = parseInt(couponList[i].deduct)
               let enough = parseInt(couponList[i].enough)
+              let discount = parseFloat(couponList[i].discount).toFixed(1)
               couponList[i].deduct = deduct
               couponList[i].enough = enough
+              couponList[i].discount = discount
             }
             // let keys = Array.from(new Set(couponList.map(item => item.couponid)))
             // var newList = keys.map(key => {
@@ -174,7 +177,7 @@ Page({
             }
             console.log(reArr);
             _this.setData({
-              couponList:reArr
+              couponList:reArr,
             })
           }
           else{

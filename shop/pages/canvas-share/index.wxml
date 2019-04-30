@@ -1,0 +1,27 @@
+<!--pages/canvas-share/index.wxml-->
+<view class="body">
+  <view class="bgcolor">
+  </view>
+  <view class="shopInfo">
+    <scroll-view class=""  scroll-y="true" style="height:100%;">
+      <view class="shopinfo-img">
+        <image src="{{productImg}}" mode="aspectFit"></image>
+      </view>
+      <view class="shopinfo-detail">
+        <text>{{title}}</text>
+        <text>{{subScrib}}</text>
+        <text>￥{{priceNowStart}}</text>
+        <text>￥{{priceOldStart}}</text>
+      </view>
+      <view class="shopinfo-brcode">
+        <image src="{{codeImg}}"></image>
+      </view>
+    </scroll-view>
+  </view>
+  <view class="button {{issaveImg==1?'avtiveBtn':''}} {{isshowing==0?'doneBtn':''}}" bindtap="drawImage">
+    <text>{{showMsg}}</text>
+  </view>
+  <view class="canvas">
+      <canvas style="width:750px; height: 1334px;" canvas-id="firstCanvas"></canvas>
+  </view>
+</view>

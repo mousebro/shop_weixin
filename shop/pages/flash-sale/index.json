@@ -2,7 +2,6 @@
   "navigationBarTitleText": "掌上秒拍",
     "config": {
       "usingComponents": {}
-    },
-   "enablePullDownRefresh": true
+    }
    
 }

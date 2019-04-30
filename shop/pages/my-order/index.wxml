@@ -3,17 +3,32 @@
 <!--我的订单-->
 <view class="view-container">
 <!--导航条-->
-  <scroll-view scroll-x="true" class="navbar"  style="height:50px;width:100%" >
-    <view wx:for="{{navbar}}" data-idx="{{index}}" class="item {{currentTab==index ? 'active' : ''}}" wx:key="unique" bindtap='handleChose'>{{item}}</view>
+  <scroll-view scroll-x="true" class="navbar"  style="height:50px;width:100%" scroll-left="{{scrollLeft}}">
+    <view wx:for="{{navbar}}" data-idx="{{index}}" class="item {{currentTab==index ? 'active' : ''}}" wx:key="unique" bindtap='handleChose'>
+      {{item}}
+    </view>
   </scroll-view>
   <!--根据选项卡的选项，渲染不同的数据-->
   <view class="all-order-container">
     <!--订单列表-->
     <view class='waiting-for-pay-container' wx:for="{{orderList}}" wx:key="{{index}}">
-      <template is="{{orderList.length>0?'waiting-for-pay' : ''}}" data="{{...orderList[index]}}" wx:if="{{orderList[index].status == nowStatus ||nowStatus == -2 && orderList[index].id}}"></template>
+      <template is="{{orderList.length>0?'waiting-for-pay' : ''}}" data="{{...orderList[index]}}" wx:if="{{orderList[index].status == nowStatus|| (orderList[index].status==0 && nowStatus==1) ||nowStatus == -2 && orderList[index].id}}"></template>
     </view>
   </view>
   <view class='warning-msg'wx:if="{{!pageCount}}">
     没有更多内容了
   </view>
+
+    <!-- 蒙版 -->
+    <view class="mask"  wx:if="{{showModal}}" bindtap="hiddenMask"/>
+  <!--导航-->
+  <view class="munu-container">
+    <image  wx:for="{{menuNum}}" catchtap="hrefToPage" data-type="{{index}}"  class="first-menu {{choseMenu==1?'menu-animate1':''}}"  src="{{item.imageUrl}}" mode="aspectFit"
+      style="transition-delay:{{50*index}}ms;transform:translate({{item.xL}}px,{{item.yL}}px) rotate(90deg);opacity:{{opacity}};"
+    />
+  </view>
+  <view  class="menu-button"  bindtap="openMenu">
+      <image class="back-icon" src="/images/shop-detail/back.png" mode="aspectFit" lazy-load="false" binderror="" bindload="" />
+      {{menuMsg}}
+    </view>
 </view>

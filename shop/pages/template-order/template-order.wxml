@@ -1,9 +1,12 @@
 <template name="waiting-for-pay" data-id="{{id}}">
-    <view class="wait-for-pay" bindtap='handleClick' data-orderId="{{id}}" data-ordertype="{{type}}" data-isteam="{{isteam}}" data-success="{{success}}"> <!--传递订单Id-->
+    <view class="wait-for-pay" bindtap='handleClick' data-orderId="{{id}}" data-ordertype="{{type}}" data-isteam="{{isteam}}" data-success="{{success}}" data-status="{{status}}"> <!--传递订单Id-->
     <view class="wait-title">
       <view >
-        <text class="wait-sub-title" wx:if="{{status==0}}">待付款</text>
+        <text class="wait-sub-title" wx:if="{{status==0 && type!=4}}">待付款</text>
+        <text class="wait-sub-title" wx:if="{{status==0 && type==4}}">待分享</text>
         <text class="wait-sub-title" wx:if="{{status==1 && type==1}}">待发货</text>
+        <text class="wait-sub-title" wx:if="{{status==1 && type==4}}">待发货</text>
+        <text class="wait-sub-title" wx:if="{{status==1 && type==3 && success==0 && isteam==0}}">待发货</text>
         <text class="wait-sub-title" wx:if="{{status==1 && type==2 && success==0 && isteam==0}}">待发货</text>
         <text class="wait-sub-title" wx:if="{{status==1 && type==2 && success==1 && isteam==1}}">待发货</text>
         <text class="wait-sub-title" wx:if="{{status==1 && type==2 && isteam==1 && success==0}}">待分享</text>
@@ -16,8 +19,8 @@
     <view class='product-list'>
       <view class='product-item' wx:for="{{orderGoodsList}}" wx:key="{{item.id}}"> <!--只渲染两条数据，如果超过两条则用省略号提示-->
         <view>
-          <image src="{{item.thumb}}" class="product-item-img"></image>
-          <text class="product-item-text">{{item.title}}</text>
+          <view class="image-container"><image src="{{item.thumb}}" mode="aspectFit" class="product-item-img" lazy-load></image></view>
+          <text class="product-item-text">{{item.title}}<text wx:if="{{item.optionname}}">【{{item.optionname}}】</text></text>
         </view>
         <text class="product-item-count">x{{item.total}}</text>
       </view>
@@ -28,13 +31,15 @@
           <text class='product-item-price'>￥{{price}}</text>
         </view>
       </view>
+    </view> 
+  </view>
+  <form report-submit='{{true}}' bindsubmit="formSubmit">
+    <view class='oprator-btn-container' >
+        <button  size="mini" plain='true' class='cancle-btn' catchtap='cancleOrder' data-orderId="{{id}}" wx:if="{{status==0}}" data-orderType="{{type}}" form-type="submit">取消订单</button>
+        <button size="mini" type="warn" plain='true' catchtap='payfor' data-orderId="{{id}}" wx:if="{{status==0}}" data-ordertype="{{type}}" form-type="submit">去付款</button>
+        <!-- <button size="mini" type="warn" plain='true' catchtap="gotoCommit" data-orderId="{{id}}" data-ordertype="{{type}}" data-isteam="{{isteam}}" data-success="{{success}}" wx:if="{{status==3}}" >去评价</button> -->
+        <!-- <button  size="mini" plain='true' class='cancle-btn' data-orderId="{{id}}" wx:if="{{status==2}}" catchtap='watchLogistics'>查看物流</button> -->
+        <button size="mini" type="warn" plain='true' data-orderId="{{id}}" data-ordertype="{{type}}" data-isteam="{{isteam}}" data-success="{{success}}" wx:if="{{ status==2}}"  catchtap='comfiremFn' form-type="submit">确认收货</button>
     </view>
-  </view>
-  <view class='oprator-btn-container' >
-      <button  size="mini" plain='true' class='cancle-btn' catchtap='cancleOrder' data-orderId="{{id}}" wx:if="{{status==0}}" data-orderType="{{type}}">取消订单</button>
-      <button size="mini" type="warn" plain='true' catchtap='payfor' data-orderId="{{id}}" wx:if="{{status==0}}" data-ordertype="{{type}}">去付款</button>
-      <!-- <button size="mini" type="warn" plain='true' catchtap="gotoCommit" data-orderId="{{id}}" data-ordertype="{{type}}" data-isteam="{{isteam}}" data-success="{{success}}" wx:if="{{status==3}}" >去评价</button> -->
-      <!-- <button  size="mini" plain='true' class='cancle-btn' data-orderId="{{id}}" wx:if="{{status==2}}" catchtap='watchLogistics'>查看物流</button> -->
-      <button size="mini" type="warn" plain='true' data-orderId="{{id}}" data-ordertype="{{type}}" data-isteam="{{isteam}}" data-success="{{success}}" wx:if="{{ status==2}}"  catchtap='comfiremFn'>确认收货</button>
-  </view>
+  </form>
 </template>

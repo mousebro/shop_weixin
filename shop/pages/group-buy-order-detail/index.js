@@ -8,7 +8,10 @@ Page({
     addressId:0,
     realname:'点击添加地址',
     mobile:'',
-    address:''
+    address:'',
+    integral:0,
+    remark:'',
+    areaPlaceholder:'请输入订单备注信息'
     // choseCoupon:true,
     // couponPrice:0
   },
@@ -23,6 +26,7 @@ Page({
     })
   },
   onLoad: function(options){
+    app.userView('RecordExposurenum') //统计平台曝光度记录
     let _this = this
     _this.getAddress()
     let goodsList = wx.getStorageSync('orderShopList');
@@ -34,13 +38,12 @@ Page({
     if(goodDetail.buyNumber){
       buyNumber = goodDetail.buyNumber
     }
-  
     if(goodDetail.isCommon){ //判断是不是普通团购商品下单 1为否
       isCommon = 1
       singleprice = goodDetail.singleprice
-      goodDetail.totalPrice = (parseFloat(singleprice)*(buyNumber) + parseFloat(goodDetail.freight)).toFixed(2)
+      goodDetail.totalPrice = +(parseFloat(singleprice)*(buyNumber) + parseFloat(goodDetail.freight)).toFixed(2)
     }else{
-      goodDetail.totalPrice = (parseFloat(goodDetail.groupsprice) + parseFloat(goodDetail.freight)).toFixed(2)
+      goodDetail.totalPrice = +(parseFloat(goodDetail.groupsprice) + parseFloat(goodDetail.freight)).toFixed(2)
     }
     _this.setData({
       goodDetail:goodDetail,
@@ -86,6 +89,8 @@ Page({
         payPrice:payPrice
       })
     }
+
+    _this.getUserInfo() // 获取用户信息判断是否是会员
   },
   // 获取用户地址
   getAddress: function(){
@@ -95,7 +100,7 @@ Page({
       wx.navigateTo({
         url: '/pages/login/index'
       })
-      wx.setStorageSync('isLogin', false)
+      // wx.setStorageSync('isLogin', false)
       return false;
     }
     wx.request({
@@ -114,7 +119,6 @@ Page({
         if (code == 1) {
           let addressList = res.data.addressList // 获取用户地址列表
           if (addressList.length == 0) {
-            console.log('需要新建地址');
           }
           else {
             let addressInfo = addressList[0]
@@ -138,10 +142,6 @@ Page({
           wx.navigateTo({
             url: '/pages/login/index'
           })
-        }else if (code == 1019) {
-          wx.navigateTo({
-            url: '/pages/login/index'
-          })
         }else{
           wx.showModal({
             title:'提示',
@@ -157,7 +157,7 @@ Page({
   },
   changeAddress:function(){
     wx.navigateTo({
-      url: '/pages/address/index?url=order'
+      url: '/pages/address/index?url=order-detail'
     })
   },
   // 提交生成订单
@@ -165,6 +165,7 @@ Page({
     let _this = this
     let addressId = _this.data.addressId
     let teamid = _this.data.goodDetail.teamid 
+    let formid = _this.data.formId
     let isLogin = wx.getStorageSync('isLogin')
     if (!isLogin) {
       wx.navigateTo({
@@ -172,53 +173,102 @@ Page({
       })
     }
     if(_this.data.goodDetail.isTeamLeader != 1 && !_this.data.isCommon){ //判断是否是以团长身份开团
-      console.log('参团')
       var  Data = JSON.stringify({
         baseClientInfo: { longitude: 0, latitude: 0, appId: '' + app.globalData.appId + '' },
         addressid:addressId,
-        teamid:teamid
+        teamid:teamid,
+        integral:_this.data.integral,
+        remark:_this.data.remark,
+        formid:formid
       })
       _this.setHttpRequst('ShopGroups','JoinGroups',Data,function(res){ //加入团购
-        console.log(res)
         _this.setData({
           teamid:res.data.teamid
         })
         let orderId = res.data.id
-         _this.payfor(orderId)
+        if(res.data.orderstatus == 1){ //如果用积分抵扣掉付款金额
+          _this.setRedPoint(1)
+          wx.showModal({
+            title:'提示',
+            content:'已下单成功',
+            showCancel:false,
+            success:function(){
+              wx.redirectTo({
+                url: '/pages/group-buy-success/index?goodid='+_this.data.goodDetail.id+'&teamid='+_this.data.teamid
+              })
+            }
+          })
+        }else{
+          _this.payfor(orderId)
+        }
       },function(res){
-        console.log(res)
         wx.hideLoading()
       })
     }else{
       if(!_this.data.isCommon){
-        console.log('开团')
         var  Data = JSON.stringify({
           baseClientInfo: { longitude: 0, latitude: 0, appId: '' + app.globalData.appId + '' },
           addressid:addressId,
-          id:_this.data.goodDetail.id
+          id:_this.data.goodDetail.id,
+          integral:_this.data.integral,
+          remark:_this.data.remark,
+          formid:formid
         })
         _this.setHttpRequst('ShopGroups','AddOrder',Data,function(res){ //加入团购
           let orderId = res.data.id
           _this.setData({
             teamid:res.data.teamid
           })
-           _this.payfor(orderId)
+          if(res.data.orderstatus == 1){ //如果用积分抵扣掉付款金额
+            _this.setRedPoint(1)
+            wx.showModal({
+              title:'提示',
+              content:'已下单成功',
+              showCancel:false,
+              success:function(res){
+                wx.redirectTo({
+                  url: '/pages/group-buy-success/index?goodid='+_this.data.goodDetail.id+'&teamid='+_this.data.teamid
+                })
+              }
+            })
+          }else{
+            _this.payfor(orderId)
+          }
+          
         },function(res){
           wx.hideLoading()
         })
       }else{
-        console.log('普通购买')
-        console.log(addressId,_this.data.goodDetail.id,_this.data.buyNumber)
         var  Data = JSON.stringify({
           baseClientInfo: { longitude: 0, latitude: 0, appId: '' + app.globalData.appId + '' },
           addressid:addressId,
           id:_this.data.goodDetail.id,
-          total:_this.data.buyNumber
+          total:_this.data.buyNumber,
+          integral:_this.data.integral,
+          remark:_this.data.remark,
+          formid:formid
         })
         _this.setHttpRequst('ShopGroups','GroupCreateOrder',Data,function(res){ //加入团购
-          console.log(res)
           let orderId = res.data.id
-           _this.payfor(orderId)
+          if(res.data.orderstatus == 1){ //如果用积分抵扣掉付款金额
+            _this.setRedPoint(1)
+            wx.showModal({
+              title:'提示',
+              content:'已下单成功',
+              showCancel:false,
+              success:function(res){
+                // wx.redirectTo({
+                //   url: '/pages/pay-success/index?goodid='+_this.data.goodDetail.id+'&teamid='+_this.data.teamid+"&pageFrom=group"
+                // })
+                wx.navigateBack({
+                  delta: 1
+                })
+              }
+            })
+
+          }else{
+            _this.payfor(orderId)
+          }
         },function(res){
           wx.hideLoading()
         })
@@ -236,6 +286,139 @@ Page({
     //     url: "/pages/pay-success/index"
     //   });
     // },1000)
+  },
+  //获取用户是否为会员
+  getUserInfo(){
+    let _this = this
+    let isLogin = wx.getStorageSync('isLogin')
+    if (!isLogin) {
+      wx.navigateTo({
+        url: '/pages/login/index'
+      })
+      return false;
+    }
+    let Data = JSON.stringify({
+      baseClientInfo: { longitude: 0, latitude: 0, appId: '' + app.globalData.appId + '' },
+    })
+    _this.setHttpRequst('MiniAppUser','GetInfo',Data,function(res){
+      let showIntegral = res.data.userInfo.credit1 // 获取用户当前积分
+      let superstatus = res.data.userInfo.superstatus // 获取用户会员情况（1是会员，2是非会员）
+      _this.setData({
+        superstatus:superstatus,
+        showIntegral:showIntegral
+      })
+      _this.getCalculateCredit()
+    })
+  },
+  // 选择使用或不使用积分
+  useIntegral:function(){
+    let _this = this
+    let useIntegral = _this.data.integral // 获取用户是否使用积分
+    let integralPrice = _this.data.newShowIntegral // 用户积分数量
+    if (useIntegral == 0) {
+      if(_this.data.newShowIntegral){
+        _this.setData({
+          integral:1,
+          showPayPrice:(parseFloat(_this.data.showPayPrice) - parseFloat(_this.data.newShowIntegral)*parseFloat(_this.data.creditScale)/100).toFixed(2)
+        })
+      }else{
+        let finalPrice = (_this.data.payPrice - integralPrice/100).toFixed(2) // 积分计算结果价格
+        _this.setData({
+          integral:1,
+          showPayPrice:finalPrice
+        })
+      }
+    }
+    else if (useIntegral == 1) {
+      let finalPrice = _this.data.payPrice // 积分计算结果价格
+      _this.setData({
+        integral:0,
+        showPayPrice:(parseFloat(_this.data.showPayPrice) + parseFloat(_this.data.newShowIntegral)*parseFloat(_this.data.creditScale)/100).toFixed(2)
+      })
+    }
+  },
+  // 获取会员相关信息以及计算显示价格
+  getSuperMemberPrice: function(){
+    let _this = this
+    wx.request({
+      url: 'https://'+app.globalData.productUrl+'/api?resprotocol=json&reqprotocol=json&class=Supermember&method=GetMemberbase',
+      method: 'post',
+      data: JSON.stringify({
+        baseClientInfo: { longitude: 0, latitude: 0 ,appId: ''+app.globalData.appId+''}
+      }),
+      header: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      success: (res) => {
+        if (res.statusCode == 200) {
+          let code = res.data.baseServerInfo.code
+          let msg = res.data.baseServerInfo.msg
+          if (code == 1) {
+            let baseinfo  = res.data.baseinfo
+            let discount  = baseinfo.discount/100 // 获取会员折扣
+            if(_this.data.isCommon==0){ //判断是否是按团购价还是普通商品购买
+              var goodsPrice = parseFloat(_this.data.goodDetail.groupsprice) 
+            }else{
+              var goodsPrice = parseFloat(_this.data.goodDetail.singleprice)
+            }
+            if (_this.data.superstatus == 1) {
+              let countDiscount = goodsPrice*(1 - discount)
+              let countDiscount2 = countDiscount.toFixed(2)
+              let payPrice = goodsPrice + parseInt(_this.data.goodDetail.freight) - countDiscount2
+              let showIntegral = parseInt(_this.data.showIntegral)
+              if(payPrice*100<showIntegral){
+                _this.setData({
+                  newShowIntegral:(payPrice*100 * parseFloat(_this.data.creditScale)).toFixed(0)
+                })
+              }else{
+                _this.setData({
+                  newShowIntegral:(showIntegral * parseFloat(_this.data.creditScale)).toFixed(0)
+                })
+              } 
+              _this.setData({
+                payPrice:payPrice,
+                showPayPrice:payPrice,
+                discount:discount,
+                showDiscountPrice:countDiscount2
+              })
+            }
+            else {
+              
+              let payPrice = goodsPrice + parseInt(_this.data.goodDetail.freight)
+              let showDiscountPrice = (_this.data.goodDetail.totalPrice*(1 - discount)).toFixed(2)
+              let showIntegral = parseFloat(_this.data.showIntegral)
+              if(payPrice*100<showIntegral){
+                _this.setData({
+                  newShowIntegral:(payPrice*100 * parseFloat(_this.data.creditScale)).toFixed(0)
+                })
+              }else{
+                _this.setData({
+                  newShowIntegral:(showIntegral * parseFloat(_this.data.creditScale)).toFixed(0)
+                })
+              } 
+              _this.setData({
+                payPrice:payPrice,
+                showPayPrice:payPrice,
+                discount:discount,
+                showDiscountPrice:showDiscountPrice
+              })
+            }
+          }
+          else{
+            wx.showModal({
+              title:'提示',
+              content:msg,
+              showCancel:false,
+              success:function(res){}
+            })
+          }
+        }
+        else {
+        }
+      },
+      fail: (res) => {
+      }
+    })
   },
   //发起Http请求
   setHttpRequst(Class,Method,Data,Succ,Fail){
@@ -263,6 +446,12 @@ Page({
         }else if (code == 1019) {
           wx.navigateTo({
             url: '/pages/login/index'
+          })
+        }
+        else if(code == 8001){
+          _this.setData({
+            showAddressMask:true,
+            areaPlaceholder:''
           })
         }
         else {
@@ -362,9 +551,17 @@ Page({
         'cookie': 'PBCSID=' + wx.getStorageSync('sessionId') + ';PBCSTOKEN=' + wx.getStorageSync('token')
       },
       success: function(res) {
+        _this.setRedPoint(1)
         if(_this.data.isCommon == 1){
-          wx.navigateBack({
-            delta: 1 // 回退前 delta(默认为1) 页面
+          wx.showModal({
+            title:'提示',
+            content:'已下单成功',
+            showCancel:false,
+            success:function(res){
+              wx.navigateBack({
+                delta: 1 // 回退前 delta(默认为1) 页面
+              })
+            }
           })
         }else{
           wx.redirectTo({
@@ -380,6 +577,7 @@ Page({
   // 支付失败回调
   cancelOrder: function(orderId){
     let _this = this
+    this.setRedPoint(0)
     wx.showModal({
       title:'提示',
       content:'支付失败',
@@ -394,4 +592,103 @@ Page({
       }
     })
   },
+  // 绑定订单备注输入
+  bindRemark:function(e){
+    let _this = this
+    let remark = e.detail.value
+    _this.setData({
+      remark:remark
+    })
+  },
+   //添加红点
+   setRedPoint(type){
+    let _this = this
+    wx.request({
+      url: 'https://'+app.globalData.productUrl+'/api?resprotocol=json&reqprotocol=json&class=RedPoint&method=UpdateRedPoint',
+      method: 'post',
+      data: JSON.stringify({
+        baseClientInfo: { longitude: 0, latitude: 0 ,appId: ''+app.globalData.appId+''},
+        type:type,
+        show:1
+      }),
+      header: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'cookie': 'PBCSID=' + wx.getStorageSync('sessionId') + ';PBCSTOKEN=' + wx.getStorageSync('token')
+      },
+      success: (res) => {
+        let code = res.data.baseServerInfo.code
+        let msg = res.data.baseServerInfo.msg
+        if (code == 1) {
+        }
+        else if (code == 1019) {
+          wx.navigateTo({
+            url: '/pages/login/index'
+          })
+        }
+        else{
+        }
+      },
+      fail: (res) => {
+      }
+    })
+  },
+  formSubmit(e){ //获取formId用户模板消息
+    let formId = e.detail.formId
+    this.setData({
+      formId:formId
+    })
+  },
+  //隐藏地址提示弹出框
+  hidenAddressMask(){
+    this.setData({
+      showAddressMask:false,
+      areaPlaceholder:'请输入订单备注信息'
+    })
+  },
+  //下单前返回购物金（积分信息）
+getCalculateCredit(){
+  let _this = this
+  let url = 'https://' + app.globalData.productUrl + '/api?resprotocol=json&reqprotocol=json&class=Order&method=CalculateCreditBeforeCreateOrder'
+  wx.request({
+    url: url,
+    method: 'post',
+    data: JSON.stringify({
+      baseClientInfo: { longitude: 0, latitude: 0, appId: '' + app.globalData.appId + '' },
+      obj:_this.data.submitGoodsList
+    }),
+    header: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'cookie': 'PBCSID=' + wx.getStorageSync('sessionId') + ';PBCSTOKEN=' + wx.getStorageSync('token')
+    },
+    success: (res) => {
+      let code = res.data.baseServerInfo.code
+      let msg = res.data.baseServerInfo.msg
+      if (code == 1) {
+        _this.setData({
+          introductioncontent:res.data.userule,
+          creditScale:res.data.scale,
+          canUserCredit:res.data.type,
+          creditLimit:res.data.least 
+        },function(){
+          _this.getSuperMemberPrice()
+        })
+      }else if (code == 1019) {
+        wx.navigateTo({
+          url: '/pages/login/index'
+        })
+      }else {
+        wx.showModal({
+          title:'提示',
+          content:res.data.baseServerInfo.msg,
+          showCancel:false,
+          success:function(res){
+          }
+        })
+      }
+
+    },
+    fail: (res) => {
+    }
+  })
+}
 })

@@ -1,0 +1,84 @@
+/* pages/present-card/index.wxss */
+page{background: #f2f2f2;height: 100%;}
+.header-container{position: fixed;top:0;right: 0;z-index: 10;width: 100%;}
+/*兑换码输入框*/
+.search-container{display: flex;padding:40rpx;padding-bottom:15rpx;width: calc(100% - 80rpx);justify-content: space-between;align-items: center;background: #fff;}
+.search-box{display: flex;padding: 0 40rpx;border-radius:100rpx;font-size: 26rpx;background: #f2f2f2;width: 424rpx;height: 60rpx;align-items: center;}
+.search-container>.exchange-btn{width:116rpx;height: 54rpx;background: #cbcbcb;border-radius: 27rpx;color:#fff;font-size:30rpx;line-height:54rpx;text-align: center;}
+.search-container>.focus-Btn{background: linear-gradient(to right,#dc4247,#ec6649);}
+/*选项卡*/
+.fixed-header{width: 100%;z-index: 10;}
+.headerTabs{ display: flex;justify-content: space-between;padding:32rpx 96rpx;font-size: 30rpx;box-sizing: border-box;background: #fff;color:#222222;}
+.headerTabs image{width: 18rpx;height: 22rpx;vertical-align: middle;margin-left: 10rpx;}
+.headerTabs view.isActive{position: relative;}
+.headerTabs view.isActive::after{position: absolute;display: block;content: '';border: 1px solid red;width: 90%;top:68rpx;left: 0;right: 0;margin: 0 auto}
+
+/*礼品券列表*/
+.card-list{padding:20rpx 50rpx;margin-top:220rpx;}
+.card{width: 100%;min-height:350rpx;border-radius: 20rpx;box-shadow: 0px 0px 12px 0px rgba(143, 143, 143, 0.22);background: #fff;overflow: hidden;margin-bottom:20rpx;}
+.card>.card-title-contaier{width: calc(100% - 50rpx);height: 160rpx;background: linear-gradient(125deg,#de4748 60%,#e15a5b 62%,#e15a5b 68%,#e46b6c 69%,#e46b6c);padding:0 0rpx 0 50rpx;display: flex;justify-content: space-between;}
+.card>.card-title-contaier>.left-side{height: 100%;display: flex;flex-direction: column;justify-content: center;}
+.card>.card-title-contaier>.left-side>.title{color:#fff;font-size:30rpx;margin-bottom:5rpx;}
+.card>.card-title-contaier>.left-side>.code{color:#fff;font-size:24rpx;margin-top:5rpx;}
+.card>.card-detail-container{width: calc(100% - 70rpx);padding:20rpx 20rpx 35rpx 50rpx;color:#777777}
+.card>.card-detail-container .limit-time{font-size:22rpx}
+.card>.card-detail-container .level-one{display: flex;justify-content: space-between;align-items: center;margin-bottom:20rpx;}
+.card>.card-detail-container .price>text{font-size:22rpx;color:#ea4149;}
+.card>.card-detail-container .price>text:nth-child(2){font-size:50rpx;}
+
+/*说明*/
+::-webkit-scrollbar{width: 0;height: 0;background: transparent;}
+.scroll-view-contain{max-height:500rpx;position: relative;}
+.item-container{background:#fff;margin-bottom: 18rpx;font-size:24rpx;}
+.order-msg-container .order-msg-item{margin-bottom: 20rpx;}
+.order-remark>.order-msg-item{display: flex;justify-content: flex-start;}
+.order-remark>.order-msg-item>.order-msg-title{display: block;text-align: left;margin-left: 15rpx;position: absolute;left: 0;top:0;}
+.order-remark>.order-msg-item>text:nth-child(2){width: 75%;}
+.order-remark>.order-msg-item>.responseMsg2{overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;margin-left:86rpx;}
+.order-remark>.order-msg-item>.responseMsg{display:inline-block;margin-left:90rpx;}
+.order-remark>.order-msg-item>.more-img{width: 10%;height: 24rpx;margin-top:20rpx;transform: rotate(-90deg);transition: all .1s ease-in;position: absolute;right: 0;top:0;}
+.order-remark>.order-msg-item>.more-img-rotate{transform: rotate(90deg);transition: all .1s ease-in;}
+
+
+/*无优惠券提示*/
+.no-coupons{height: calc(100% - 330rpx);display: flex;flex-direction: column;align-items: center;justify-content: center;}
+.no-coupons>.none-img{width:276rpx;height:322rpx;margin-bottom: 40rpx;}
+.no-coupons>.none-msg{font-size:30rpx;color:#818181;line-height: 40rpx;}
+
+/*已使用-已过期礼品券样式*/
+.card-list>.card-used>.card-title-contaier{background: linear-gradient(125deg,#cbcbcb 60%,#cfcfcf 62%,#d0d0d0 68%,#d4d4d4 69%,#dfdfdf);}
+.card-list>.card-used>.card-detail-container>.level-one>.price>text{color:#777777;}
+.card-list>.card-used>.card-title-contaier>.right-side{width:200rpx;}
+.card-list>.card-used>.card-title-contaier>.right-side>.flag{height: 48rpx;font-size:30rpx;background:#979797;width:200rpx;transform: rotate(45deg);text-align: center !important;line-height: 48rpx;color:#fff;margin-left:56rpx;margin-top:20rpx;}
+
+/*弹窗*/
+.mask{width: 100%;height: 100%;position: fixed;top: 0;left: 0;background: #000000;z-index: 20;opacity: 0.6;}
+.success-toast{position: fixed;top:0;right: 0;left: 0;bottom: 0;margin:auto;z-index: 21;width: 694rpx;height: 714rpx;}
+.success-toast>.bg-toast{width: 694rpx;height: 714rpx;position: absolute;top:0;left: 0;}
+.success-toast>.success-title{color:#fff;font-size: 46rpx;position: absolute;z-index: 22;top:76rpx;left:256rpx;}
+.success-toast>.card-contain{width: 694rpx;height: 466rpx;position: absolute;z-index: 22;bottom:92rpx;overflow:hidden;border-bottom-left-radius: 100rpx;border-bottom-right-radius: 100rpx;}
+.success-toast>.card-contain>.scroll-view{height: 100%;width: calc(100% - 40rpx);margin:0 auto;}
+.success-toast .close-btn{width: 51rpx;height: 51rpx;position: absolute;bottom:-80rpx;left:calc(50% - 25rpx)}
+.success-toast .card{box-shadow: 0 0 10rpx #fff;}
+/*优惠券部分*/
+.success-toast .coupon-item{width:100%;min-height:230rpx;margin:0 auto;position: relative;}
+.coupon-item .coupon{width:115rpx;height:74rpx;margin-left:40rpx;}
+.coupon-item .left-side{display: flex;justify-content: flex-start;height:80%;align-items: center;padding-top:20rpx;}
+.coupon-item .left-side>view{font-size:30rpx;color:#222222;margin-left:30rpx;display: flex;flex-direction: column;justify-content: center;}
+.coupon-item .left-side>view>view:first-child{font-weight: bold;}
+.coupon-item .left-side>view>view:nth-child(2){font-size:22rpx;color:#ea4149}
+.coupon-item .left-side>view>view:nth-child(2)>text:first-child{font-size:50rpx;}
+.limit-times{font-size:18rpx;color:#777777;display: inline-block;}
+.coupon-item .right-side{height:123rpx;width: 29%;display: flex;justify-content: center;flex-direction: column;align-items: center;overflow: hidden;margin-right:10rpx;padding-top:10rpx;}
+.coupon-item>.coupon-msg>.right-side>text{border-radius:30rpx;display:inline-block;font-size:30rpx;color:#fff;}
+.coupon-item>.coupon-limit{position: relative;font-size:24rpx;color:#777777;padding-left:30rpx;width: calc(100% - 30rpx);padding-top:25rpx;}
+.coupon-item>.coupon-limit>.limit-msg-container{width: 80%;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;}
+.right-side>view{width:60%;}
+.coupon-item>.coupon-msg>.right-side>text.has-received{background:#c6c6c6;color:#ffffff;}
+.coupon-item>.coupon-msg>.right-side>text.to-use{width:157rpx;height:55rpx;background:linear-gradient(to left,#dc4247 7%,#ec6649);text-align: center;line-height: 55rpx; }
+/*限制商品下拉框*/
+.image-More{width: 16rpx;height: 24rpx;position: absolute;right:30rpx;top:30rpx}
+.limit-msg-base{background: #fff;width:calc(100% - 3rpx);white-space: normal;padding-bottom:30rpx;background: #fff;margin-left:-18rpx;padding-left:18rpx;border-top-left-radius: 30rpx;border-top-right-radius: 30rpx;margin-bottom:10rpx;}
+.limit-msg-base>.scroll-view{max-height: 120rpx;width: calc(100% - 60rpx);}
+.imageRotate{transform: rotate(90deg);transition: all .1s linear;}
+.imageRotateT{transform: rotate(0);transition: all .1s linear;}

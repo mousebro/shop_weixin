@@ -1,0 +1,25 @@
+<!--pages/commit/index.wxml-->
+<!--反馈 平台建议-->
+
+<view class='commit-container'>
+
+
+  <!--发表意见-->
+  <form bindsubmit="bindFormSubmit">
+      <!--文本输入框-->
+      <textarea class='commit-textarea' placeholder='很高兴倾听您的声音，我们将持续优化改进' auto-focus='true' placeholder-style="color:gray" bindinput="contentInput">  </textarea>
+      <input type="number" class='commit-textarea commit-phone' placeholder='请输入联系电话，以便我们更好的解决问题'  placeholder-style="color:gray" bindinput="phoneInput">  </input>
+
+      <!--添加图片-->
+      <view wx:for="{{pictureList}}" class="commit-picture" wx:key="{{item.id}}">
+        <image src='{{item.url}}' class="commit-addpic"></image>
+        <image src='../../images/group-buy/close.png' class="commit-delpic" data-idx="{{item.id}}" bindtap="delPicture"></image>
+      </view>
+      <view class="picture-container">
+        <image src='../../images/product-commit/add-pic.png' mode="aspectFit" class="addpic" bindtap="addPic"></image>
+      </view>
+       <view  class='submitBtn' bindtap="bindFormSubmit">提交</view>
+  </form>
+
+  
+</view>

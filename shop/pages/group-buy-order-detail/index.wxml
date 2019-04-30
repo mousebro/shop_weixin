@@ -10,10 +10,15 @@
       <view class="shop-block clearfix">
         <image class="" src="{{goodDetail.thumbUrl}}" >
         </image>
-        <text>{{goodDetail.title}}32132132</text>
-        <text>￥{{goodDetail.groupsprice}}</text>
+        <text>{{goodDetail.title}}</text>
+        <text wx:if="{{goodDetail.isCommon==1}}">￥{{goodDetail.singleprice}}</text>
+        <text wx:else>￥{{goodDetail.groupsprice}}</text>
         <text>x{{buyNumber}}</text>
       </view>
+  </view>
+  <!-- 订单备注 -->
+  <view class="remark">
+    <textarea value="{{descript}}" maxlength="50" bindinput="bindRemark"  placeholder="{{areaPlaceholder}}" />
   </view>
   <!-- 价格结算 -->
   <view class="countprice">
@@ -21,6 +26,17 @@
       <text>商品金额</text>
       <text>￥{{singleprice}}</text>
     </view>
+    <!-- <view wx:if="{{superstatus == 2}}" class="countprice-super clearfix" bindtap="hrefToSupermember">
+      <text>SUPER会员下单立减</text>
+      <text>{{showDiscountPrice}}</text>
+      <text>元</text>
+      <image src="/images/more.png"/>
+    </view> -->
+    <!-- <view wx:if="{{superstatus == 1}}" class="countprice-less clearfix">
+      <image src="/images/super.png" class="swiper-img" mode="widthFix"/>
+      <text class="vip-price">{{discount*10}}折（-￥{{showDiscountPrice}}）</text>
+    </view> -->
+
     <view class="countprice-plus clearfix">
       <text>运费</text>
       <text>￥{{goodDetail.freight}}</text>
@@ -38,20 +54,36 @@
       <text>优惠券</text>
       <text>-￥{{couponPrice}}</text>
     </view> -->
-    <!-- <view wx:if="{{isVip}}" class="countprice-less clearfix">
-      <image src="/images/super.png" class="swiper-img" mode="widthFix"/>
-      <text class="vip-price">-￥{{vipPrice/100}}</text>
-    </view> -->
+    <view wx:if="{{showIntegral >= 1000}}" class="countprice-integral clearfix" bindtap="useIntegral">
+      <text>可用{{newShowIntegral }}购物金抵用</text>
+      <text>{{newShowIntegral/100 }}</text>
+      <text>元</text>
+      <image wx:if="{{integral == 0}}" src="/images/gou.png"/>
+      <image wx:if="{{integral == 1}}" src="/images/gou-red.png"/>
+    </view>
+    <view wx:if="{{showIntegral < 1000}}" class="countprice-unIntegral clearfix">
+      <text>{{showIntegral}}购物金</text>
+      <text>未满{{creditLimit}}购物金不可用</text>
+    </view>
     <view class="countprice-total">
-      <text>实付金额</text>
-      <text>￥{{goodDetail.totalPrice}}</text>
+      <text>实付金额：</text>
+      <text>￥{{showPayPrice}}</text>
     </view>
   </view>
-  <!-- 支付订单 -->
-  <view class="submit" bindtap="submit">
-    <text>立即支付</text>
-  </view>
-
+    <!-- 支付订单 -->
+    <form report-submit='{{true}}' bindsubmit="formSubmit">
+      <button class="submit" bindtap="submit" form-type="submit">
+        立即支付
+      </button>
+    </form>
+    <view class="mask" wx:if="{{showAddressMask}}"></view>
+    <view class="add-address" wx:if="{{showAddressMask}}">
+      <image class="address-cancle" src="../../images/close.png" mode="aspectFit"  bindtap="hidenAddressMask"/>
+      <view>
+        <view>当前地址为空，需完善地址信息。</view>
+        <view class="address-btn" bindtap="changeAddress">去完善</view>
+      </view>
+    </view>
   <!-- 底部分享弹窗 -->
   <!-- <action-sheet hidden="{{actionSheetHidden}}" bindchange="listenerActionSheet" >
     <block>

@@ -1,0 +1,192 @@
+<!--pages/bargain-comfirm/index.wxml-->
+<view  class="allcontainer">
+    <view class="addTips" wx:if="{{showAddTips}}" bindtap="closeAddtips">
+        <text>点击“添加到我的小程序”，便捷购好物</text>
+        <text>|</text>
+        <text>X</text>
+        </view>
+        <view class="addTips-three" wx:if="{{showAddTips}}">
+        <view class="addTips-three-block">
+        </view>
+    </view>
+
+    <view class="mask" wx:if="{{showModal == true}}"></view>
+    <view class="modal1" wx:if="{{modal1 == true}}">
+        <view>
+            <text>活动规则</text>
+            <image src="../../images/sign-in-center/rules.png" mode="widthFix"></image>
+            <view class="modalRules">
+                <scroll-view class="modalRules-scroll"  scroll-y="true" >
+                    
+                    <text>{{introductioncontent}}</text>
+                </scroll-view>
+            </view>
+            <view class="close" bindtap="hideModal">
+                <image src="../../images/sign-in-center/close.png"></image>
+            </view>
+        </view>
+    </view>
+    <view class="header-container {{isOrder==0?'header-container-noOrder':''}}">
+        <view class="header-bg">
+        </view>
+        <view class="card {{isOrder==1?'card-position':''}}">
+           <view class="card-contain" wx:if="{{isOrder==0}}">
+                <image class="avatar" src="{{bargainDetail.avatar}}" mode="aspectFit" lazy-load="false" />
+                <view class="customer">{{bargainDetail.newNickName}}</view>
+                <view class="msg">"{{bargainDetail.introduct}}"</view>
+                <view class="product-card">
+                    <image class="product-img" src="{{bargainDetail.image}}" mode="aspectFit" />
+                     <view class="product-decr">
+                        <view>{{bargainDetail.title}}</view>
+                        <view class="price">
+                            <text>￥{{bargainDetail.bargainprice}}</text><text>￥{{bargainDetail.deleteprice}}</text>
+                        </view>
+                        <view>
+                            <swiper class="swiper shop-swiper shop-swiper-custom"  vertical="true" circular="true" autoplay="true" interval="4000" duration="800" indicator-color="#cbcbcb" indicator-active-color="#ea4149">
+                                <block wx:for="{{carouselList}}" wx:key="{{index}}">
+                                    <swiper-item >
+                                    <view class="shop-swiper-item">
+                                        <image lazy-load="true" src="{{item.avatar}}" class="swiper-img-avatar"/>
+                                        <text>{{item.newNickName}}{{item.showprice}}元下单成功</text>
+                                    </view>
+                                    </swiper-item>
+                                </block>
+                            </swiper>
+                        </view>
+                     </view>
+                </view>
+                <text class="buy-button" bindtap="hrefToBargainDetail">0元抢购</text>
+            </view>
+            <view class="card-contain" wx:if="{{isOrder == 1}}" style="padding-top:0rpx;">
+                <image class="card-product-img" style="width:320rpx;height: 320rpx;" src="{{bargainDetail.image}}" mode="aspectFit" lazy-load="false" binderror="" bindload="" />
+                <view class="title">{{bargainDetail.title}}</view>  
+            </view>
+            <view class="progress-container">
+                <text>已砍至￥{{doneBargainPrice}}</text>
+                <progress percent="{{progressRate}}"  border-radius="20px" active  activeColor='#f2f2f2' active="false" backgroundColor="#eb414a" class='shop-rate-progress'/>
+                <view class="target">
+                    <text>￥{{dispatchprice}}</text>
+                    <text>￥{{lastPrice}}</text>
+                </view>
+            </view>
+        </view>
+
+        <form  report-submit='{{true}}' bindsubmit="formSubmit">
+            <!-- <form  report-submit='{{true}}' bindsubmit="formSubmitB">
+             <form  report-submit='{{true}}' bindsubmit="formSubmitD"> -->
+                <view class="team-container" hover-class="none" hover-stop-propagation="false" wx:if="{{isOrder==0}}">
+                    <view class="team-msg-two" hover-class="none" hover-stop-propagation="false" >
+                    <view class="share-msg" hover-class="none" hover-stop-propagation="false">
+                    </view>
+                    <view class="" hover-class="none" hover-stop-propagation="false" wx:if="{{bargainType!=5 && bargainType!=0 && bargainType != 7 && bargainType !=-1 && bargainType!=-3}}">
+                        还剩 <text>{{timeList.hours}}</text>:<text>{{timeList.minutes}}</text>:<text>{{timeList.secondeds}}</text> 过期
+                    </view>
+                    <view class="bargain-over-msg" hover-class="none" hover-stop-propagation="false" wx:if="{{bargainType==5 || bargainType==0 || bargainType == 7 || bargainType ==-1 || bargainType==-3}}">
+                    砍价已结束
+                    </view>
+                </view>
+                    <button class="share-btn share-btn-animation" wx:if="{{bargainType == 3}}"  style="height: 90rpx;line-height: 90rpx;padding: 0;"  catchtap="helpToBargain" form-type="submit">帮ta砍一刀</button>
+                    <view class="share-btn share-btn-animation" wx:if="{{bargainType == 4 }}" catchtap="shareShop">分享好友帮砍</view>
+                    <view class="share-btn share-btn-animation" wx:if="{{(bargainType == 5 || bargainType == 0 || bargainType==7 ||bargainType==2 || bargainType==-3 || bargainType==8) && isMyorder!=1}}" catchtap="hrefToIndex">查看更多商品</view>
+                    <view class="share-btn share-btn-animation" wx:if="{{(bargainType == 0 || bargainType==7 ||bargainType==2 || bargainType==-3 || bargainType==8) && isMyorder==1}}" catchtap="hrefToIndex">查看更多商品</view>
+                    <view class="share-btn share-btn-animation" wx:if="{{ isMyorder==1 && bargainType==5}}" catchtap="goToPay">去支付￥{{payPrice}}</view>
+                    <view class="share-btn share-btn-animation" wx:if="{{bargainType==6 || bargainType == 1 || bargainType==-2 ||bargainType == -1}}" data-id="{{shopId}}" catchtap="hrefToBargainDetail">我也0元购</view>
+                </view> 
+                <view class="team-container" hover-class="none" hover-stop-propagation="false" wx:if="{{isOrder==1}}">
+                    <view class="share-btn btn-class" wx:if="{{bargainType!=5}}" catchtap="shareShop">分享好友帮砍</view>
+                    <view wx:if="{{bargainType==5 ||  bargainType==-3}}" class="bargain-over-msg">砍价已结束</view>
+                    <view class="share-btn btn-class " wx:if="{{bargainType == 5}}" catchtap="goToPay">去支付￥{{payPrice}}</view>
+                    <view class="share-btn btn-class " wx:if="{{bargainType!=5}}" catchtap="goToPay">去支付￥{{payPrice}}</view>
+                </view> 
+                <!-- </form>
+            </form>-->
+        </form> 
+    </view>
+    <!--帮砍详情-->
+   <view class="helper-container">
+       <text class="msg" >帮砍详情</text>
+       <view wx:if="{{cutList.length>0}}" wx:for="{{cutList}}" wx:key="{{index}}">
+           <view class="left-side">
+               <image class="avatar" src="{{item.avatar}}" mode="aspectFit" />
+                <text  class="helper-name">{{item.newNickName}}</text>
+           </view>
+           <view class="right-side">帮砍￥{{item.price}}</view>
+       </view>
+       <view class="noMsg-container" wx:if="{{cutList.length==0}}">
+        <image class="noMsg-img" src="../../images/noMsg.png" mode="aspectFit" lazy-load="false" binderror="" bindload="" />
+          <text>竟然一个也没有</text>
+          
+        </view>
+   </view>
+   <view class="fixed-header">
+       <text wx:if="{{isOrder!=1 || bargainType==5}}" bindtap="hrefToIndex">返回首页</text>
+       <view class=""  wx:if="{{isOrder == 1 && bargainType!=5 && bargainType!=0}}" style="margin-left: 20rpx;" >
+        还剩 <text>{{timeList.hours}}</text><text>:</text><text>{{timeList.minutes}}</text><text>:</text><text>{{timeList.secondeds}}</text> 过期
+    </view>
+       <text bindtap="showModal">活动规则</text>
+   </view>
+       <!-- 底部分享弹窗 -->
+  <action-sheet hidden="{{actionSort}}" class="sheet-container">
+    <block>
+      <action-sheet-item bindtap="openPoster"  class="sheet-item">分享图片</action-sheet-item>
+      <action-sheet-item class="sheet-item">
+        <button open-type="share" type="button" name="button" class="sheet-button">分享链接</button>
+      </action-sheet-item>
+    </block>
+    <!--自动隐藏action-sheet-->
+    <action-sheet-cancel bindtap="closeShare" class="sheet-item">取消</action-sheet-cancel>
+  </action-sheet>
+
+    <view class="canvas" style="width:100%; height: 0;">
+        <canvas style="width:750px; height: 1334px;" canvas-id="firstCanvas" wx:hidden="{{1}}"></canvas>
+    </view>
+    <view class="mask" wx:if="{{ showToast ||showMask }}"></view>
+    <image wx:if="{{showMask}}" class="poster-close-btn poster" src="../../images/toClose.png" mode="aspectFit" lazy-load="false" binderror="" bindload="" bindtap="closeMask" />
+      <view class="poster-container poster" wx:if="{{showMask}}">
+        <scroll-view class="scroll-view"  scroll-y="true"  >
+            <view class="sharer-msg">
+                <view class="share-avatar">
+                    <image class="avatar" src="{{bargainDetail.avatar}}" mode="aspectFit" lazy-load="false" binderror="" bindload=""/>
+                    <view class="share-name">{{bargainDetail.nickname}}推荐</view>
+                </view>
+                <image class="logo" src="../../images/logo.png" mode="aspectFit" lazy-load="false" binderror="" bindload="" />
+            </view>
+            <view class="slogan">“{{introduct}}”</view>
+            <image class="product-img" src="{{bargainDetail.image}}" mode="widthFix" lazy-load="false"  />
+            <view class="product-title">{{title}}</view>
+            <view class="price-qr-container">
+                <view class="left-price">
+                    <view>
+                        <text wx:for="{{labels}}" wx:key="{{index}}" wx:if="{{index<2}}">{{item.labelname}}</text>
+                    </view>
+                    <view class="price">
+                        <text class="icon">￥</text>
+                        <text class="price-a">{{bargainDetail.newBargainPrice[0]}}</text>
+                        <text class="price-d">.{{bargainDetail.newBargainPrice[1]}}</text>
+                    </view>
+                    <view class="del-price">￥{{bargainDetail.deleteprice}}</view>
+                </view>
+                <view class="right-QR">
+                    <image class="QR" src="{{canvasCodeImg}}" mode="aspectFit" lazy-load="false" binderror="" bindload="" />
+                    <view>长按识别小程序码</view>
+                </view>
+            </view>
+        </scroll-view>
+    </view>
+    <view class="poster poster-btn-container">
+        <view class="poster-save-btn  {{issaveCodeImg==0?'waitingPaint':''}} "  wx:if="{{showMask}}" bindtap="toLocalImage">{{showMsg}}</view>
+    </view>
+    <view class="toast-container" wx:if="{{showToast}}">
+        <view style="background:transparent url({{doneBgImg}}) no-repeat;background-size:100% 100%;" >
+            <view class="close-container">
+                <image class="close-btn" src="../../images/bargain/close.png" mode="aspectFill" lazy-load="false" bindtap="closeToast" />
+            </view>
+            <view class="msg">
+                <text>谢谢你！</text>
+                <text>成功帮砍{{showBargainPrice}}元</text>
+                <text class="buy-btn" catchtap="hrefToBargainDetail">我也要0元购</text>
+            </view>
+        </view>
+    </view>
+
+</view>

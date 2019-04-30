@@ -1,0 +1,24 @@
+/* pages/active/index.wxss */
+@import "../../template/active-coupon/index.wxss";
+@import "../../template/active-goods/index.wxss";
+@import "../../template/active-special/index.wxss";
+.red-mould{background: #c42c1a;height: 100%;}
+.black-mould{background: #030200;height: 100%;}
+
+/*标题*/
+.active-title-red{width: 514rpx;height: 90rpx;background: #d1352b;border-radius: 45rpx;border:solid 4rpx #e2e1bf;text-align: center;line-height: 90rpx;font-size:48rpx;color:#fff;margin:0 auto 30rpx;}
+.active-title-black{font-weight: bold;background: linear-gradient(to bottom, #f8da8e 40%, #c2974b 60%, #efc77e) !important;-webkit-background-clip: text !important;color: transparent !important;font-size:48rpx;margin:0 auto 30rpx;height: 106rpx;width: 587rpx;text-align: center;line-height: 106rpx;position: relative;}
+.active-title-black::before,.active-title-black::after{display:block;width: 100%;height:3rpx;content:' 1232';position: absolute;}
+.active-title-black::before{top:0rpx; background: radial-gradient(#f8da8e 24%, #030200 100%);}
+.active-title-black::after{bottom:0rpx; background: radial-gradient(#f8da8e 24%, #030200 100%);}
+
+/*分区间距*/
+.template-space{height: 30rpx;}
+
+/*返回顶部按钮*/
+.backToTop{width:232rpx;height: 68rpx;border-radius: 34rpx;margin:0 auto 60rpx;text-align: center;line-height:68rpx; font-size:36rpx;}
+.backToTop-btn-black{background: linear-gradient(to bottom, #f8da8e 40%, #c2974b 60%, #efc77e) !important;-webkit-background-clip: text !important;color: transparent !important;border-radius:68rpx;border:1px solid #efc77e;}
+.backToTop-btn-red{background: #f3e0b5;color:#cf141a;}
+
+/*轮播图*/
+.swiper-container,.swiper-img{width: 100%;height:404rpx;background: #fff;}

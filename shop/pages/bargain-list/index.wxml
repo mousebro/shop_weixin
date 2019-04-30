@@ -1,0 +1,47 @@
+<!--pages/bargain/index.wxml-->
+<view class="bargain-list-container">
+  <!-- banner -->
+  <view  class="index-swiper" wx:if="{{entrance.length > 0}}">
+    <swiper  class="index-swiper-block"  circular="true" autoplay="true" interval="5000" duration="1000" indicator-color="#cbcbcb" indicator-active-color="#ea4149">
+      <block wx:for="{{entrance}}" wx:key="{{index}}">
+        <swiper-item>
+          <image src="{{item.imgUrl}}" data-type="{{item.hrefType}}" data-hrefId="{{item.hrefId}}" bindtap="bannerHref" class="swiper-img"/>
+        </swiper-item>
+      </block>
+    </swiper>
+  </view>
+  <!--列表-->
+  <view class="card-container" wx:for="{{goodsList}}" wx:key="{{item.id}}" hover-class="none" hover-stop-propagation="false">
+    <view class="card"   data-goodsId="{{item.id}}" bindtap="hrefToGroupDetail">
+        <image class="card-img" src="{{item.thumb}}" mode="aspectFill" lazy-load="true" >
+            </image>
+        <view class="msg-container">
+            <view class="card-msg" >
+                {{item.title}}
+            </view>
+            <view class='msg-swiper'>
+                <swiper class="index-swiper-block"  circular="true" autoplay="true" interval="3000" duration="900" vertical='true'>
+                <block wx:for="{{item.newCarouselList}}" wx:for-index="oIndex" wx:key="{{oIndex}}" wx:for-item="oItem">
+                    <swiper-item>
+                        <view><image class="msg-avatar" src="{{oItem.avatar}}" mode="aspectFit" lazy-load="false" >
+                        </image>{{oItem.nickname}}{{oItem.bargainprice}}元下单成功   </view>
+                    </swiper-item>
+                </block>
+                </swiper>
+            </view>
+            <view class="card-handle">
+                <view class="price">
+                    <view>
+                        <text class="icon">￥</text>
+                        <text class="price-c">{{item.newBargainprice[0]}}</text>
+                        <text class="price-a">.{{item.newBargainprice[1]}}</text>
+                        <text class="price-d">￥{{item.productprice}}</text>
+                    </view>
+                    <text class="btn">{{item.newBargainpriceBtn}}元抢购</text>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="card-bottom" ></view>
+  </view>
+</view>

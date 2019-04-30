@@ -7,7 +7,8 @@ Page({
    */
   data: {
     addressList: [],
-    url:''
+    url:'',
+    setNum:0
   },
 
   /**
@@ -21,13 +22,15 @@ Page({
     // })
     let url = options.url
     this.setData({
-      url:url
+      url:url || ''
     })
+    app.userView('RecordExposurenum') //统计平台曝光度记录
   },
   //点击新建收货地址，跳转到地址页
   addNewAddress(){
     let _this = this
     let isLogin = wx.getStorageSync('isLogin')
+    console.log(_this.data.url)
     if (!isLogin) {
       wx.navigateTo({
         url: '/pages/login/index',
@@ -83,9 +86,15 @@ Page({
               }
             })
           }else{
-            wx.navigateTo({
-              url: '/pages/address-manger/index?id=',
-            })
+            if(_this.data.url == 'order'){
+              wx.redirectTo({
+                url: '/pages/address-manger/index?url=order',
+              })
+            }else{
+              wx.navigateTo({
+                url: '/pages/address-manger/index?id=',
+              })
+            }
           }
         }
       })
@@ -128,6 +137,11 @@ Page({
           }
           _this.setData({
             addressList: arr
+          },function(){
+            if(_this.data.url=='order' && _this.data.setNum<1 && arr.length==0){
+              _this.setData({setNum:2})
+              _this.addNewAddress()
+            }
           })
         }else if(code==1019){
           wx.navigateTo({

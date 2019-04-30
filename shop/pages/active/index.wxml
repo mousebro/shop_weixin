@@ -1,0 +1,24 @@
+<!--pages/active/index.wxml-->
+<!---->
+<import src="../../template/active-coupon/index.wxml"/>
+<import src="../../template/active-goods/index.wxml"/>
+<import src="../../template/active-special/index.wxml"/>
+<view class="{{mould==1?'red-mould':'black-mould'}}" >
+    <swiper class="swiper-container" indicator-dots="false" indicator-active-color="{{indicatorColor}}" autoplay 
+        current="0" current-item-id="" interval="5000" duration="1000" circular="false">
+        <swiper-item wx:for="{{4}}">
+            <image class="swiper-img" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1555395109982&di=00e680591fee0c37cd3b6a4949efe212&imgtype=0&src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2Fa913a18abef981a6a404ed8f795cb7abe498218b1008b8-n1IrTG_fw658" mode="aspectFill" lazy-load="true" />
+              
+        </swiper-item>
+    </swiper>
+    <view class="template-space"></view> <!--分区间距-->
+    <template wx:if="{{1}}" is="active-coupon" data="{{couponObj}}"></template>
+    <view class="template-space"></view> <!--分区间距-->
+    <template wx:if="{{1}}" is="active-goods" data="{{goodsObj}}"></template>
+    <view class="template-space"></view> <!--分区间距-->
+    <template wx:if="{{1}}" is="active-special" data="{{specialObj}}"></template>
+    <view class="template-space"></view> <!--分区间距-->
+    <!--返回顶部按钮-->
+    <view wx:if="{{mould == 2}}" class="backToTop-btn-black backToTop" bindtap="backToTop">返回顶部</view>
+    <view wx:else class="backToTop-btn-red backToTop" bindtap="backToTop">返回顶部</view>
+</view>

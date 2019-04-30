@@ -8,6 +8,7 @@ Page({
 
   },
   onLoad: function (options) {
+    app.userView('RecordExposurenum') //统计平台曝光度记录
     let shopId = options.id
     let type = options.type
     this.setData({
@@ -47,6 +48,13 @@ Page({
             console.log(showTime);
             commentList[i].showTime = showTime
           }
+          for(let i in commentList){
+            let img = commentList[i].headimgurl
+            let url = img.slice(0,4)
+            if(url != 'http'){
+              commentList[i].headimgurl = app.globalData.imageUrl + img
+            }
+          }
           _this.setData({
             commentList:commentList,
             totalComment:totalComment
@@ -65,4 +73,21 @@ Page({
       }
     })
   },
+  //评论图片预览
+  watchImg(e){
+    let  commentList = this.data.commentList
+    let idx=e.currentTarget.dataset.idx
+    let imgurl = this.data.imgurl
+    let imgUrlArr = []
+    for(let i in commentList){
+      for(let item of commentList[i].imgurl){
+        let str = imgurl + item
+        imgUrlArr.push(str)
+      }
+    }   
+    wx.previewImage({
+      current: imgUrlArr[idx], // 当前显示图片的http链接
+      urls: imgUrlArr // 需要预览的图片http链接列表
+    })
+  }
 })

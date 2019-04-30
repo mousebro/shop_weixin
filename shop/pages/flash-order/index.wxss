@@ -25,7 +25,7 @@ page{background-color: #f2f2f2;}
 .countprice-less > text{display: block;width: 50%;float: left;font-size: 28rpx;line-height: 70rpx;}
 .countprice-less > text:nth-child(1){text-align: left;color: #222222;}
 .countprice-less > text:nth-child(2){text-align: right;color: #ea4149;}
-.countprice-less > image{width: 120rpx;float: left;margin-top: 20rpx}
+.countprice-less > image{width: 60px;float: left;margin-top: 20rpx}
 .countprice-less > image:nth-child(2){width: 14rpx;height: 20rpx;float: right;margin-left: 20rpx;margin-top: 24rpx;}
 .vip-price{width: calc(100% - 60px) !important;}
 .countprice-total{width: 100%;text-align: right;border-top: 1px solid #e8e8e8;margin-top: 20rpx;padding: 20rpx 0;}
@@ -55,4 +55,27 @@ page{background-color: #f2f2f2;}
 .modal1-body{padding-bottom: 140rpx;}
 /* 支付按钮 */
 .submit{margin:20rpx 30rpx;position: fixed;bottom: 0;background: linear-gradient(to right,#ea4149, #ff6849);text-align: center;width: calc(100% - 30px);height: 100rpx;line-height: 100rpx;}
-.submit text{font-size: 32rpx;color: #ffffff;}
+.submit{font-size: 32rpx;color: #ffffff;border-radius:0;}
+
+/* 积分价格计算 */
+.countprice-integral{width: 100%;position: relative;}
+.countprice-integral text{display: inline-block;float: left;font-size: 28rpx;line-height: 70rpx;color: #222222;}
+.countprice-integral text:nth-child(1){text-align: left;}
+.countprice-integral text:nth-child(2){color: #e3434f;}
+.countprice-integral image{position: absolute;right: 0;top:22rpx;width: 40rpx;height: 40rpx;}
+
+.countprice-unIntegral{width: 100%;position: relative;}
+.countprice-unIntegral text{width: 50%;float: left;display: block;font-size: 28rpx;}
+.countprice-unIntegral text:nth-child(1){color: #222222;text-align: left;}
+.countprice-unIntegral text:nth-child(2){color: #777777;text-align: right;}
+
+/* 订单备注 */
+.remark{width: 90%;margin-top: 20rpx;background-color: #ffffff;padding: 30rpx 5%;position: relative;}
+.remark textarea{text-align: left;font-size: 28rpx;height: 120rpx;line-height: 40rpx;}
+
+/*隐藏scroll-view的滚动条*/
+::-webkit-scrollbar{
+    width: 0;
+    height: 0;
+    color: transparent;
+    }

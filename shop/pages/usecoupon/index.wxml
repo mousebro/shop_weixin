@@ -1,8 +1,8 @@
-  <view class="body">
+  <!-- <view class="body">
     <view class="modal1">
       <view class="modal1-body">
         <block wx:for="{{couponList}}" wx:key="{{item.couponItemId}}">
-          <view wx:if="{{item.backtype == 0}}" class="couponBlock clearfix" bindtap="useCashCoupon" data-id="{{item.couponItemId}}" data-price="{{item.deduct}}" data-usePrice="{{item.enough}}">
+          <view wx:if="{{item.backtype == 0}}" class="couponBlock clearfix" bindtap="useCashCoupon" data-id="{{item.couponItemId}}" data-price="{{item.deduct}}" data-usePrice="{{item.enough}}" data-limitgoodcateids="{{item.limitgoodcateids}}" data-limitgoodcatetype="{{item.limitgoodcatetype}}" data-limitgoodids="{{item.limitgoodids}}" data-limitgoodtype="{{item.limitgoodtype}}">
               <view class="coupon-left">
                 <view class="coupon-left-block">
                   <text>￥</text>
@@ -16,7 +16,7 @@
                 <text wx:if="{{item.timelimit == 1}}">有效期：{{item.timestart}}-{{item.timeend}}</text>
               </view>
           </view>
-          <view wx:if="{{item.backtype == 1}}" class="couponBlock clearfix" bindtap="useDiscountCoupon" data-id="{{item.couponItemId}}" data-discount="{{item.discount}}" data-usePrice="{{item.enough}}">
+          <view wx:if="{{item.backtype == 1}}" class="couponBlock clearfix" bindtap="useDiscountCoupon" data-id="{{item.couponItemId}}" data-discount="{{item.discount}}" data-usePrice="{{item.enough}}" data-limitgoodcateids="{{item.limitgoodcateids}}" data-limitgoodcatetype="{{item.limitgoodcatetype}}" data-limitgoodids="{{item.limitgoodids}}" data-limitgoodtype="{{item.limitgoodtype}}">
               <view class="coupon-left">
                 <view class="coupon-left-block2">
                   <text>{{item.discount}}</text>
@@ -34,4 +34,71 @@
       </view>
       <text bindtap="useNoCoupon">不使用优惠券</text>
     </view>
-  </view>
+  </view> -->
+
+  <view class="discount-all-container" >
+    <!--商品列表页 头部选项栏-->
+        <view class="fixed-header">
+            <view class="headerTabs" >
+                <view class="{{isChose==1?'isActive':''}}" bindtap='handleTap' data-idx="1">可用</view>
+                <view class="{{isChose==2?'isActive':''}}" bindtap='handleTap' data-idx="2">不可用</view>
+               
+            </view>
+        </view>
+        <view class="coupon-list">
+            <view class="coupon-item" wx:for="{{couponList}}" wx:key="{{index}}" data-idx="{{index}}" style="background:#f2f2f2 url({{imgUrl}}) no-repeat;background-size:100% 230rpx;" bindtap="{{item.backtype == 0?'useCashCoupon':'useDiscountCoupon'}}" data-id="{{item.couponItemId}}" data-price="{{item.deduct}}" data-usePrice="{{item.enough}}" data-limitgoodcateids="{{item.limitgoodcateids}}" data-limitgoodcatetype="{{item.limitgoodcatetype}}" data-limitgoodids="{{item.limitgoodids}}" data-limitgoodtype="{{item.limitgoodtype}}" data-discount="{{item.discount}}">
+                <view class="coupon-msg">
+                    <view class="left-side {{isChose != 1?'used-coupon-msg':''}}">
+                        <image wx:if="{{isChose == 1}}" class="coupon" src="../../images/receive-coupon-center/coupon.png" mode="aspectFit" lazy-load="false" binderror="" bindload="">
+                        </image>
+                        <view>
+                            <view>{{item.couponname }}</view>
+                            <view  wx:if="{{item.backtype == 0}}">￥<text  decode="true">{{item.deduct}}&nbsp;</text><text wx:if="{{item.enough == '0'}}">无门槛直减</text><text wx:else>满{{item.enough}}可用</text></view>
+                            <view wx:else><text>{{item.discount}}</text> 折 <text wx:if="{{item.enough == '0'}}"> 无门槛直减</text><text wx:else>满{{item.enough}}可用</text></view>
+                            <view class="limit-times">有效期：{{item.startTime}} - {{item.endTime}}</view>
+                        </view>
+                    </view>
+                    <view   class="right-side"  data-couponid="{{item.couponid}}" data-isget="{{item.isget}}">
+                        <!--需要有优惠券张数领取限制-->
+                        <image wx:if="{{isChose == 1 && item.choseStatus == 1}}" class="choseImg" src="../../images/discount/chosed.png" mode="aspectFit" lazy-load="false" binderror="" bindload="" />
+                        <image wx:if="{{isChose == 1 && item.choseStatus == 0}}" class="choseImg" src="../../images/discount/unChosed.png" mode="aspectFit" lazy-load="false" binderror="" bindload="" />
+                        <!--角标-->
+                        <view wx:if="{{isChose == 2}}" class="right-script" >
+                            不可用
+                        </view>
+                    </view>
+                </view>
+                <!-- <view class="coupon-limit {{isChose != 1?'none-msg-used':''}}">
+                    <text wx:if="{{item.limitmembertype=='super会员'}}"> 仅限{{item.limitmembertype}} </text><text wx:if="{{item.limitgoodidsname!=''}}"> 仅限{{item.limitgoodidsname}}</text><text wx:if="{{item.limitgoodcateidsname !=''}}"> 仅限{{item.limitgoodcateidsname}}</text>
+                </view> -->
+                <view class="coupon-limit {{isChose != 1?'none-msg-used':''}} " catchtap="openLimitMesg" data-idx="{{index}}" >
+                    <view class="limit-msg-container " wx:if="{{!item.limitMsg}}">
+                        <text wx:if="{{item.limitmembertype=='super会员'}}"> 仅限{{item.limitmembertype}}</text>
+                        <text wx:if="{{item.limitcategory.length !=0}}" wx:for="{{item.limitcategory}}" wx:for-item="cateItem"> 
+                            <text>仅限{{cateItem.name}}; </text>
+                        </text>
+        
+                        <text wx:if="{{item.limitgoods.length !=0}}" wx:for="{{goodItem}}" wx:for-item="goodItem"> 
+                            仅限{{goodItem.name }} 
+                        </text>
+                    </view>
+                    <image class="image-More {{item.limitMsg==1?'imageRotate':'imageRotateT'}}" src="../../images/more.png" mode="aspectFit" lazy-load="false" binderror="" bindload="" />
+                    <view wx:if="{{item.limitMsg}}" style="width:99%;white-space: normal;padding-bottom:30rpx;max-height: 150rpx;" class="limit-msg-base {{isChose!=1?'grey-backG':''}} {{item.limitMsg==1?'limit-msg-container':''}} ">
+                        <scroll-view class="scroll-view" scroll-y >
+                            <text wx:if="{{item.limitcategory.length !=0}}" wx:for="{{item.limitcategory}}" wx:for-item="cateItem"> 
+                                <text>仅限{{cateItem.name}}; </text>
+                            </text>
+                            <text wx:if="{{item.limitgoods.length !=0}}" wx:for="{{goodItem}}" wx:for-item="goodItem"> 
+                                    仅限{{goodItem.name }} 
+                            </text>
+                        </scroll-view>
+                    </view>  
+                </view>
+                <view wx:if="{{isChose != 1}}" class="{{item.limitgoods.length ==0?'reason-limit':'reason'}}">说明：{{item.reason}}</view>
+            </view>
+        </view>
+        <view class="no-coupons" wx:if="{{couponList.length == 0}}">
+            <image class="none-img" src="../../images/discount/none.png" mode="aspectFit" lazy-load="false" binderror="" bindload="" />
+             <view class="none-msg ">无可用优惠券</view>
+        </view>
+    </view>

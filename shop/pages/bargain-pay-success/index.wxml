@@ -1,0 +1,30 @@
+<!--pages/bargain-pay-success/index.wxml-->
+<!--0元购支付成功页面-->
+<view>
+    <!--支付成功图标-->
+    <view class="pay">
+        <image class="success-img" src="../../images/success.png" mode="aspectFit" lazy-load="false"/>
+        <view class="success-msg">支付成功!</view>
+        <view class="btn-container">
+            <text bindtap="hrefToIndex">更多商品</text>
+            <text bindtap="hrefToOrderDetail">订单详情</text>
+        </view>
+        <text class="btn-more" bindtap="hrefToBargainList">
+            更多0元抢购商品
+        </text>
+    </view>
+    <!-- 推荐商品 -->
+  <view wx:if="{{goodsList.length != 0 }}" class="shop-list clearfix">
+        <text>推荐好物</text>
+        <block wx:for="{{goodsList}}" wx:key="{{item.id}}">
+          <view class="shop-list-block" data-id="{{item.id}}" bindtap="hrefToDetail">
+            <image src="{{item.thumb}}" class="swiper-img"/>
+            <text class="list-block-title">{{item.title}}</text>
+            <!-- <text class="slogan" style="padding:0rpx 10rpx;color:#ea4149;font-size:24rpx;border:1px solid #ea4149;border-radius:8rpx;margin-right:10rpx;display: inline-block;">新春特惠</text> -->
+            <text class="list-block-marketprice">￥{{item.marketprice}}</text>
+            <text class="list-block-delprice">￥{{item.productprice}}</text>
+          </view>
+        </block>
+    </view>
+
+</view>

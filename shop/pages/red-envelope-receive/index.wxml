@@ -1,0 +1,56 @@
+<!--pages/red-envelope-receive/index.wxml-->
+<view class="header-container" >
+    <image class="header-image" src="https://allnet-shop-cdn.91uda.com/images/1/2019/03/oh2LIirGzce3sZIGGssz0Eghz0hiyr.png" mode="aspectFill" lazy-load="false" binderror="" bindload="" />
+    <view class="header-mgs">
+        <view>新人领红包</view>
+        <view>瓜分购物金</view>
+    </view>
+</view>
+<view class="red-envelope-container">
+    <view class="card">
+        <!--红包记录-->
+        <image class="avatar-img" src="{{avatar}}" mode="aspectFit" />
+        <view class="name">{{nickname}}</view>
+        <view class="slogan">{{content}}</view>
+        <view class="receive-carousel">
+
+            <swiper class="swiper-view" vertical="true" duration="2000" autoplay circular>
+                <swiper-item wx:for="{{showAwardList}}" wx:key="{{item.nickname}}" class="msg-container">
+                    <image class="avatar" src="{{item.avatar}}" mode="aspectFit" />
+                    <view class="msg" >
+                        恭喜{{item.newNickname}} 发红包成功获得<text>{{item.award}}</text>购物金
+                    </view>
+                </swiper-item>
+            </swiper>
+        </view>
+        <view class="envelope-btn" style="background:transparent url({{btnImg}}) no-repeat;background-size:100% 100%;" bindtap="getRedPacket">
+                领红包
+        </view>
+    </view>
+
+</view>
+<!-- 推荐商品 -->
+<view wx:if="{{goodsList.length != 0 }}" class="shop-list clearfix">
+        <text>好物推荐</text>
+        <block wx:for="{{goodsList}}" wx:key="{{item.id}}">
+            <view class="shop-list-block" data-id="{{item.id}}" bindtap="hrefToDetail">
+            <image src="{{item.thumb}}" class="swiper-img"/>
+            <text class="list-block-title">{{item.title}}</text>
+            <!-- <text class="slogan" style="padding:0rpx 10rpx;color:#ea4149;font-size:24rpx;border:1px solid #ea4149;border-radius:8rpx;margin-right:10rpx;display: inline-block;">新春特惠</text> -->
+            <text class="list-block-marketprice">￥{{item.marketprice}}</text>
+            <text class="list-block-delprice">￥{{item.productprice}}</text>
+            </view>
+        </block>
+    </view>
+<view class="mask" wx:if="{{showMask}}"></view>
+<view wx:if="{{showToast}}" class="mask-task-bg" style="background:transparent url(https://allnet-shop-cdn.91uda.com/images/1/2019/03/O4qQnjJwfwzEe58xLlQ8XEYWPqe5ox.png) no-repeat;background-size:100% 100%;">
+    <image class="cancle-btn" src="../../images/close.png" mode="aspectFit"  bindtap="hideModal"/>
+    <view class="chose-card">
+        <view wx:if="{{showSuccess}}">恭喜你！</view>
+        <view wx:if="{{showFail}}">新人福利</view>
+        <view wx:if="{{showSuccess}}">获得<text class="count">{{showNewUserAward}}</text>购物金</view>
+        <view wx:if="{{showFail}}">老用户无权限领取</view>
+        <view class="for-detail" wx:if="{{showSuccess}}" bindtap="hrefToGold">去查看</view>
+        <view class="for-detail" wx:if="{{showFail}}" bindtap="hrefToNewIndex">去首页</view>
+    </view>
+</view>

@@ -43,14 +43,23 @@
     </view>
     <!-- 商品信息 -->
     <view class="shop">
-      <block wx:for="{{goodsList}}">
+      <block wx:for="{{goodsList}}" wx:key="{{index}}">
         <view class="shop-block clearfix">
           <image src="{{item.pic}}"/>
-          <text>{{item.name}}</text>
-          <text>￥{{item.price}}</text>
-          <text>x{{item.number}}</text>
+          <view class="product-name-spec">
+            <text>{{item.name}}</text>
+            <view><text wx:if="{{item.specTitle}}">【{{item.specTitle}}】</text></view>
+            <view class="product-price-number">
+              <text>￥{{item.price}}</text>
+              <text>x{{item.number}}</text>
+            </view>
+          </view>
         </view>
       </block>
+    </view>
+    <!-- 订单备注 -->
+    <view class="remark">
+      <textarea value="{{descript}}" maxlength="50" bindinput="bindRemark" placeholder="{{areaPlaceholder}}" />
     </view>
     <!-- 价格结算 -->
     <view class="countprice">
@@ -58,30 +67,64 @@
         <text>商品金额</text>
         <text>￥{{totalPrice/100}}</text>
       </view>
+      <!-- <view wx:if="{{superstatus == 1}}" class="countprice-less clearfix">
+        <image src="/images/super.png" class="swiper-img" mode="widthFix"/>
+        <text class="vip-price">{{discount*10}}折（-￥{{showDiscountPrice/100}}）</text>
+      </view>
+      <view wx:if="{{superstatus == 2}}" class="countprice-super clearfix" bindtap="hrefToSupermember">
+        <text>SUPER会员下单立减</text>
+        <text>{{showDiscountPrice/100}}</text>
+        <text>元</text>
+        <image src="/images/more.png"/>
+      </view> -->
       <view class="countprice-plus clearfix">
         <text>运费</text>
-        <text>￥{{fare/100}}</text>
+        <text>￥{{fare}}</text>
       </view>
-      <!-- 优惠券模块后面做 -->
-      <view wx:if="{{!choseCoupon & couponList.length != 0}}" class="countprice-less clearfix" bindtap="choseCoupon">
+      <!-- 优惠券模块 -->
+      <view wx:if="{{!choseCoupon  && isBargain!=1 && couponPrice == 0}}" class="countprice-less clearfix" bindtap="choseCoupon">
         <text>优惠券</text>
         <image src="/images/more.png"/>
         <view class="coupon-less-noselect">
-          <image src="/images/paySuccess/coupon.png"/>
-          <text>{{couponList.length}}张可用</text>
+          <!-- <image src="/images/paySuccess/coupon.png"/> -->
+          <text>暂无可用</text>
         </view>
       </view>
       <!-- <view wx:if="{{couponList.length == 0}}" class="countprice-less clearfix">
         <text>优惠券</text>
         <text>-￥0</text>
       </view> -->
-      <view wx:if="{{choseCoupon & couponType == 1}}" class="countprice-less clearfix" bindtap="choseCoupon">
+      <view wx:if="{{couponBackType == 0}}" class="countprice-less clearfix" bindtap="choseCoupon">
         <text>优惠券</text>
         <text>-￥{{couponPrice}}</text>
       </view>
-      <view wx:if="{{choseCoupon & couponType == 2}}" class="countprice-less clearfix" bindtap="choseCoupon">
+      <view wx:if="{{couponBackType == 1}}" class="countprice-less clearfix" bindtap="choseCoupon">
         <text>优惠券</text>
         <text>{{couponDiscount}}折（-￥{{couponPrice}}）</text>
+      </view>
+      <view wx:if="{{showIntegral >= creditLimit & !limitIntegral}}" class="countprice-integral clearfix" bindtap="useIntegral">
+        <text>可用{{canUseIntegral}}购物金抵用</text>
+        <text>{{canUseIntegral/100}}</text>
+        <text>元</text>
+        <image class="question-icon" catchtap="showRuleToast" src="../../images/question.png" mode="aspectFit" lazy-load="false"/>
+        <image class="comfirm-icon" wx:if="{{integral == 0}}" src="/images/gou.png"/>
+        <image class="comfirm-icon" wx:if="{{integral == 1}}" src="/images/gou-red.png"/>
+      </view>
+
+      <view wx:if="{{showIntegral >= creditLimit & limitIntegral && isBargain!=1}}" class="countprice-integral clearfix" bindtap="useIntegral">
+        <text>可用{{canUseIntegral}}购物金抵用</text>
+        <text>{{canUseIntegral/100}}</text>
+        <text>元</text>
+        <image class="question-icon"  catchtap="showRuleToast" src="../../images/question.png" mode="aspectFit" lazy-load="false"/>
+          
+        <image class="comfirm-icon" wx:if="{{integral == 0}}" src="/images/gou.png"/>
+        <image class="comfirm-icon" wx:if="{{integral == 1}}" src="/images/gou-red.png"/>
+      </view>
+      <view catchtap="showRuleToast" wx:if="{{showIntegral < 1000 && isBargain != 1}}" class="countprice-unIntegral clearfix unableUseIntegral">
+        <text>{{showIntegral}}购物金</text>
+        
+        <text>未满{{creditLimit}}0购物金不可用</text>
+        <image class="question-icon" src="../../images/question.png" mode="aspectFit" lazy-load="false"/>
       </view>
       <!-- <view wx:if="{{isVip}}" class="countprice-less clearfix">
         <image src="/images/super.png" class="swiper-img" mode="widthFix"/>
@@ -93,11 +136,50 @@
       </view>
     </view>
     <!-- 支付订单 -->
-    <view class="submit" bindtap="submit">
-      <text>立即支付</text>
+    <form wx:if="{{isBargain != 1}}" report-submit='{{true}}' bindsubmit="formSubmit"  report-submit>
+      <button class="submit" bindtap="submit" form-type="submit">
+        立即支付
+      </button>
+    </form>
+
+    <!--0元购-->
+    <form wx:if="{{isBargain == 1}}" class="bargain-btn-container" bindsubmit="formSubmit"  report-submit>
+      <view class="btn-container">
+          <form bindsubmit="formSubmitB"   report-submit data-id="1" style="width:50%">
+              <view class="btn-help-container">
+                <button  form-type="submit" class="btn-help">喊好友砍运费</button>
+              </view>
+        </form>
+        <button bindtap="submit" form-type="submit">去支付￥{{showPayPrice/100}}</button>
+      </view>
+    </form>
+    <text wx:if="{{isBargain == 1}}" class="noFreight-msg">包邮</text>
+  </view>
+  <view class="mask" wx:if="{{showAddressMask}}"></view>
+  <view class="add-address" wx:if="{{showAddressMask}}">
+    <image class="address-cancle" src="../../images/close.png" mode="aspectFit"  bindtap="hidenAddressMask"/>
+    <view>
+      <view>当前地址为空，需完善地址信息。</view>
+      <view class="address-btn" bindtap="changeAddress">去完善</view>
     </view>
   </view>
-
+  <!--购物金规则-->
+  <view class="mask" wx:if="{{showRuleToast}}"></view>
+  <view class="showRuleToast" wx:if="{{showRuleToast == true}}">
+    <view>
+        <text>购物金规则</text>
+        <image src="../../images/sign-in-center/rules.png" mode="widthFix"></image>
+        <view class="modalRules">
+            <scroll-view class="modalRules-scroll"  scroll-y="true" >
+                <text>{{introductioncontent}}</text>
+            </scroll-view>
+              
+        </view>
+        <view class="close" bindtap="hideRuleToast">
+            <image src="../../images/sign-in-center/close.png"></image>
+        </view>
+    </view>
+</view>
   <!-- 底部分享弹窗 -->
   <!-- <action-sheet hidden="{{actionSheetHidden}}" bindchange="listenerActionSheet" >
     <block>

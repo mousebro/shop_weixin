@@ -1,0 +1,78 @@
+<template name="active-coupon">
+    <!--1排1券-->
+    <view class="coupon-list">
+        <view class="coupon-item"  style="background:transparent url({{couponObj.mould==1?couponObj.redBgcoupon1:couponObj.blackBgcoupon1}}) no-repeat;background-size:100% 100%;" >
+            <image class="stamp stamp01" src="{{couponObj.mould==1?couponObj.redStamp:couponObj.blackStamp}}" mode="aspectFit" lazy-load="false" binderror="" bindload="" />
+              
+            <view class="coupon-msg">
+                <view class="left-side">
+                    <image class="coupon" src="{{couponObj.mould==1?couponObj.redTicket:couponObj.blackTicket}}" mode="aspectFit" lazy-load="false" binderror="" bindload="">
+                    </image>
+                    <view>
+                        <view>名庄酒城优惠券 </view>
+                        <view  wx:if="{{!item.discount}}" class="{{couponObj.mould==2?'black-bg-color':''}}">￥<text  decode="true">{{item.deduct}}&nbsp;</text><text wx:if="{{!item.enough}}">无门槛直减</text><text wx:else="{{!item.enough}}">满{{item.enough}}可用</text></view>
+                        <view wx:else class="{{couponObj.mould==2?'black-bg-color':''}}"><text>{{item.discount}}</text> 折 <text wx:if="{{!item.enough}}"> 无门槛直减</text><text wx:else="{{!item.enough}}">满{{item.enough}}可用</text></view>
+                    </view>
+                </view>
+                <view class="right-side" bindtap="getCoupon" data-couponid="{{item.couponid}}" data-isget="{{item.isget}}">
+                    <!--需要有优惠券张数领取限制-->
+                    <view wx:if="{{item.total!=0 && item.total!=-1 && item.isget==2}}">
+                        <text class="received-progress" wx:if="{{item.getStatus == 0}}">已抢{{item.percent}}%</text>
+                        <text class="received-progress" wx:if="{{item.getStatus == 1}}">已抢完</text>
+                        <progress wx:if="{{item.getStatus == 0}}" class="progress" percent="{{item.percent}}"  stroke-width="4"
+                            active="false" backgroundColor="#e6e6e6 " activeColor="#ea4149" active-mode="backwards" border-radius="10">
+                        </progress>
+                        <progress wx:if="{{item.getStatus == 1}}" class="progress" percent="0"  stroke-width="4"
+                        active="false" backgroundColor="#e6e6e6 " activeColor="#e6e6e6" active-mode="backwards" border-radius="10">
+                        </progress>
+                    </view>
+                    <text class="to-use" wx:if="{{item.isget==1}}" catchtap="gotoUse" data-cate="{{item.limitgoodcateids}}" data-goodsid="{{item.limitgoodids}}">使用</text>
+                    <text class="receive {{couponObj.mould==2?'black-bg-btn':''}}" >领取</text>
+                    <!--未领取，且total有限制张数-->
+                    <text class="has-received" wx:if="{{item.isget==2 && item.getStatus==1}}">领取</text> 
+                </view>
+            </view>
+            <view class="coupon-limit">
+                <text wx:if="{{item.limitmembertype=='super会员'}}"> 仅限{{item.limitmembertype}} </text><text wx:if="{{item.limitgoodidsname!=''}}"> 仅限{{item.limitgoodidsname}}</text><text wx:if="{{item.limitgoodcateidsname !=''}}"> 仅限{{item.limitgoodcateidsname}}</text>
+            </view>
+        </view>
+    </view>
+    <!--1排2券-->
+  
+    <view class="coupon-List2 coupon-container">
+        <view wx:for="{{2}}" wx:key="unique" class="coupon-item" style="background:transparent url({{couponObj.mould==1?couponObj.redBgcoupon2:couponObj.blackBgcoupon2}}) no-repeat;background-size:100% 100%;" >
+            <image class="stamp stamp02"  src="{{couponObj.mould==1?couponObj.redStamp:couponObj.blackStamp}}" mode="aspectFit" lazy-load="false" binderror="" bindload="" />
+            <image class="coupon coupon2" src="{{couponObj.mould==1?couponObj.redTicket:couponObj.blackTicket}}" mode="aspectFit" lazy-load="false" binderror="" bindload="">
+            </image>
+            <text class="coupon-title title2">名庄名酒优惠券</text>
+            <view class="coupon-limit">
+                <text class="{{couponObj.mould==2?'black-bg-color':''}}">￥</text>
+                <text class="{{couponObj.mould==2?'black-bg-color':''}}">50</text>
+                <text class="{{couponObj.mould==2?'black-bg-color':''}}">无门槛直减</text>
+            </view>
+            <view class="receive-btn {{couponObj.mould==2?'black-bg-btn':''}}" wx:if="{{isReceive}}">领取</view>
+            <view class="receive-btn {{!isReceive?'has-received':''}} {{couponObj.mould==2?'black-bg-btn':''}}" wx:if="{{1}}">领取</view>
+            <view class="limit-msg-contain">
+                <text class="limit-msg">仅限SUPER会员;仅限习酒45度金奖特饮</text>
+            </view>
+         </view>       
+    </view>
+    <!--1排3劵-->
+    <view class="coupon-List3 coupon-container">
+        <view wx:for="{{3}}" wx:key="unique"  class="coupon-item" style="background:transparent url({{couponObj.mould==1?couponObj.redBgcoupon3:couponObj.blackBgcoupon3}}) no-repeat;background-size:100% 100%;" >
+            <image class="stamp stamp03"  src="{{couponObj.mould==1?couponObj.redStamp:couponObj.blackStamp}}" mode="aspectFit" lazy-load="false" binderror="" bindload="" />
+            <image class="coupon" src="{{couponObj.mould==1?couponObj.redTicket:couponObj.blackTicket}}" mode="aspectFit" lazy-load="false" binderror="" bindload="">
+            </image>
+            <view class="coupon-title title3">名庄名酒优惠券</view>
+            <view class="coupon-limit">
+                <text class="{{couponObj.mould==2?'black-bg-color':''}}">￥</text>
+                <text class="{{couponObj.mould==2?'black-bg-color':''}}">50</text>
+                <text class="{{couponObj.mould==2?'black-bg-color':''}}">无门槛直减</text>
+            </view>
+            <view class="receive-btn btn3 {{!isReceive?'has-received':''}} {{couponObj.mould==2?'black-bg-btn':''}}">领取</view>
+            <view class="limit-msg-contain">
+                <text class="limit-msg">仅限SUPER会员;仅限习酒45度金奖特饮</text>
+            </view>
+        </view>
+    </view>
+</template>

@@ -1,0 +1,39 @@
+<!--pages/receive-coupon-center/index.wxml-->
+<view>
+    <view class="coupon-list">
+        <view class="coupon-item" wx:for="{{couponList}}" wx:key="{{index}}" style="background:#f2f2f2 url({{item.isget==1?usedBgImg:doneBgImg}}) no-repeat;background-size:100% 100%;" >
+            <view class="coupon-msg">
+                <view class="left-side">
+                    <image class="coupon" src="../../images/receive-coupon-center/coupon.png" mode="aspectFit" lazy-load="false" binderror="" bindload="">
+                    </image>
+                    <view>
+                        <view>{{item.couponname }}</view>
+                        <view  wx:if="{{!item.discount}}">￥<text  decode="true">{{item.deduct}}&nbsp;</text><text wx:if="{{!item.enough}}">无门槛直减</text><text wx:else="{{!item.enough}}">满{{item.enough}}可用</text></view>
+                        <view wx:else><text>{{item.discount}}</text> 折 <text wx:if="{{!item.enough}}"> 无门槛直减</text><text wx:else="{{!item.enough}}">满{{item.enough}}可用</text></view>
+                    </view>
+                </view>
+                <view class="right-side" bindtap="getCoupon" data-couponid="{{item.couponid}}" data-isget="{{item.isget}}">
+                    <!--需要有优惠券张数领取限制-->
+                    <view wx:if="{{item.total!=0 && item.total!=-1 && item.isget==2}}">
+                        <text class="received-progress" wx:if="{{item.getStatus == 0}}">已抢{{item.percent}}%</text>
+                        <text class="received-progress" wx:if="{{item.getStatus == 1}}">已抢完</text>
+                        <progress wx:if="{{item.getStatus == 0}}" class="progress" percent="{{item.percent}}"  stroke-width="4"
+                            active="false" backgroundColor="#e6e6e6 " activeColor="#ea4149" active-mode="backwards" border-radius="10">
+                        </progress>
+                        <progress wx:if="{{item.getStatus == 1}}" class="progress" percent="0"  stroke-width="4"
+                        active="false" backgroundColor="#e6e6e6 " activeColor="#e6e6e6" active-mode="backwards" border-radius="10">
+                        </progress>
+                    </view>
+                   <text class="to-use" wx:if="{{item.isget==1}}" catchtap="gotoUse" data-cate="{{item.limitgoodcateids}}" data-goodsid="{{item.limitgoodids}}">使用</text>
+                   <text class="receive" wx:if="{{item.isget==2 && item.getStatus==0 }}">领取</text>
+                   <!--未领取，且total有限制张数-->
+                   <text class="has-received" wx:if="{{item.isget==2 && item.getStatus==1}}">领取</text> 
+                </view>
+            </view>
+            <view class="coupon-limit">
+                <text wx:if="{{item.limitmembertype=='super会员'}}"> 仅限{{item.limitmembertype}} </text><text wx:if="{{item.limitgoodidsname!=''}}"> 仅限{{item.limitgoodidsname}}</text><text wx:if="{{item.limitgoodcateidsname !=''}}"> 仅限{{item.limitgoodcateidsname}}</text>
+            </view>
+        </view>
+    </view>
+</view>
+<image wx:if="{{couponList.length==0}}" class="noStosk" src="../../images/noStosk.png" mode="aspectFit" lazy-load="false" binderror="" bindload="" />

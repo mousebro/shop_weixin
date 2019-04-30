@@ -1,0 +1,42 @@
+<!--pages/integral-detail/index.wxml-->
+<!--购物金详情-->
+<view class="header-tabbar">
+    <view  bindtap="changeTabBarA">
+        <text >已到账</text>
+       
+    </view>
+    <view bindtap="changeTabBarB">
+        <text >冻结中</text>
+        <text class="activeBar {{getTabBar == false?'activeBarMoveL':'activeBarMoveR'}}" ></text>
+    </view>
+</view>
+<view wx:if="{{getTabBar}}" class="header-container" style="background:#ff4b30 url(https://allnet-shop-cdn.91uda.com/images/1/2019/03/gsk148rEzKf4I5eQ1fXRIffjr588JK.png) no-repeat;background-size:100% 100%;" >
+    <view class="point-container">
+        <text>已到账购物金</text>
+        <view class="creadit"> {{credit}}</view>
+    </view>
+</view>
+<view wx:else class="header-container" style="background:#ff4b30 url(https://allnet-shop-cdn.91uda.com/images/1/2019/03/Q6c6rlc7gW0zO7me99WErdeID993te.png) no-repeat;background-size:100% 100%;" >
+    <view class="point-container">
+        <text>冻结购物金</text>
+        <view class="creadit"> {{freezeCredit}}</view>
+    </view>
+</view>
+<view class="record-list">
+    <view class="record-title">购物金记录</view>
+    <scroll-view wx:if="{{creditList.length>0}}" scroll-y="true" class="record-scroll-view" bindscrolltolower="getMoreRecord">
+        <view class="record-item" wx:for="{{creditList}}">
+            <view>
+                <view class="name">{{item.title}}</view>
+                <view >购物金</view>
+            </view>
+            <view>
+                <view class="time">{{item.newCreatTime}}</view>
+                <view class="record {{item.sign=='-'?'record-del':''}}">{{item.sign}}{{item.score}}</view>
+            </view>
+        </view>
+    </scroll-view>
+    <image wx:else class="nomore-img" src="../../images/noMsg.png" mode="aspectFit" lazy-load="false" binderror="" bindload="" />
+      
+</view>
+

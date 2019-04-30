@@ -6,13 +6,16 @@ page{background:#f2f2f2;}
 .header-container .flag-container>view{color:#fff;font-size:26rpx;background:#ea4149;width:116rpx;padding:20rpx;border-radius:140rpx;text-align: center;border:2px solid #fff;height:116rpx;box-sizing:border-box;}
 .coupon-container {width:100%;margin:86rpx auto 38rpx;text-align: center;font-size:38rpx;color:#ea4149;}
 .coupon-container .title{width:100%;display: flex;align-items: center;justify-content: center;}
-.coupon-container .title::before{display: inline-block;margin-right:26rpx;content: '';border-top:1px solid #ff5151;width:120rpx;border-bottom:1px solid #ea4149;height:10rpx;}
-.coupon-container .title:after{display: inline-block;margin-left:26rpx;content: '';border-top:1px solid #ff5151;width:120rpx;border-bottom:1px solid #ea4149;height:10rpx;}
+.coupon-container .title::before{display: inline-block;margin-right:26rpx;content: '';border-top:1px solid #ff5151;width:120rpx;border-bottom:1px solid #ea4149;height:6rpx;}
+.coupon-container .title:after{display: inline-block;margin-left:26rpx;content: '';border-top:1px solid #ff5151;width:120rpx;border-bottom:1px solid #ea4149;height:6rpx;}
 .coupon-container .allCoupons{padding:40rpx 20rpx;display: flex;flex-wrap: wrap;justify-content: space-around;}
-.coupon-container .coupon{width:47%;height:130rpx;color:#fff;display: flex;justify-content: space-between;align-items: center;margin-bottom:10rpx;}
+.coupon-container .couponC{width:47%;height:130rpx;margin-bottom:15rpx;}
+.coupon-container .couponCLeft{flex-grow: 1;justify-content: flex-start;display: flex;}
+.coupon-container .coupon{width:100%;height:130rpx;color:#fff;display: flex;justify-content: space-between;align-items: center;}
+.coupon-container .couponLeft{width:47% !important;margin-left:10rpx;}
 .coupon-container .coupon>.price{color:#fff;text-align: center;width: 60%;}
 .coupon-container .coupon>.price>text:first-child{font-size:32rpx;}
-.coupon-container .coupon>.price>text:nth-child(2){font-size:64rpx;}
+.coupon-container .coupon>.price>text:nth-child(2){font-size:58rpx;}
 .coupon-container .coupon>.price>text:nth-child(3){font-size:24rpx;background-color: #ffff00;color: #ea4149;border-radius: 20rpx;padding: 4rpx 10rpx;}
 .coupon-container .coupon>.sort{display: flex;flex-direction: column;width:40%;justify-content: center;}
 .coupon-container .coupon>.sort>text:first-child{font-size:26rpx;color:#fff;}

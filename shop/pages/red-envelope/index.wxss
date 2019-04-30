@@ -1,0 +1,82 @@
+/* pages/red-envelope/index.wxss */
+page{width: 100%;background: #f2f2f2;overflow: hidden;}
+.header-container{width: 100%;overflow: hidden;}
+.header-image{width: 100%;height: 672rpx;}
+.header-container>.rule-container{font-size:30rpx;color:#ba0000;display: inline-block;padding:8rpx 0 8rpx 30rpx;background: rgba(255,255,255,.6);position: absolute;top:250rpx;right:0;border-top-left-radius: 40rpx;border-bottom-left-radius: 40rpx;z-index:20;}
+.header-container>.rule-container>.next-img{width: 24rpx;height: 24rpx;}
+.header-container>.header-mgs{width: 100%;position: absolute;top:45rpx;left:0;text-align: center;}
+.header-container>.header-mgs>view:first-child{font-size:53rpx;color:#fff;text-shadow: 0px 9px 9px 0px
+    rgba(219, 54, 54, 0.6)}
+.header-container>.header-mgs>view:first-child>text{font-size:58rpx;color:#fff3b2;letter-spacing: 6rpx;}
+.header-container>.header-mgs>view:last-child{font-size:77rpx;color:#fff;text-shadow: 0px 9px 9px 0pxrgba(219, 54, 54, 0.6);letter-spacing: 12rpx;}
+.header-container>.header-mgs>view:last-child>text{font-size:86rpx;color:#fff3b2;}
+
+/*红包任务*/
+.red-envelope-container{width: 100%;position: relative;}
+.coupon{width:440rpx;height:71rpx;text-align: center;position: absolute;top:-240rpx;left:calc(50% - 220rpx);z-index: 4}
+.red-envelope-container>.card{width:calc(100% - 44rpx);border-radius: 22rpx;top:-200rpx;left:22rpx;background: #fff;position: absolute;z-index: 3;padding-top:60rpx;padding-bottom: 30rpx;}
+.red-envelope-container .time-progress{font-size:30rpx;color:#fff;text-align: center;display: inline-block;text-align: center;width: 100%;line-height: 70rpx;}
+
+/*领取进度轮播图*/
+.receive-carousel{width: 100%;}
+.receive-carousel>.swiper-view{height:70rpx;width: 90%;background:rgba(255,255,255,.6);margin: 0 auto;padding:0 40rpx;border-radius: 80rpx;}
+.receive-carousel .msg-container{display: flex;align-items: center;justify-content: center;}
+.receive-carousel>.swiper-view .msg-container .avatar{width: 42rpx;height: 42rpx;border-radius: 42rpx;}
+.receive-carousel>.swiper-view .msg-container .msg{font-size:28rpx;color:blue;margin-left:10rpx;color:#dc1700;}
+
+/*卡片内还剩多少人领取*/
+.card>.no-receive{font-size:35rpx;color:#666666;text-align: center;}
+.card>.no-receive>text{font-size:100rpx;color:#ed4b49;}
+
+/*红包领取记录*/
+.card>.ecvelope-record{display: flex;width: calc(100% - 94rpx);padding:30rpx 47rpx 50rpx;justify-content: space-around;}
+.card>.ecvelope-record>view{width:93rpx;height: 131rpx;position: relative;}
+.card>.ecvelope-record>view>.avatar{width: 52rpx;height: 52rpx;border-radius: 53rpx;position: absolute;left:calc(50% - 26rpx);top:12rpx;}
+.card>.ecvelope-record>view::after{display: block;content:'已领取';color:#ed4b49;letter-spacing:-1px;font-size:26rpx;position: absolute;bottom:-40rpx;width: 100%;text-align: center;}
+.card>.ecvelope-record>view.no_receive:after{content:'待领取';color:#979797;}
+.card>.ecvelope-record>view.received>.integral{font-size:32rpx;color:#fff;position: absolute;bottom:10rpx;width: 100%;text-align: center;}
+
+/*发红包按钮*/
+.red-envelope-container>.envelope-btn{position: absolute;width: calc(100% - 84rpx);left:42rpx;height:114rpx;background-image: linear-gradient(90deg,#ff4a43 4%,#ff6b4f 100%),linear-gradient(0deg,#00a8ff 0%, #008ff3 100%);top:330rpx;color:#fff;text-align: center;font-size:43rpx;line-height: 114rpx;display: inline-block;border-radius: 20rpx;position: relative;}
+.envelope-btn2{margin-top: 40rpx;color: #ffffff;width: calc(100% - 84rpx);}
+.envelope-btn2::after{border:none;}
+.red-envelope-container>.envelope-btn::after{border:none;}
+
+/*弹窗*/
+.mask{width: 100%;height: 100%;position: fixed;top: 0;left: 0;background: #000000;z-index: 20;opacity: 0.6;}
+.mask-task-bg{position: fixed;top: 0;left: 0;bottom:0;right:0;margin:auto;z-index:21;height: 505rpx;width: 589rpx;}
+.mask-task-bg>view.scroll-list{background: #fff;width: 100%;height:497rpx;position: absolute;top:308rpx;border-bottom-left-radius: 40rpx;border-bottom-right-radius: 40rpx;}
+.mask-task-bg>view.scroll-list2{height: 200rpx;}
+.mask-task-bg>view.scroll-list>.cancle-btn{position: absolute;top:-358rpx;right:-35rpx;width: 75rpx;height:75rpx;}
+.failMsg{width: 66%;margin:0 auto;}
+.mask-task-bg>.toast-msg{position:absolute;top:80rpx;width: 100%;height: 280rpx;}
+.mask-task-bg>.toast-msg>view{text-align: center;color:#fff;font-size:60rpx;display: inline-block;text-align: center;width: 100%;}
+.mask-task-bg>.toast-msg>view:last-child{font-size:40rpx;}
+.mask-task-bg>.toast-msg>view:last-child>text{color:#fecc05;}
+.toast-msg2 > view:nth-child(1){margin-top: 40rpx;}
+.toast-msg2 > view:nth-child(2){font-size: 32rpx;margin-top: 20rpx;}
+
+/*失败弹窗*/
+.task-fail{height:600rpx}
+.task-fail>.cry{width: 160rpx;height:200rpx;position: absolute;top:40rpx;left:calc(50% - 80rpx);}
+.task-fail>.cancle-btn{position: absolute;top:-40rpx;right:-35rpx;width: 75rpx;height:75rpx;}
+.task-fail>view{height:292rpx;background: #fff;border-bottom-left-radius: 40rpx;border-bottom-right-radius: 40rpx;width: 100%;position: absolute;top:308rpx;display: inline-block;text-align: center;line-height: 292rpx;}
+/*领取成功弹窗*/
+.chose-card>.scroll-container{height: 460rpx;width: 100%;overflow: hidden;}
+.chose-card>.scroll-container .scroll-item{display: flex;justify-content: space-between;padding:20rpx;}
+.chose-card>.scroll-container .scroll-item>.avatar{height: 40rpx;width:40rpx;border-radius: 40rpx;}
+.chose-card>.scroll-container .scroll-item>.msg{}
+::-webkit-scrollbar{width: 0;height: 0;color:transparent}
+
+/*活动规则*/
+.modal1{position: fixed;z-index: 21;width: 100%;height: 100%;text-align: center;top:0;left:0;right:0;bottom:0;}
+.modal1 >view{width: 90%;position: absolute;top:0;left: 0;right:0;bottom: 0;margin: auto;height: 1170rpx;}
+.modal1 >view> text{position: relative;z-index: 25;display: block;margin-top: 100rpx;font-size: 32rpx;color: #222222;font-weight: bold;}
+.modal1 >view> text:before{content: '';position: absolute;width: 10%;height: 1rpx;background-color: #d6d6d6;top: 22rpx;left: 26%;}
+.modal1 >view> text:after{content: '';position: absolute;width: 10%;height: 1rpx;background-color: #d6d6d6;top: 22rpx;right: 26%;}
+.modal1 >view> image{position: absolute;width: 100%;top: 40rpx;left: 0;}
+.modalRules{position: absolute;width: 100%;top: 150rpx;z-index: 23;text-align: left;height: 970rpx;box-sizing: border-box;}
+.modalRules text{font-size: 24rpx;color: #777777;}
+.modalRules-scroll{width: 90%;height: 100%;padding:0 5%;}
+.close{position: absolute;z-index: 26;top: -5rpx;right: -35rpx;}
+.close image{width: 70rpx;height: 70rpx;}

@@ -1,16 +1,25 @@
   <!-- 蒙版 -->
-  <view class="mask"  wx:if="{{showModal == true}}"/>
+  <view class="mask"  wx:if="{{showModal == true}}" bindtap="hiddenMask"/>
   <!-- 购物车弹窗 -->
   <view class="modal"  wx:if="{{modal1 == true}}">
     <view class="modal-shopDetail clearfix">
-      <image src="{{thumbList[0]}}"/>
+      <image src="{{choseSpecImg}}"  bindtap="previewImg" data-img="{{thumbList[0]}}"/>
       <text>{{title}}</text>
       <text>￥{{price}}</text>
       <image bindtap="closeModal1" src="/images/close.png"/>
     </view>
-
+    <view  class="sort-size" wx:if="{{goodsInfo.hasoption!=0}}" wx:for="{{spec}}" wx:key="{{index}}">
+      <view class="modal-shopCount-number sort-size-title">{{item.title}}</view>
+      <scroll-view class="sort-list-container" scroll-y='true'>
+          <view class="sort-list">
+            <text wx:for="{{item.items}}" wx:if="{{opItem.isShow}}" wx:for-item="opItem" wx:for-index="opIndex" data-opidx="{{opIndex}}" wx:key="{{opItem.id}}" class="{{opItem.hasChose == 1?'active':''}}" bindtap="choseSortSize" data-idx="{{opItem.id}}" data-line="{{index}}"  data-specTitle="{{opItem.title}}">{{opItem.title}}</text>
+          </view>
+        </scroll-view>
+        
+    </view>
     <view class="modal-shopCount">
        <text class="modal-shopCount-number">购买数量</text>
+   
        <view class="modal-shopCount-box">
            <text class="modal-shopCount-less {{buyNumber == buyNumMin ? 'hui': ''}}" bindtap="lessTap">-</text>
            <view class="modal-shopCount-input">
@@ -27,12 +36,20 @@
   <!-- 立即购买弹窗 -->
   <view class="modal"  wx:if="{{modal2 == true}}">
     <view class="modal-shopDetail clearfix">
-      <image src="{{thumbList[0]}}"/>
+      <image src="{{choseSpecImg}}" bindtap="previewImg" data-img="{{choseSpecImg}}"/>
       <text>{{title}}</text>
       <text>￥{{price}}</text>
       <image bindtap="closeModal2" src="/images/close.png"/>
     </view>
-
+    <view  class="sort-size" wx:if="{{goodsInfo.hasoption!=0}}" wx:for="{{spec}}" wx:key="{{index}}">
+      <view class="modal-shopCount-number sort-size-title">{{item.title}}</view>
+      <scroll-view class="sort-list-container" scroll-y='true'>
+        <view class="sort-list">
+          <text wx:for="{{item.items}}"  wx:if="{{opItem.isShow}}" wx:for-item="opItem" wx:for-index="opIndex" data-opidx="{{opIndex}}" wx:key="{{opItem.id}}" class="{{opItem.hasChose == 1?'active':''}}" bindtap="choseSortSize" data-idx="{{opItem.id}}" data-line="{{index}}"  data-specTitle="{{opItem.title}}">{{opItem.title}}</text>
+        </view>
+      </scroll-view>
+        
+    </view>
     <view class="modal-shopCount">
        <text class="modal-shopCount-number">购买数量</text>
        <view class="modal-shopCount-box">
@@ -53,40 +70,52 @@
     <text class="{{showActive == 'a1'?'shop-title-active':''}}" data-id="a1" bindtap="scrollPosition">商品</text>
     <text class="{{showActive == 'a2'?'shop-title-active':''}}" data-id="a2" bindtap="scrollPosition">详情</text>
     <text bindtap="hrefToCommentList">评价</text>
-    <image src="/images/backToIndex.png" class="swiper-index" mode="aspectFill" bindtap="herfToIndex"/>
+    <!-- <image src="/images/backToIndex.png" class="swiper-index" mode="aspectFill" bindtap="herfToIndex"/> -->
   </view>
   <!-- 滚动区域 -->
-  <scroll-view class="scroll-body" scroll-y="true" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}" scroll-with-animation="true">
+  <scroll-view class="scroll-body" scroll-y="true" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}" scroll-with-animation="true" bindscroll="listenScroll">
     <!-- 商品轮播图 -->
-    <swiper class="swiper shop-swiper" id="a1" indicator-dots="true" circular="true" autoplay="true" interval="5000" duration="1000" indicator-color="#cbcbcb" indicator-active-color="#ea4149">
-      <block wx:for="{{thumbList}}" wx:key="{{item}}">
-        <swiper-item>
-          <image lazy-load="true" src="{{item}}" class="swiper-img"/>
-        </swiper-item>
-      </block>
-    </swiper>
+    <view class="carouse-container">
+      <swiper class="swiper shop-swiper" bindchange="swiperChange" id="a1" indicator-dots="true" circular="true"  autoplay="false" interval="5000" duration="1000" indicator-color="#cbcbcb" indicator-active-color="#ea4149">
+        <block wx:for="{{thumbList}}" wx:key="{{item}}">
+          <swiper-item>
+            <image lazy-load="true" src="{{item + frontPictureVar}}" class="swiper-img"/>
+          </swiper-item>
+        </block>
+      </swiper>
+    </view>
+    <view class="shop-detail-share clearfix">
+      <image src="/images/share.png" class="swiper-img" mode="aspectFill"/>
+      <button hover-class="none" bindtap="shareShop">分享</button>
+    </view>
     <!-- 商品名称以及价格 -->
     <view class="shop-detail">
       <!-- 商品名称 -->
       <view class="shop-detail-name">
         <text>{{title}}</text>
-        <view class="shop-detail-share clearfix" bindtap="share">
-          <image src="/images/share.png" class="swiper-img" mode="aspectFill"/>
-          <button open-type="share">分享</button>
-        </view>
+
       </view>
       <!-- 商品价格 -->
       <view class="shop-detail-price">
-        <text>￥</text>
-        <text>{{marketprice}}</text>
+        <view  class="inline-view {{labels.length>1?'block-view':''}}">
+          <text class="slogan" wx:key="unique" wx:for="{{labels}}" style="padding:0rpx 10rpx;color:#ea4149;font-size:28rpx;border:1px solid #ea4149;border-radius:8rpx;margin-right:6rpx;display: inline-block;">{{item.labelname}}</text>
+        </view>
+        <text class="price-icon">￥</text>
+        <text class="marketprice">{{marketprice}}</text>
         <text></text>
         <text wx:if="{{productprice != '0.00'}}" class="delLine">￥{{productprice}}</text>
       </view>
       <!-- 会员折扣 -->
       <!-- <view class="shop-detail-super">
         <image src="/images/super.png" class="swiper-img" mode="widthFix"/>
-        <text>会员下单再享98折，可省18.00元</text>
+        <text>会员下单再享95折</text>
       </view> -->
+      <view class="shop-collect" bindtap="collectGood">
+        <view>
+          <image class="" src="{{hasCollect==1?hasClloctImg:noClloctImg}}" mode="aspectFit" lazy-load="false" binderror="" bindload="" />
+          收藏
+        </view>
+      </view>
     </view>
     <!-- 评价 -->
     <view class="shop-assess" wx:for="{{commentList}}" wx:key="{{item.id}}" bindtap="hrefToCommentList">
@@ -135,9 +164,44 @@
     <block>
       <action-sheet-item bindtap="call">拨打客服热线</action-sheet-item>
       <action-sheet-item >
-        <button open-type="contact" type="button" name="button" bindtap="close">客服消息入口</button>
+        <button hover-class="none" open-type="contact" type="button" name="button" bindtap="close">客服消息入口</button>
       </action-sheet-item>
     </block>
     <!--自动隐藏action-sheet-->
     <action-sheet-cancel bindtap="close">取消</action-sheet-cancel>
   </action-sheet>
+    <!-- 底部分享弹窗 -->
+  <action-sheet hidden="{{actionSort}}">
+      <block>
+        <action-sheet-item bindtap="shareShopImg">分享图片</action-sheet-item>
+        <action-sheet-item >
+          <button open-type="share" type="button" name="button" bindtap="shareShopLine">分享链接</button>
+        </action-sheet-item>
+      </block>
+      <!--自动隐藏action-sheet-->
+      <action-sheet-cancel bindtap="closeShare">取消</action-sheet-cancel>
+    </action-sheet>
+    <!-- <view class="canvas" style="display: none;">
+      <canvas style="width: 1500rpx; height: 2668rpx;" canvas-id="firstCanvas"></canvas>
+    </view> -->
+    <view wx:if="{{showStosk == true}}" class="stosk-mask" >
+      <image class="no-stosk" src="../../images/noStosk.png" mode="aspectFit"  />
+      <view>
+        <view >该商品暂无库存</view>
+        <view >如需调货请咨询客服</view>
+      </view>
+      <button hover-class="none" open-type="contact" bindtap="closeStoskMask">去咨询</button>
+      <image class="close" src="../../images/close.png"  mode="aspectFit" bindtap="closeStoskMask"/>
+    </view>
+    <view class="munu-container">
+      <image wx:key="unique"  wx:for="{{menuNum}}" catchtap="hrefToPage" data-type="{{index}}"  class="first-menu {{choseMenu==1?'menu-animate1':''}}"  src="{{item.imageUrl}}" mode="aspectFit"
+        style="transition-delay:{{50*index}}ms;transform:translate({{item.xL}}px,{{item.yL}}px) rotate(90deg);opacity:{{opacity}};"
+      />
+    </view>
+    <view  class="menu-button"  bindtap="openMenu">
+      <image class="back-icon" src="/images/shop-detail/back.png" mode="aspectFit" lazy-load="false" binderror="" bindload="" />
+      {{menuMsg}}
+    </view>
+<!--回到顶部-->
+<image wx:if="{{showBackToTop}}" bindtap="backToTop" class="back-to-top" src="../../images/shop-detail/top.png" mode="aspectFit" lazy-load="false" />
+

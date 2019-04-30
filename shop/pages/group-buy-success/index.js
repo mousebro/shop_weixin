@@ -13,6 +13,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    app.userView('RecordExposurenum') //统计平台曝光度记录
     this.setData({
       goodsid:options.goodid,
       teamid:options.teamid

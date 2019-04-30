@@ -3,15 +3,22 @@
   <view class='header-container'>
     <!--用户信息（用户头像、用户昵称、是否会员）-->
     <view class='userinfo'>
-      <image src="{{avatar}}" class='userinfo-avatar'></image>
-      <view class="userinfo-container">
-        <text class='userinfo-nickname'>{{nickname}}</text>
-        <text wx:if="{{superstatus == 2}}" class='usermotto'>普通会员</text>
-        <text wx:if="{{superstatus == 1}}" class='usermotto'>SUPER会员</text>
+      <view>
+        <image src="{{avatar}}" class='userinfo-avatar'></image>
+        <view class="userinfo-container">
+          <text class='userinfo-nickname'>{{nickname}}</text>
+          <text wx:if="{{superstatus == 2}}" class='usermotto'>普通会员</text>
+          <text wx:if="{{superstatus == 1}}" class='usermotto'>SUPER会员</text>
+        </view>
+      </view>
+      <view class = "custom-service" bindtap="listenerButton">
+        <image class="custom-img" src="../../images/personal/kefu.png" mode="aspectFit|aspectFill|widthFix" lazy-load="false" binderror="" bindload="" />
+        客服
       </view>
     </view>
+
     <!--SUPER会员开通-->
-    <view class='container super-merber-container' wx:if="{{isSupper}}">
+    <!-- <view class='container super-merber-container' wx:if="{{isSupper}}">
       <view class='super-member'>
         <view class='super-member-scrib'>
           <view>
@@ -25,11 +32,11 @@
         <view wx:if="{{superstatus == 2}}" class="super-merber-btn" bindtap="hrefToSupermember">点击获取</view>
         <view wx:if="{{superstatus == 1}}" class="super-merber-btn" bindtap="hrefToSupermember">点击续费</view>
       </view>
-    </view>
+    </view> -->
   </view>
   <!--我的订单-->
   <view>
-    <view class='my-order-container '>
+    <view class="my-order-container {{allstatus != 0?'my-order-container-allstatus':''}}">
       <!--我的订单+查看全部-->
       <view class='my-order-text' bindtap='readMore'>
         <text class='order-text'>我的订单</text>
@@ -38,63 +45,99 @@
         </image></view>
       </view>
       <view class='my-order-menu'>
-        <view class="order-menu-icon" bindtap="hrefToWaitPay">
+        <view class="order-menu-icon" bindtap="hrefToWaitPay" data-type="0">
           <image src="../../images/personal/forPay.png" class='order-icon-image'></image>
           <text class='order-icon-text'>待付款</text>
+          <view class="red-point" wx:if="{{redpoint[0].show}}"></view>
         </view>
-        <view class="order-menu-icon" bindtap="hrefToWaitSend">
+        <view class="order-menu-icon" bindtap="hrefToShare" data-type="4">
+          <image src="../../images/personal/fenxiang.png" class='order-icon-image'></image>
+          <text class='order-icon-text'>待分享</text>
+          <view class="red-point"  wx:if="{{redpoint[4].show}}"></view>
+        </view>
+        <view class="order-menu-icon" bindtap="hrefToWaitSend" data-type="1">
           <image src="../../images/personal/forSend.png" class='order-icon-image'></image>
-          <text class='order-icon-text'>待发货</text>
+          <text class='order-icon-text' >待发货</text>
+          <view class="red-point" wx:if="{{redpoint[1].show}}"></view>
         </view>
-        <view class="order-menu-icon" bindtap="hrefToWaitAccept">
+
+        <view class="order-menu-icon" bindtap="hrefToWaitAccept" data-type="2">
           <image src="../../images/personal/forRecive.png" class='order-icon-image'></image>
-          <text class='order-icon-text'>待收货</text>
+          <text class='order-icon-text' >待收货</text>
+          <view class="red-point" wx:if="{{redpoint[2].show}}"></view>
         </view>
-        <view class="order-menu-icon" bindtap="hrefToWaitCommit">
+        <view class="order-menu-icon" bindtap="hrefToWaitCommit" data-type="3">
           <image src="../../images/personal/forAssess.png" class='order-icon-image'></image>
           <text class='order-icon-text'>待评价</text>
+          <view class="red-point"  wx:if="{{redpoint[3].show}}"></view>
         </view>
+
       </view>
     </view>
-    <!--我的优惠劵、签到中心、地址管理、平台建议-->
-    <view class="oprator-container">
-      <view class='oprator-card' bindtap="hrefToDiscount">
-        <view>
-          <image src='../../images/personal/coupon.png' style="height:40rpx;width:35rpx;" class='oprator-card-image'></image>
-          <text  class='oprator-card-text'>我的优惠券</text>
-        </view>
-        <image class="more-icon" src="../../images/more.png" mode="aspectFit" lazy-load="false" >
-
-        </image>
+    <!--我的优惠劵、签到中心、地址管理、平台建议...-->
+    <view>
+      <view class="tool-title">
+        常用功能
       </view>
-      <view class='oprator-card'>
-        <view>
-          <image src='../../images/personal/signIn.png' style="height:40rpx;width:35rpx;" class='oprator-card-image'></image>
-          <text  class='oprator-card-text'>签到中心</text>
+      <view class='my-order-menu icon-container'>
+          <!-- <view class="order-menu-icon" bindtap="hrefToWaitPay" data-type="0">
+            <image src="../../images/personal/qianbao.png" class='order-icon-image'></image>
+            <text class='order-icon-text'>钱包</text>
+            <view class="red-point" wx:if="{{0}}"></view>
+          </view> -->
+          <view class="order-menu-icon" bindtap="hrefToDiscount" data-type="4">
+            <image src="../../images/personal/youhuiquan.png" class='order-icon-image'></image>
+            <text class='order-icon-text'>优惠券</text>
+            <view class="red-point"  wx:if="{{0}}"></view>
+          </view>
+          <view class="order-menu-icon" bindtap="hrefToPresident" data-type="0">
+            <image src="../../images/personal/lipinquan.png" class='order-icon-image'></image>
+            <text class='order-icon-text'>礼品</text>
+            <view class="red-point" wx:if="{{0}}"></view>
+          </view>
+          <view class="order-menu-icon" bindtap="hrefToCollection" data-type="1">
+            <image src="../../images/personal/shouchang.png" class='order-icon-image'></image>
+            <text class='order-icon-text' >收藏</text>
+            <view class="red-point" wx:if="{{0}}"></view>
+          </view>
+    
+          <view class="order-menu-icon" bindtap="hrefToAddress" data-type="2">
+            <image src="../../images/personal/dizhi.png" class='order-icon-image'></image>
+            <text class='order-icon-text' >地址</text>
+            <view class="red-point" wx:if="{{0}}"></view>
+          </view>
+          <view class="order-menu-icon" bindtap="hreftoReceive" data-type="3">
+            <image src="../../images/personal/lingquan.png" class='order-icon-image'></image>
+            <text class='order-icon-text'>领券</text>
+            <view class="red-point"  wx:if="{{0}}"></view>
+          </view>
+          <view class="order-menu-icon" bindtap="hrefToSignIn" data-type="3">
+            <image src="../../images/personal/duihuan.png" class='order-icon-image'></image>
+            <text class='order-icon-text'>兑换</text>
+            <view class="red-point"  wx:if="{{0}}"></view>
+          </view>
+          <view class="order-menu-icon" bindtap="hrefToAdvice" data-type="3">
+            <image src="../../images/personal/fankui.png" class='order-icon-image'></image>
+            <text class='order-icon-text'>反馈</text>
+            <view class="red-point"  wx:if="{{0}}"></view>
+          </view>
         </view>
-        <image class="more-icon" src="../../images/more.png" mode="aspectFit" lazy-load="false" >
-
-        </image>
-      </view>
-      <view class='oprator-card' bindtap="hrefToAddress">
-        <view>
-          <image src='../../images/personal/address.png' style="height:40rpx;width:35rpx;" class='oprator-card-image'></image>
-          <text  class='oprator-card-text'>地址管理</text>
-        </view>
-        <image class="more-icon" src="../../images/more.png" mode="aspectFit" lazy-load="false" >
-
-        </image>
-      </view>
-      <!-- <view class='oprator-card'>
-        <view>
-          <image src='../../images/personal/suggest.png' style="height:40rpx;width:35rpx;" class='oprator-card-image'></image>
-          <text  class='oprator-card-text'>平台建议</text>
-        </view>
-        <text class='order-for-more'></text>
-      </view> -->
     </view>
+
   </view>
 </view>
+<!-- 底部客服弹窗 -->
+<action-sheet hidden="{{actionSheetHidden}}" bindchange="listenerActionSheet" >
+  <block>
+    <action-sheet-item bindtap="call">拨打客服热线</action-sheet-item>
+    <action-sheet-item >
+      <button open-type="contact" type="button" name="button" bindtap="close">客服消息入口</button>
+    </action-sheet-item>
+  </block>
+  <!--自动隐藏action-sheet-->
+  <action-sheet-cancel bindtap="close">取消</action-sheet-cancel>
+</action-sheet>
+
 
 <view class="{{isIpx?'isIpx':''}} tabbar clearfix">
   <view class="tabbar-block" bindtap="hrefToIndex">
@@ -105,9 +148,9 @@
     <image src="/images/sort.png" class="tabbar-img"/>
     <text>分类</text>
   </view>
-  <view class="tabbar-block" bindtap="hrefToCart">
-    <image src="/images/shop.png" class="tabbar-img"/>
-    <text>购物车</text>
+  <view class="tabbar-block" bindtap="hrefToGold">
+    <image src="/images/money.png" class="tabbar-img"/>
+    <text>购物金</text>
   </view>
   <view class="tabbar-block">
     <image src="/images/mine_active.png" class="tabbar-img"/>

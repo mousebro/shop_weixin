@@ -5,8 +5,8 @@
     <!-- 未授权用户进入该页面弹窗 -->
     <!-- 关注公众号弹窗 -->
     <view class="modal1" wx:if="{{modal1 == true}}">
-      <view class="yuan" bindtap="hideModal1">
-        <image src="/images/login/close.png"></image>
+      <view  >
+        <!-- <image src="/images/login/close.png"></image> -->
       </view>
       <text>请先授权登录</text>
       <button hover="false" open-type="getUserInfo" bindgetuserinfo='bindGetUserInfo'>授权登录</button>

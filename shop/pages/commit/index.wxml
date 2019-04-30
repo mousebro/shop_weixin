@@ -24,5 +24,4 @@
       </view>
        <view  class='submitBtn' bindtap="bindFormSubmit">提交</view>
   </form>
-
 </view>

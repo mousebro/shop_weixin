@@ -1,0 +1,32 @@
+<!-- 物流信息展示页 -->
+<view class="body">
+  <view class="title">
+    <view class="title-text">
+      <text>物流编号：</text>
+      <text class="title-text-sn">{{expresssn}}</text>
+    </view>
+
+    <view class="title-text">
+      <text>快递公司：</text>
+      <text class="title-text-sn">{{expresscom}}</text>
+    </view>
+  </view>
+
+  <view class="info">
+    <block wx:if="{{express.length > 0}}" wx:for="{{express}}" wx:key="{{index}}">
+      <view class="info-block">
+        <text>{{item.AcceptStation}}</text>
+        <text>{{item.AcceptTime}}</text>
+      </view>
+    </block>
+
+    <view wx:if="{{express.length == 0}}" class="info-tips">
+      <text>暂无物流信息</text>
+    </view>
+
+    <!-- <view class="info-block">
+      <text>爱护上帝花哨爱护上帝花哨爱护上帝花哨爱护上帝花哨爱护上帝花哨爱护上帝花哨爱护上帝花哨爱护上帝花哨</text>
+      <text>2018-12-14 15:30:18</text>
+    </view> -->
+  </view>
+</view>

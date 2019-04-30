@@ -12,9 +12,9 @@
 		"autoAudits": false
 	},
 	"compileType": "miniprogram",
-	"libVersion": "2.4.2",
-	"appid": "wx708226e5d691c69f",
-	"projectname": "%E6%AD%A3%E5%BC%8F%E5%95%86%E5%9F%8E",
+	"libVersion": "2.6.1",
+	"appid": "wxef6bbdbd348523eb",
+	"projectname": "%E5%81%B6%E9%81%87%E4%BC%98%E9%80%89",
 	"debugOptions": {
 		"hidedInDevtools": []
 	},
@@ -37,13 +37,14 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 5,
+			"current": 3,
 			"list": [
 				{
 					"id": 0,
 					"name": "my-order",
 					"pathName": "pages/my-order/index",
-					"query": ""
+					"query": "",
+					"scene": "1047"
 				},
 				{
 					"id": -1,
@@ -52,22 +53,25 @@
 					"query": ""
 				},
 				{
+					"id": 2,
+					"name": "文章页",
+					"pathName": "pages/shop-detail/index",
+					"query": "Id=593",
+					"scene": "1047"
+				},
+				{
+					"id": 3,
+					"name": "搜索页",
+					"pathName": "pages/shop-detail/index",
+					"query": "Id=577",
+					"scene": "1047"
+				},
+				{
 					"id": 4,
-					"name": "flash",
-					"pathName": "pages/flash/index",
-					"query": ""
-				},
-				{
-					"id": 5,
-					"name": "flash-sale",
-					"pathName": "pages/flash-sale/index",
-					"query": ""
-				},
-				{
-					"id": 5,
-					"name": "sign-in",
-					"pathName": "pages/sign-in-center/index",
-					"query": ""
+					"name": "优惠券",
+					"pathName": "pages/shop-detail/index",
+					"query": "Id=223",
+					"scene": "1074"
 				}
 			]
 		}

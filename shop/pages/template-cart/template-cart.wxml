@@ -5,7 +5,7 @@
     <view class="to-index-btn" bindtap="hrefToIndex">
             去逛逛
     </view>
-    <view class="{{isIpx?'isIpx':''}} tabbar clearfix">
+    <!-- <view class="{{isIpx?'isIpx':''}} tabbar clearfix">
       <view class="tabbar-block" bindtap="hrefToIndex">
         <image src="/images/index.png" class="tabbar-img"/>
         <text>首页</text>
@@ -22,7 +22,7 @@
         <image src="/images/mine.png" class="tabbar-img"/>
         <text>我的</text>
       </view>
-    </view>
+    </view> -->
 </template>
 
 <template name="cart-goods-list">
@@ -43,7 +43,8 @@
                         <!-- <view class="goods-label">{{item.label}}</view> -->
                         <view class="goods-price">¥ {{item.price}}</view>
                         <view class="buy-num">
-                            <view class="jian-btn {{item.number==1? 'disabled' : ''}}" catchtap="jianBtnTap" data-index="{{index}}" data-id="{{item.id}}">-</view>
+                            <view wx:if="{{item.number != 1}}" class="jian-btn" catchtap="jianBtnTap" data-index="{{index}}" data-id="{{item.id}}">-</view>
+                            <view wx:if="{{item.number == 1}}" class="jian-btn disabled" catchtap="delShop" data-index="{{index}}" data-id="{{item.id}}">-</view>
                             <input  type="number" value="{{item.number}}" disabled/>
                             <view class="jia-btn {{item.number==9999? 'disabled' : ''}}" catchtap="jiaBtnTap" data-index="{{index}}" data-id="{{item.id}}">+</view>
                         </view>
@@ -55,31 +56,13 @@
             </view>
         </view>
     </view>
-    <view class="{{isIpx?'isIpx2':''}} jiesuan-box">
+    <view class="{{isIpx?'isIpx':''}} jiesuan-box">
         <view class="left-price">
             <view class="all-selected  {{allSelect?'active':''}}" bindtap="bindAllSelect">全选</view>
             <view class="total" hidden="{{noSelect}}">合计：¥ {{totalPrice}}</view>
         </view>
         <view class="to-pay-btn {{noSelect?'no-select':''}}" hidden="{{!saveHidden}}" bindtap="toPayOrder">结算</view>
         <view class="to-pay-btn {{noSelect?'no-select':''}}" hidden="{{saveHidden}}" bindtap="deleteSelected">删除</view>
-    </view>
-    <view class="{{isIpx?'isIpx':''}} tabbar clearfix">
-      <view class="tabbar-block" bindtap="hrefToIndex">
-        <image src="/images/index.png" class="tabbar-img"/>
-        <text>首页</text>
-      </view>
-      <view class="tabbar-block" bindtap="hrefToSort">
-        <image src="/images/sort.png" class="tabbar-img"/>
-        <text>分类</text>
-      </view>
-      <view class="tabbar-block">
-        <image src="/images/shop_active.png" class="tabbar-img"/>
-        <text class="tabbar-active">购物车</text>
-      </view>
-      <view class="tabbar-block" bindtap="hrefToMine">
-        <image src="/images/mine.png" class="tabbar-img"/>
-        <text>我的</text>
-      </view>
     </view>
 
     <!-- <view class="separation">

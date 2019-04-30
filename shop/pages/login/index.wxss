@@ -28,7 +28,7 @@
   .verify input{display: block;width: 55%;float: left;height: 100rpx;line-height: 100rpx;margin-left: 20rpx;font-size: 28rpx;}
 
   .loginButton{width: 100%;text-align: center;margin-top: 120rpx;}
-  .loginButton button{font-size: 28rpx;width: 86%;color: #ffffff;background: linear-gradient(to right,#ea4149, #ff6849);border-radius: 4rpx;height: 80rpx;line-height: 80rpx;}
+  .loginButton button{font-size: 32rpx;width: 86%;color: #ffffff;background: linear-gradient(to right,#ea4149, #ff6849);border-radius: 4rpx;height: 100rpx;line-height: 100rpx;}
   .loginButton button::after{border: 1px solid #eb924c;}
 
   .index{position: fixed;bottom: 0;width: 100%;text-align: center;color: #ea4149;padding-bottom: 40rpx;font-size: 28rpx;}
